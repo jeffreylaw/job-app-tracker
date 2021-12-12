@@ -1,0 +1,99 @@
+openapi: 3.0.0
+info:
+  description: API for tracking job applicatoins
+  version: "1.0.0"
+  title: Job Application API
+  contact:
+    email: jlaw53@my.bcit.ca
+tags:
+  - name: jobs
+    description: Job-related calls
+paths:
+  /jobs:
+    get:
+      tags:
+        - jobs
+      summary: returns jobs
+      operationId: app.get_jobs
+      responses:
+        '200':
+          description: get jobs matching criteria
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/JobApplication'
+        '400':
+          description: bad input
+    post:
+      tags:
+        - jobs
+      summary: adds an job application
+      operationId: app.add_job
+      description: Adds an job to the system
+      responses:
+        '201':
+          description: item created
+        '400':
+          description: 'invalid input, object invalid'
+        '409':
+          description: an existing job already exists
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JobApplication'
+        description: Inventory item to add
+components:
+  schemas:
+    JobApplication:
+      type: object
+      required:
+        - job_id
+        - job_title
+        - job_description
+        - company
+        - salary
+        - link
+        - post_date
+        - applied_date
+        - result
+        - notes
+      properties:
+        job_id:
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        job_title:
+          type: string
+          example: DevOps Engineer
+        job_description:
+          type: string
+          example: "Collaborate with the development team on design and implementation of infrastructure automation.
+          Build and maintain CI/CD pipelines and development processes to improve development efficiency.
+          Proactively resolve production issues before they surface and cause disruption.
+          Mentor other members of the team and influence DevOps best practices."
+        company:
+          type: string
+          example: Ready
+        salary:
+          type: number
+          example: 75000
+        link:
+          type: string
+          example: "https://ca.indeed.com/viewjob?jk=72ecc72e70c9da2f&tk=1fmkbhgocu566800&from=serp&vjs=3"
+        post_date:
+          format: date-time
+          example: '2016-08-29T09:12:33.001Z'
+        applied_date:
+          format: date-time
+          example: '2016-08-29T09:12:33.001Z'
+        result:
+          format: string
+          enum: [ waiting, rejected, interview ]
+        notes:
+          format: string
+# servers:
+#   - description: SwaggerHub API Auto Mocking
+#     url: https://virtserver.swaggerhub.com/jeffreylaw/JobApplicationTracking/1.0.0
