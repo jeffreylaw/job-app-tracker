@@ -39,3 +39,9 @@ package:
   artifacts:
     paths:
       - api/artifacts.zip
+
+test:
+  image: docker:stable
+  script:
+    - echo 'Hello world'
+
