@@ -33,6 +33,8 @@ lint:
 
 package:
   script:
+    - apt-get update
+    - apt-get install -y zip
     - zip api/artifacts.zip api/*.py -x api/test*.py
   artifacts:
     paths:
