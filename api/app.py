@@ -1,14 +1,13 @@
+import logging.config
+from datetime import datetime
 import connexion
-from connexion import NoContent
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from job import Job
-import logging.config
 import yaml
 
-from datetime import datetime
 
-with open('log_conf.yaml', 'r') as f:
+with open('log_conf.yaml', 'r', encoding='utf-8') as f:
     log_config = yaml.safe_load(f.read())
     logging.config.dictConfig(log_config)
 
@@ -24,9 +23,8 @@ def get_jobs():
     session = Session()
     jobs = session.query(Job).all()
     session.close()
-    
-    jobs_list = []
 
+    jobs_list = []
     for job in jobs:
         jobs_list.append(job.to_dict())
 
@@ -54,7 +52,7 @@ def add_job(body):
     session.commit()
     session.close()
 
-    logger.debug(f'Created new job application')
+    logger.debug(f'Created new job application with id {body["job_id"]}')
     return f'Created new job application with id {body["job_id"]}', 200
 
 
