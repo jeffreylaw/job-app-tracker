@@ -27,14 +27,14 @@ test:
     - cd api/
     - pytest test*.py
   rules:
-    changes:
+    - changes:
       - api/
 
 lint:
   script:
     - pylint --fail-under 6.0 api/app.py
   rules:
-    changes:
+    - changes:
       - api/
 
 package:
@@ -46,7 +46,7 @@ package:
     paths:
       - api/artifacts.zip
   rules:
-    changes:
+    - changes:
       - api/
 
 
