@@ -27,6 +27,7 @@ build:
 
 test:
   script:
+    - pip list
     - pytest api/test*.py
 
 lint:
