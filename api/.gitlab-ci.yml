@@ -26,10 +26,16 @@ test:
   script:
     - cd api/
     - pytest test*.py
+  rules:
+    changes:
+      - api/
 
 lint:
   script:
     - pylint --fail-under 6.0 api/app.py
+  rules:
+    changes:
+      - api/
 
 package:
   script:
@@ -39,5 +45,8 @@ package:
   artifacts:
     paths:
       - api/artifacts.zip
+  rules:
+    changes:
+      - api/
 
 
