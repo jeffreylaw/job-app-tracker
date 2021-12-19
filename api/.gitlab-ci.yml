@@ -30,7 +30,7 @@ before_script:
 test:
   script:
     - cd api/
-    - pytest test*.py --junitxml=api/report.xml
+    - pytest test*.py --junitxml=report.xml
   artifacts:
     when: always
     reports:
