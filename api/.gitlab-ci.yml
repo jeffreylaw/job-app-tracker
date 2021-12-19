@@ -15,6 +15,11 @@ cache:
     - .cache/pip
     - venv/
 
+stages:
+  - test
+  - lint
+  - package
+
 before_script:
   - python --version  # For debugging
   - pip install virtualenv
@@ -28,14 +33,14 @@ test:
     - pytest test*.py
   rules:
     - changes:
-      - api/
+      - api/*
 
 lint:
   script:
     - pylint --fail-under 6.0 api/app.py
   rules:
     - changes:
-      - api/
+      - api/*
 
 package:
   script:
@@ -47,6 +52,6 @@ package:
       - api/artifacts.zip
   rules:
     - changes:
-      - api/
+      - api/*
 
 
