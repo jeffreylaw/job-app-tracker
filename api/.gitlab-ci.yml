@@ -30,11 +30,11 @@ before_script:
 test:
   script:
     - cd api/
-    - pytest test*.py
+    - pytest test*.py --junitxml=$PWD/report.xml
   artifacts:
     when: always
     reports:
-      junit: test-results/report.xml
+      junit: report.xml
   rules:
     - changes:
       - api/*

@@ -101,3 +101,8 @@
 2021-12-12 18:19:49,580 - basicLogger - DEBUG - Creating new job
 2021-12-12 18:19:49,586 - basicLogger - DEBUG - Created new job application with id A1
 2021-12-19 12:26:14,674 - basicLogger - DEBUG - Getting all jobs
+2021-12-19 13:56:20,402 - basicLogger - DEBUG - Getting all jobs
+2021-12-19 13:56:20,429 - basicLogger - DEBUG - Creating new job
+2021-12-19 13:56:20,443 - basicLogger - DEBUG - Created new job application with id A1
+2021-12-19 13:56:20,449 - basicLogger - DEBUG - Creating new job
+2021-12-19 13:56:20,456 - basicLogger - DEBUG - Created new job application with id A1
