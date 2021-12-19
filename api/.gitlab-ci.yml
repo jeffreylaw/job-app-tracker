@@ -15,6 +15,11 @@ cache:
     - .cache/pip
     - venv/
 
+stages:
+  - test
+  - lint
+  - package
+
 before_script:
   - python --version  # For debugging
   - pip install virtualenv
