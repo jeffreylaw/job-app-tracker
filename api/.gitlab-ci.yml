@@ -31,6 +31,10 @@ test:
   script:
     - cd api/
     - pytest test*.py
+  artifacts:
+    when: always
+    reports:
+      junit: test-results/report.xml
   rules:
     - changes:
       - api/*
