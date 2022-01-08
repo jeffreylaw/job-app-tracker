@@ -8,7 +8,54 @@ info:
 tags:
   - name: jobs
     description: Job-related calls
+  - name: user
+    description: User-related calls
 paths:
+  /protected:
+    get:
+      summary: test
+      operationId: app.protected
+      responses:
+        '201':
+          description: test
+        '400':
+          description: test
+      
+  /user:
+    post:
+      tags:
+        - user
+      summary: create user
+      operationId: app.create_user
+      responses:
+        '201':
+          description: user is created
+        '400':
+          description: bad input
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        description: User
+  /login:
+    post:
+      tags:
+        - user
+      summary: log user in
+      operationId: app.login
+      description: Authenticate user login
+      responses:
+        '201':
+          description: user is logged in
+        '400':
+          description: invalid credentials
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        description: User
   /jobs:
     get:
       tags:
@@ -94,6 +141,13 @@ components:
           enum: [ waiting, rejected, interview ]
         notes:
           format: string
-# servers:
-#   - description: SwaggerHub API Auto Mocking
-#     url: https://virtserver.swaggerhub.com/jeffreylaw/JobApplicationTracking/1.0.0
+    User:
+      type: object
+      required:
+        - username
+        - password
+      properties:
+        username:
+          type: string
+        password:
+          type: string

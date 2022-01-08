@@ -1,10 +1,10 @@
 import sqlite3
 
-conn = sqlite3.connect('jobs.db')
+conn = sqlite3.connect('api.db')
 c = conn.cursor()
 
 c.execute("""
-    CREATE TABLE jobs
+    CREATE TABLE IF NOT EXISTS jobs
     (id INTEGER PRIMARY KEY,
     job_id VARCHAR(250) NOT NULL,
     job_title VARCHAR(250) NOT NULL,
@@ -18,6 +18,17 @@ c.execute("""
     notes VARCHAR(250)
     )
     """)
+
+c.execute("""
+CREATE TABLE IF NOT EXISTS users
+(id INTEGER PRIMARY KEY,
+username VARCHAR(250),
+hashed_password VARCHAR(250),
+roles VARCHAR(250),
+is_active BOOL
+)
+""")
+
 
 conn.commit()
 conn.close()
