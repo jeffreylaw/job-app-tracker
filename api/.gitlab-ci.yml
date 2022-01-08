@@ -58,7 +58,6 @@ package python files:
   script:
     - apk --no-cache add zip
     - zip api/artifacts.zip api/*.py -x api/test*.py
-    - touch $(date -d "today" +"%Y-%m-%dT%H.%M")
 
   artifacts:
     paths:
