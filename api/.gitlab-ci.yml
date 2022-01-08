@@ -56,8 +56,7 @@ package python files:
   image: alpine
   cache: []
   script:
-    - apt-get update
-    - apt-get install -y zip
+    - apk --no-cache add zip
     - zip api/artifacts.zip api/*.py -x api/test*.py
     - touch $(date -d "today" +"%Y-%m-%dT%H.%M")
 
