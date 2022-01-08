@@ -16,7 +16,7 @@ build:
   script:
     - pip install virtualenv
     - virtualenv venv/
-    - source venv/bin/activate\
+    - source venv/bin/activate
     - pip install -r api/requirements.txt
   rules:
     - changes:
