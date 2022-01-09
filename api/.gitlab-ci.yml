@@ -1,33 +1,33 @@
-image: python:latest
+image: python:3.10
 
-# Change pip's cache directory to be inside the project directory since we can
-# only cache local items.
-variables:
-  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
-
-# Pip's cache doesn't store the python packages
-# https://pip.pypa.io/en/stable/reference/pip_install/#caching
-#
-# If you want to also cache the installed packages, you have to install
-# them in a virtualenv and cache it as well.
 cache:
+  key: ${CI_COMMIT_REF_SLUG}
   paths:
-    - .cache/pip
     - venv/
 
 stages:
+  - build
   - test
   - lint
   - package
 
-before_script:
-  - python --version  # For debugging
-  - pip install virtualenv
-  - virtualenv venv
-  - source venv/bin/activate
-  - pip install -r api/requirements.txt
+build:
+  stage: build
+  script:
+    - pip install virtualenv
+    - virtualenv venv/
+    - source venv/bin/activate
+    - pip install -r api/requirements.txt
+  rules:
+    - changes:
+      - api/*
 
 test:
+  stage: test
+  before_script:
+    - pip install virtualenv
+    - virtualenv venv/
+    - source venv/bin/activate
   script:
     - cd api/
     - pytest test*.py --junitxml=report.xml
@@ -40,22 +40,28 @@ test:
       - api/*
 
 lint:
+  stage: lint
+  before_script:
+    - pip install virtualenv
+    - virtualenv venv/
+    - source venv/bin/activate
   script:
-    - pylint --fail-under 6.0 api/app.py
+    - pylint --fail-under 7.0 api/app.py
   rules:
     - changes:
       - api/*
 
-package:
+package python files:
+  stage: package
+  image: alpine
+  cache: []
   script:
-    - apt-get update
-    - apt-get install -y zip
+    - apk --no-cache add zip
     - zip api/artifacts.zip api/*.py -x api/test*.py
+
   artifacts:
     paths:
       - api/artifacts.zip
   rules:
     - changes:
       - api/*
-
-

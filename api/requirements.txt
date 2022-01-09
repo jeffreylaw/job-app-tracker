@@ -3,3 +3,5 @@ swagger-ui-bundle==0.0.9
 SQLAlchemy==1.4.28
 pylint==2.12.2
 pytest==6.2.5
+flask-praetorian==1.3.0
+Flask-Cors==3.0.10
