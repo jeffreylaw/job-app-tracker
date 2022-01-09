@@ -11,16 +11,6 @@ tags:
   - name: user
     description: User-related calls
 paths:
-  /protected:
-    get:
-      summary: test
-      operationId: app.protected
-      responses:
-        '201':
-          description: test
-        '400':
-          description: test
-      
   /register:
     post:
       tags:
@@ -76,22 +66,46 @@ paths:
     post:
       tags:
         - jobs
-      summary: adds an job application
+      summary: adds a job
       operationId: app.add_job
-      description: Adds an job to the system
+      description: Adds a job in the database
       responses:
         '201':
-          description: item created
+          description: job created
         '400':
-          description: 'invalid input, object invalid'
-        '409':
-          description: an existing job already exists
+          description: 'invalid input, job invalid'
+        '401':
+          description: unauthorized access
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/JobApplication'
         description: Inventory item to add
+    put:
+      tags:
+        - jobs
+      summary: update a job
+      operationId: app.update_job
+      description: Updates a job in the database
+      responses:
+        '200':
+          description: job updated
+        '400':
+          description: 'invalid input, job invalid'
+        '401':
+          description: unauthorized access
+    delete:
+      tags:
+        - jobs
+      summary: delete a job
+      operationId: app.delete_job
+      description: Delete a job in the database
+      responses:
+        '200':
+          description: job deleted
+        '401':
+          description: unauthorized access
 components:
   schemas:
     JobApplication:
@@ -111,7 +125,7 @@ components:
         job_id:
           type: string
           format: uuid
-          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+          example: d290f1ee6c544b0190e6d701748f0851
         job_title:
           type: string
           example: DevOps Engineer

@@ -1,6 +1,7 @@
 
 from sqlalchemy import Column, Integer, Float, String, DateTime, Boolean
 from base import Base
+from sqlalchemy.orm import relationship
 
 
 # A generic user model that might be used by an app powered by flask-praetorian
@@ -12,12 +13,7 @@ class User(Base):
     hashed_password = Column(String)
     roles = Column(String)
     is_active = Column(Boolean, default=True, server_default="true")
-
-    # def __init__(self, username, hashed_password, roles, is_active):
-    #     self. username = username
-    #     self.hashed_password = hashed_password
-    #     self.roles = roles
-    #     self.is_active = is_active
+    jobs = relationship('Job', backref='user', lazy=True, cascade="all, delete")
 
     @property
     def identity(self):
@@ -79,3 +75,10 @@ class User(Base):
 
     def is_valid(self):
         return self.is_active
+
+    def to_dict(self):
+        user = {}
+        user['username'] = self.username
+        user['jobs'] = self.jobs
+
+        return user

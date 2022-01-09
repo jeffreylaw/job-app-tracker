@@ -35,6 +35,8 @@ const Login = ({ setUser, setJobs }) => {
                     }
                     if (err.response && err.response.data.status_code === 401) {
                         toast.error("Incorrect username and/or password")
+                    } else {
+                        toast.error("Please try again later...")
                     }
                 });
     }
