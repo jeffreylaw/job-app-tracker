@@ -21,15 +21,15 @@ paths:
         '400':
           description: test
       
-  /user:
+  /register:
     post:
       tags:
         - user
-      summary: create user
-      operationId: app.create_user
+      summary: register user
+      operationId: app.register_user
       responses:
         '201':
-          description: user is created
+          description: user is registered
         '400':
           description: bad input
       requestBody:
@@ -48,8 +48,8 @@ paths:
       responses:
         '201':
           description: user is logged in
-        '400':
-          description: invalid credentials
+        '401':
+          description: The username and/or password are incorrect
       requestBody:
         content:
           application/json:

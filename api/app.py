@@ -7,6 +7,7 @@ from job import Job
 from user import User
 import yaml
 import flask
+from flask_cors import CORS
 import flask_praetorian
 guard = flask_praetorian.Praetorian()
 
@@ -65,9 +66,13 @@ def add_job(body):
     return f'Created new job application with id {body["job_id"]}', 200
 
 
-def create_user(body):
+def register_user(body):
     logger.debug(body)
     session = Session()
+    exists = session.query(User.username).filter_by(username=body['username']).first() is not None
+    if exists:
+        return "Username is taken", 401
+
     new_user = User(
         username = body['username'],
         hashed_password = guard.hash_password(body['password']),
@@ -76,7 +81,13 @@ def create_user(body):
     session.add(new_user)
     session.commit()
     session.close()
-    return 'Created new user', 200
+
+    user = guard.authenticate(body['username'], body['password'])
+    ret = {
+        "access_token": guard.encode_jwt_token(user),
+        "username": body['username']
+    }
+    return flask.jsonify(ret), 200
 
 
 def login():
@@ -84,8 +95,11 @@ def login():
     username = req.get("username", None)
     password = req.get("password", None)
     user = guard.authenticate(username, password)
-    ret = {"access_token": guard.encode_jwt_token(user)}
-    return (flask.jsonify(ret), 200)
+    ret = {
+        "access_token": guard.encode_jwt_token(user),
+        "username": username
+    }
+    return flask.jsonify(ret), 200
 
 
 @flask_praetorian.auth_required
@@ -97,6 +111,7 @@ def protected():
     )
 
 app.add_api('openapi.yaml', strict_validation=True)
+CORS(app.app)
 
 if __name__ == '__main__':
     app.run(port=8080, debug=False)
