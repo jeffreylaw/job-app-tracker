@@ -5,3 +5,4 @@ node_modules/
 app.log
 .env
 report.xml
+*.log
