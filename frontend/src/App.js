@@ -6,7 +6,10 @@ import Login from './components/Login';
 import toast, { Toaster } from 'react-hot-toast';
 import Table from 'react-bootstrap/Table';
 import Badge from 'react-bootstrap/Badge';
+import { AiOutlineDelete } from 'react-icons/ai'
 import './App.css';
+import axios from 'axios';
+const baseURL = 'http://localhost:8080';
 
 
 const App = () => {
@@ -14,24 +17,43 @@ const App = () => {
     const [jobs, setJobs] = useState([]);
 
     useEffect(() => {
-        if (!user || !jobs) {
-            return
-        }
-
         if (!user && localStorage.getItem("username")) {
             setUser(localStorage.getItem("username"));
         }
 
-        if (jobs.length === 0 && localStorage.getItem("jobs")) {
+        if (jobs && jobs.length === 0 && localStorage.getItem("jobs")) {
             setJobs(JSON.parse(localStorage.getItem("jobs")));
         }
-    })
+    }, [])
+    
 
     const logout = () => {
         localStorage.clear();
         setUser(null);
         setJobs(null);
     }
+
+    const deleteJob = (id) => {
+        const token = localStorage.getItem("auth_token");
+        const config = {
+            headers: { Authorization: `Bearer ${token}` }
+        }
+        axios
+            .delete(baseURL + '/jobs/' + id, config)
+            .then((res) => {
+                console.log(res);
+                if (res.status === 200) {
+                    toast.success("Job deleted");
+                    let newJobs = jobs.filter(job => job.job_id !== res.data.job_id);
+                    localStorage.setItem("jobs", JSON.stringify(newJobs));
+                    setJobs(newJobs);
+                }
+            }).catch((err) => {
+                console.log(err)
+            })
+    }
+
+    console.log(jobs)
 
     if (user && jobs) {
         return (
@@ -66,7 +88,7 @@ const App = () => {
                             {
                                 jobs.map((job) => {
                                     return (
-                                        <tr>
+                                        <tr key={job.job_id}>
                                             {job.result === 'waiting' && <td><Badge bg="primary">{job.result.toUpperCase()}</Badge></td>}
                                             {job.result === 'rejected' && <td><Badge bg="danger">{job.result}</Badge></td>}
                                             {job.result === 'interview' && <td><Badge bg="success">{job.result}</Badge></td>}
@@ -78,7 +100,7 @@ const App = () => {
                                             <td>{job.post_date.split('T')[0]}</td>
                                             <td><a href={job.link}>{job.link}</a></td>
                                             <td>{job.notes}</td>
-                                            <td>Edit and Delete</td>
+                                            <td>Edit and <AiOutlineDelete onClick={() => deleteJob(job.job_id)}/></td>
                                         </tr>
                                     )
                                 })

@@ -112,21 +112,29 @@ def update_job(body):
 
 
 @flask_praetorian.auth_required
-def delete_job(body):
+def delete_job(id):
     """ Delete a job """
-    logger.info(f'Deleting job with id {body["job_id"]}')
+    logger.info(f'Deleting job with id {id}')
 
-    if flask_praetorian.current_user().id != body['user_id']:
-        return f'Unauthorized access', 401
-    
     session = Session()
-    job = session.query(Job).filter_by(job_id=body['job_id']).first()
+    job = session.query(Job).filter_by(job_id=id).first()
+    if not job:
+        session.close()
+        return f'Job does not exist', 404 
+    job_user_id = job.user_id
+    if flask_praetorian.current_user().id != job_user_id:
+        session.close()
+        return f'Unauthorized access', 401
     session.delete(job)
     session.commit()
     session.close()
 
-    logger.debug(f'Deleted job with id {body["job_id"]}')
-    return f'Deleted job with id {body["job_id"]}', 200
+    res = {
+        "job_id": id,
+        "message": f'Deleted job with id {id}'
+    }
+    logger.debug(f'Deleted job with id {id}')
+    return res, 200
 
 
 def register_user(body):
