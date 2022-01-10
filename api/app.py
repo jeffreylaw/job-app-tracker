@@ -7,11 +7,14 @@ from job import Job
 from user import User
 import yaml
 import uuid
+import os
+from dotenv import load_dotenv
 import flask
 from flask_cors import CORS
 import flask_praetorian
 guard = flask_praetorian.Praetorian()
 
+load_dotenv()
 with open('log_conf.yaml', 'r', encoding='utf-8') as f:
     log_config = yaml.safe_load(f.read())
     logging.config.dictConfig(log_config)
@@ -27,7 +30,6 @@ app.app.config["JWT_ACCESS_LIFESPAN"] = {"minutes": 60}
 app.app.config["JWT_REFRESH_LIFESPAN"] = {"days": 1}
 guard.init_app(app.app, User)
 
-
 @flask_praetorian.auth_required
 def get_jobs():
     """ Return user's job applications """
@@ -41,7 +43,11 @@ def get_jobs():
     for job in jobs:
         jobs_list.append(job.to_dict())
 
-    return jobs_list, 200
+    res = {
+        "jobs": jobs_list,
+        "message": "Successfully returned jobs"
+    }
+    return res, 200
 
 
 @flask_praetorian.auth_required
@@ -66,12 +72,17 @@ def add_job(body):
         body['notes'],
         current_user_id
     )
+    job_dict = new_job.to_dict()
     session.add(new_job)
     session.commit()
     session.close()
 
+    res = {
+        "job": job_dict,
+        "message": f'Created new job with id {random_id}'
+    }
     logger.info(f'Created new job with id {random_id}')
-    return f'Created new job with id {random_id}', 200
+    return res, 200
 
 
 @flask_praetorian.auth_required
@@ -96,7 +107,7 @@ def update_job(body):
     session.commit()
     session.close()
 
-    logger.debug(f'Updated job with id {body["job_id"]}')
+    logger.info(f'Updated job with id {body["job_id"]}')
     return f'Updated job with id {body["job_id"]}', 200
 
 
@@ -146,7 +157,22 @@ def register_user(body):
     return flask.jsonify(ret), 200
 
 
-def login():
+def delete_user(body):
+    """ Delete a user """
+    if 'TEST_PASSWORD' in body:
+        test_delete_user(body)
+
+    session = Session()
+    user = session.query(User).filter_by(username=body['username']).first()
+    if user is None:
+        return f'User {body["username"]} does not exist', 404
+    session.delete(user)
+    session.commit()
+    session.close()
+    return f'Deleted user {body["username"]}', 200
+
+
+def login(body):
     req = flask.request.get_json(force=True)
     username = req.get("username", None)
     password = req.get("password", None)
@@ -158,10 +184,18 @@ def login():
     return flask.jsonify(ret), 200
 
 
-@flask_praetorian.roles_required("admin")
-def delete_user(body):
-    """ Delete a user """
-    pass
+def test_delete_user(body):
+    if body['TEST_PASSWORD'] != os.getenv('TEST_PASSWORD'):
+        return
+    session = Session()
+    user = session.query(User).filter_by(username=body['username']).first()
+    if not user:
+        return f'User {body["username"]} does not exist', 404
+    session.delete(user)
+    session.commit()
+    session.close()
+    return f'TEST: Deleted user {body["username"]}', 200
+
 
 app.add_api('openapi.yaml', strict_validation=False)
 CORS(app.app)

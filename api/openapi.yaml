@@ -46,6 +46,26 @@ paths:
             schema:
               $ref: '#/components/schemas/User'
         description: User
+  /delete_user:
+    post:
+      tags:
+        - user
+      summary: delete user
+      operationId: app.delete_user
+      description: Delete user
+      responses:
+        '200':
+          description: user is deleted
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                TEST_PASSWORD:
+                  type: string
   /jobs:
     get:
       tags:
@@ -111,7 +131,6 @@ components:
     JobApplication:
       type: object
       required:
-        - job_id
         - job_title
         - job_description
         - company
@@ -122,10 +141,6 @@ components:
         - result
         - notes
       properties:
-        job_id:
-          type: string
-          format: uuid
-          example: d290f1ee6c544b0190e6d701748f0851
         job_title:
           type: string
           example: DevOps Engineer
