@@ -27,8 +27,10 @@ const Login = ({ setUser, setJobs }) => {
                     password: password
                 }).then((res) => {
                     localStorage.setItem("auth_token", res.data.access_token);
+                    localStorage.setItem("username", res.data.username);
+                    localStorage.setItem("jobs", JSON.stringify(res.data.jobs));
                     setUser(res.data.username);
-                    setJobs([]);
+                    setJobs(res.data.jobs);
                 }).catch((err) => {
                     if (err.response) {
                         console.log(err.response.data)

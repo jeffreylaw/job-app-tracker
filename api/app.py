@@ -173,14 +173,20 @@ def delete_user(body):
 
 
 def login(body):
-    req = flask.request.get_json(force=True)
-    username = req.get("username", None)
-    password = req.get("password", None)
+    username = body['username']
+    password = body['password']
     user = guard.authenticate(username, password)
+    session = Session()
+    jobs = session.query(User).filter_by(username=username).first().jobs
+    jobs_list = []
+    for job in jobs:
+        jobs_list.append(job.to_dict())
     ret = {
         "access_token": guard.encode_jwt_token(user),
-        "username": username
+        "username": username,
+        "jobs": jobs_list
     }
+    session.close()
     return flask.jsonify(ret), 200
 
 
@@ -201,4 +207,4 @@ app.add_api('openapi.yaml', strict_validation=False)
 CORS(app.app)
 
 if __name__ == '__main__':
-    app.run(port=8080, debug=False)
+    app.run(port=8080, debug=True)
