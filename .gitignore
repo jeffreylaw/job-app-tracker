@@ -4,3 +4,4 @@ __pycache__/
 node_modules/
 app.log
 .env
+report.xml
