@@ -43,13 +43,28 @@ html, body {
   height: 100px;
 }
 
+.filter-main {
+  display: flex;
+  justify-content: space-around;
+  padding-top: 5px;
+}
+
+.filter-hide-section {
+  display: flex;
+}
+
+.filter-hide-category {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
 /* Style the buttons that are used to open and close the accordion panel */
 .accordion {
   background-color: #eee;
   color: #444;
   cursor: pointer;
-  padding-top: 4px;
-  padding-bottom: 4px;
+  padding-top: 8px;
+  padding-bottom: 8px;
   width: 100%;
   text-align: right;
   border: none;
