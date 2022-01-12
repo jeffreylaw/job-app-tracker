@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import toast, { Toaster } from 'react-hot-toast';
@@ -20,6 +20,18 @@ const Login = ({ setUser, setJobs }) => {
 
     const login = (e) => {
         e.preventDefault();
+        if (!username && !password) {
+            toast.error("Please enter username and password");
+            return
+        }
+        if (!username) {
+            toast.error("Please enter username");
+            return
+        }
+        if (!password) {
+            toast.error("Please enter password");
+            return
+        }
         axios
             .post(baseURL + '/login',
                 {
@@ -31,6 +43,9 @@ const Login = ({ setUser, setJobs }) => {
                     localStorage.setItem("jobs", JSON.stringify(res.data.jobs));
                     setUser(res.data.username);
                     setJobs(res.data.jobs);
+                    toast(`Welcome ${username}!`, {
+                        icon: '🤗',
+                      });
                 }).catch((err) => {
                     if (err.response) {
                         console.log(err.response.data)
@@ -45,6 +60,18 @@ const Login = ({ setUser, setJobs }) => {
 
     const register = (e) => {
         e.preventDefault();
+        if (!username && !password) {
+            toast.error("Please enter a username and password");
+            return
+        }
+        if (!username) {
+            toast.error("Please enter a username");
+            return
+        }
+        if (!password) {
+            toast.error("Please enter a password");
+            return
+        }
         toast.loading('Registering...');
         axios
             .post(baseURL + '/register',
@@ -56,6 +83,8 @@ const Login = ({ setUser, setJobs }) => {
                         toast.dismiss();
                         toast.success("Successfully registered!");
                         localStorage.setItem("auth_token", res.data.access_token);
+                        localStorage.setItem("username", res.data.username);
+                        localStorage.setItem("jobs", JSON.stringify([]));
                         setUser(res.data.username);
                         setJobs([]);
                     }, 3000);
@@ -73,7 +102,7 @@ const Login = ({ setUser, setJobs }) => {
         return (
             <div>
                 <Toaster />
-                <h1>Sign In</h1>
+                <h1>Job Tracker</h1>
                 <Form onSubmit={login}>
                     <Form.Group className="mb-3" controlId="formBasicUsername">
                         <Form.Label>Username</Form.Label>
@@ -84,10 +113,16 @@ const Login = ({ setUser, setJobs }) => {
                         <Form.Label>Password</Form.Label>
                         <Form.Control type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
                     </Form.Group>
-                    <Button variant="primary" type="submit">
-                        Submit
+                    <Button variant="primary" style={{float: 'right'}} type="submit">
+                        Login
                     </Button>
-                    <p><Button variant="link" onClick={() => switchFormType('register')}>Register here!</Button></p>
+                    <Button variant="primary" style={{float: 'right', marginRight: '5px'}} onClick={() => {
+                        setUsername("demo");
+                        setPassword("demo");
+                    }}>
+                        Demo Account
+                    </Button>
+                    <Button variant="link" style={{ paddingRight: '0px', paddingLeft: '0px' }} onClick={() => switchFormType('register')}>Register here!</Button>
                 </Form>
             </div>
         )
@@ -106,10 +141,10 @@ const Login = ({ setUser, setJobs }) => {
                         <Form.Label>Password</Form.Label>
                         <Form.Control type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
                     </Form.Group>
-                    <Button variant="primary" type="submit">
+                    <Button variant="primary" style={{float: 'right'}} type="submit">
                         Sign up
                     </Button>
-                    <p><Button variant="link" onClick={() => switchFormType('login')}>Login</Button></p>
+                    <p><Button variant="link" style={{ paddingRight: '0px', paddingLeft: '0px' }} onClick={() => switchFormType('login')}>Login</Button></p>
                 </Form>
             </div>
         )

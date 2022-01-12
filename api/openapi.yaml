@@ -133,6 +133,16 @@ paths:
           description: job deleted
         '401':
           description: unauthorized access
+  /refresh:
+    get:
+      summary: refresh token
+      operationId: app.refresh
+      description: refresh jwt token
+      responses:
+        '200':
+          description: token refreshed
+        '404':
+          description: no token found
 components:
   schemas:
     JobApplication:
@@ -143,8 +153,6 @@ components:
         - company
         - salary
         - link
-        - post_date
-        - applied_date
         - result
         - notes
       properties:
@@ -174,7 +182,7 @@ components:
           example: '2016-08-29T09:12:33.001Z'
         result:
           format: string
-          enum: [ waiting, rejected, interview ]
+          enum: [ not applied, applied, interview, waiting, rejected ]
         notes:
           format: string
     User:

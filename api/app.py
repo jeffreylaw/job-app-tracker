@@ -26,8 +26,8 @@ Session = sessionmaker(bind=engine)
 
 app = connexion.FlaskApp(__name__, specification_dir='')
 app.app.config["SECRET_KEY"] = "top secret"
-app.app.config["JWT_ACCESS_LIFESPAN"] = {"minutes": 60}
-app.app.config["JWT_REFRESH_LIFESPAN"] = {"days": 1}
+app.app.config["JWT_ACCESS_LIFESPAN"] = {"days": 30}
+app.app.config["JWT_REFRESH_LIFESPAN"] = {"days": 30}
 guard.init_app(app.app, User)
 
 @flask_praetorian.auth_required
@@ -89,26 +89,35 @@ def add_job(body):
 def update_job(body):
     """ Create a new job application """
     logger.info(f'Updating job with id {body["job_id"]}')
-
-    if flask_praetorian.current_user().id != body['user_id']:
-        return f'Unauthorized access', 401
-
     session = Session()
-    job = session.query(Job).filter_by(job_id=body['job_id']).first()
+    job = session.query(Job).filter_by(job_id=body["job_id"]).first()
+
+    if not job:
+        session.close()
+        return f'Job does not exist', 404 
+    job_user_id = job.user_id
+    if flask_praetorian.current_user().id != job_user_id:
+        session.close()
+        return f'Unauthorized access', 401
     job.job_title = body['job_title']
     job.job_description = body['job_description']
     job.company = body['company']
     job.salary = body['salary']
     job.link = body['link']
-    job.post_date = datetime.fromisoformat(body['post_date']),
-    job.applied_date = datetime.fromisoformat(body['applied_date']),
+    job.post_date = datetime.fromisoformat(body['post_date'])
+    job.applied_date = datetime.fromisoformat(body['applied_date'])
     job.result = body['result']
     job.notes = body['notes']
+    session.merge(job)
     session.commit()
     session.close()
 
+    res = {
+        "job": body,
+        "message": f'Updated job with id {body["job_id"]}'
+    }
     logger.info(f'Updated job with id {body["job_id"]}')
-    return f'Updated job with id {body["job_id"]}', 200
+    return res, 200
 
 
 @flask_praetorian.auth_required
@@ -197,6 +206,11 @@ def login(body):
     session.close()
     return flask.jsonify(ret), 200
 
+def refresh():
+    old_token = guard.read_token_from_header()
+    new_token = guard.refresh_jwt_token(old_token)
+    ret = {'access_token': new_token}
+    return flask.jsonify(ret), 200
 
 def test_delete_user(body):
     if body['TEST_PASSWORD'] != os.getenv('TEST_PASSWORD'):
