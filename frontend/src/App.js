@@ -63,10 +63,7 @@ const App = () => {
             }
         },
         resultsToShow: "all",
-        searchQuery: "",
-        categoriesToSort: {
-
-        }
+        searchQuery: ""
     });
 
     const handleCloseAddJob = () => {
@@ -166,13 +163,13 @@ const App = () => {
                     <Table striped bordered hover>
                         <thead>
                             <tr>
-                                {filter.categoriesToShow.result.show && <th>Result  <FaArrowsAltV className="test" /></th>}
-                                {filter.categoriesToShow.job_title.show && <th>Job Title <FaArrowsAltV /></th>}
+                                {filter.categoriesToShow.result.show && <th>Result</th>}
+                                {filter.categoriesToShow.job_title.show && <th>Job Title</th>}
                                 {filter.categoriesToShow.company.show && <th>Company</th>}
                                 {filter.categoriesToShow.job_description.show && <th>Job Description</th>}
                                 {filter.categoriesToShow.salary.show && <th>Salary</th>}
-                                {filter.categoriesToShow.applied_date.show && <th>Applied Date <FaArrowsAltV /></th>}
-                                {filter.categoriesToShow.post_date.show && <th>Post Date <FaArrowsAltV /></th>}
+                                {filter.categoriesToShow.applied_date.show && <th>Applied Date</th>}
+                                {filter.categoriesToShow.post_date.show && <th>Post Date</th>}
                                 {filter.categoriesToShow.link.show && <th>Link</th>}
                                 {filter.categoriesToShow.notes.show && <th>Notes</th>}
                             </tr>
