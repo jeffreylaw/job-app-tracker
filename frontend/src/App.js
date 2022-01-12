@@ -62,7 +62,11 @@ const App = () => {
                 show: true
             }
         },
-        resultsToShow: "all"
+        resultsToShow: "all",
+        searchQuery: "",
+        categoriesToSort: {
+
+        }
     });
 
     const handleCloseAddJob = () => {
@@ -127,6 +131,7 @@ const App = () => {
     }
 
     let filteredJobs = filter.resultsToShow !== "all" ? jobs.filter(job => job.result === filter.resultsToShow) : jobs;
+
 
     if (user && jobs) {
         return (

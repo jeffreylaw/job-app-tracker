@@ -5,6 +5,19 @@ const Filter = ({ filter, setFilter }) => {
 
     return (
         <Form>
+            <h4>Search</h4>
+            <Form.Group className="mb-3" controlId="formSearch">
+                <Form.Control type="text" placeholder="Enter search value" onChange={
+                    (e) => {
+                        let newFilter = JSON.parse(JSON.stringify(filter));
+                        newFilter.searchQuery = e.target.value;
+                        setFilter(newFilter);
+                    }
+                }/>
+                <Form.Text className="text-muted">
+                Searches all categories except for <b>result</b> and <b>salary</b>.
+                </Form.Text>
+            </Form.Group>
             <h4>Show Categories</h4>
             {Object.keys(filter.categoriesToShow).map((key) => {
                 if (["result", "job_title", "company"].some(i => i === key)) {
