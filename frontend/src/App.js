@@ -130,8 +130,20 @@ const App = () => {
         document.getElementById("filter").className = newClass;
     }
 
-    let filteredJobs = filter.resultsToShow !== "all" ? jobs.filter(job => job.result === filter.resultsToShow) : jobs;
+    const queryFoundInJob = (query, job) => {
+        let found = false;
+        for (const [key, value] of Object.entries(job)) {
+            if (!["result", "salary", "user_id", "job_id"].includes(key)) {
+                if (value.includes(query)) {
+                    found = true;
+                }
+            }
+        }
+        return found
+    }
 
+    let filteredJobs = filter.resultsToShow === "all" ? jobs : jobs.filter(job => job.result === filter.resultsToShow);
+    filteredJobs = filter.searchQuery === "" ? filteredJobs : filteredJobs.filter(job => queryFoundInJob(filter.searchQuery, job));
 
     if (user && jobs) {
         return (
