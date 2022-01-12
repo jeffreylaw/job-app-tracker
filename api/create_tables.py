@@ -4,6 +4,16 @@ conn = sqlite3.connect('api.db')
 c = conn.cursor()
 
 c.execute("""
+    CREATE TABLE IF NOT EXISTS users
+    (id INTEGER PRIMARY KEY,
+    username VARCHAR(250),
+    hashed_password VARCHAR(250),
+    roles VARCHAR(250),
+    is_active BOOL
+    )
+    """)
+
+c.execute("""
     CREATE TABLE IF NOT EXISTS jobs
     (id INTEGER PRIMARY KEY,
     job_id VARCHAR(250) NOT NULL,
@@ -15,20 +25,11 @@ c.execute("""
     post_date DATETIME,
     applied_date DATETIME,
     result VARCHAR(250) NOT NULL,
-    notes VARCHAR(250)
+    notes VARCHAR(250),
+    user_id INTEGER,
+    FOREIGN KEY (user_id) REFERENCES user(id)
     )
     """)
-
-c.execute("""
-CREATE TABLE IF NOT EXISTS users
-(id INTEGER PRIMARY KEY,
-username VARCHAR(250),
-hashed_password VARCHAR(250),
-roles VARCHAR(250),
-is_active BOOL
-)
-""")
-
 
 conn.commit()
 conn.close()

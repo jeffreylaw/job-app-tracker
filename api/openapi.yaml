@@ -11,16 +11,6 @@ tags:
   - name: user
     description: User-related calls
 paths:
-  /protected:
-    get:
-      summary: test
-      operationId: app.protected
-      responses:
-        '201':
-          description: test
-        '400':
-          description: test
-      
   /register:
     post:
       tags:
@@ -56,6 +46,26 @@ paths:
             schema:
               $ref: '#/components/schemas/User'
         description: User
+  /delete_user:
+    post:
+      tags:
+        - user
+      summary: delete user
+      operationId: app.delete_user
+      description: Delete user
+      responses:
+        '200':
+          description: user is deleted
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                TEST_PASSWORD:
+                  type: string
   /jobs:
     get:
       tags:
@@ -76,42 +86,76 @@ paths:
     post:
       tags:
         - jobs
-      summary: adds an job application
+      summary: adds a job
       operationId: app.add_job
-      description: Adds an job to the system
+      description: Adds a job in the database
       responses:
         '201':
-          description: item created
+          description: job created
         '400':
-          description: 'invalid input, object invalid'
-        '409':
-          description: an existing job already exists
+          description: 'invalid input, job invalid'
+        '401':
+          description: unauthorized access
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/JobApplication'
         description: Inventory item to add
+    put:
+      tags:
+        - jobs
+      summary: update a job
+      operationId: app.update_job
+      description: Updates a job in the database
+      responses:
+        '200':
+          description: job updated
+        '400':
+          description: 'invalid input, job invalid'
+        '401':
+          description: unauthorized access
+  /jobs/{id}:
+    delete:
+      tags:
+        - jobs
+      summary: delete a job
+      operationId: app.delete_job
+      description: Delete a job in the database
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: job deleted
+        '401':
+          description: unauthorized access
+  /refresh:
+    get:
+      summary: refresh token
+      operationId: app.refresh
+      description: refresh jwt token
+      responses:
+        '200':
+          description: token refreshed
+        '404':
+          description: no token found
 components:
   schemas:
     JobApplication:
       type: object
       required:
-        - job_id
         - job_title
         - job_description
         - company
         - salary
         - link
-        - post_date
-        - applied_date
         - result
         - notes
       properties:
-        job_id:
-          type: string
-          format: uuid
-          example: d290f1ee-6c54-4b01-90e6-d701748f0851
         job_title:
           type: string
           example: DevOps Engineer
@@ -138,7 +182,7 @@ components:
           example: '2016-08-29T09:12:33.001Z'
         result:
           format: string
-          enum: [ waiting, rejected, interview ]
+          enum: [ not applied, applied, interview, waiting, rejected ]
         notes:
           format: string
     User:
