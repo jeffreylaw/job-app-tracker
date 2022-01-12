@@ -126,7 +126,7 @@ const App = () => {
         document.getElementById("filter").className = newClass;
     }
 
-    let filteredJobs = filter.resultsToShow != "all" ? jobs.filter(job => job.result === filter.resultsToShow) : jobs;
+    let filteredJobs = filter.resultsToShow !== "all" ? jobs.filter(job => job.result === filter.resultsToShow) : jobs;
 
     if (user && jobs) {
         return (
@@ -149,7 +149,7 @@ const App = () => {
                     <Table striped bordered hover>
                         <thead>
                             <tr>
-                                {filter.categoriesToShow.result.show && <th>Result  <FaArrowsAltV /></th>}
+                                {filter.categoriesToShow.result.show && <th>Result  <FaArrowsAltV className="test" /></th>}
                                 {filter.categoriesToShow.job_title.show && <th>Job Title <FaArrowsAltV /></th>}
                                 {filter.categoriesToShow.company.show && <th>Company</th>}
                                 {filter.categoriesToShow.job_description.show && <th>Job Description</th>}

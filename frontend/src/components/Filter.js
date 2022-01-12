@@ -21,7 +21,6 @@ const Filter = ({ filter, setFilter }) => {
                             let newFilter = JSON.parse(JSON.stringify(filter));
                             newFilter.categoriesToShow[key].show = e.target.checked;
                             setFilter(newFilter)
-                            console.log(filter.categoriesToShow[key])
                         }}
                     />
                 </div>
@@ -34,7 +33,6 @@ const Filter = ({ filter, setFilter }) => {
                     let newFilter = JSON.parse(JSON.stringify(filter));
                     newFilter.resultsToShow = e.target.value;
                     setFilter(newFilter)
-                    console.log(newFilter)
                 }}
             >
                 <option value="all">All results (default)</option>
