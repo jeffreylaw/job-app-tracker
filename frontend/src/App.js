@@ -11,7 +11,6 @@ import Filter from './components/Filter';
 import toast, { Toaster } from 'react-hot-toast';
 import { AiOutlineDelete } from 'react-icons/ai'
 import { AiOutlineEdit } from 'react-icons/ai';
-import { FaArrowsAltV } from 'react-icons/fa';
 import './App.css';
 import axios from 'axios';
 const baseURL = 'http://localhost:8080';
