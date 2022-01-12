@@ -95,6 +95,7 @@ const App = () => {
     }, [])
 
     const logout = () => {
+        toast.dismiss();
         localStorage.clear();
         setUser(null);
         setJobs(null);
