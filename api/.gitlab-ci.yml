@@ -11,6 +11,7 @@ stages:
   - test
   - lint
   - package
+  - dockerize
   - deploy
 
 build api:
@@ -85,6 +86,14 @@ package python files:
   rules:
     - changes:
       - api/*
+
+dockerize api:
+  stage: dockerize
+  image: ubuntu
+  script:
+    - docker login -u=${DOCKERHUB_USERNAME} -p=${DOCKERHUB_ACCESS_TOKEN}
+    - docker build -t ${DOCKERHUB_USERNAME}/job-hunting-tracker-api:latest .
+    - docker push ${DOCKERHUB_USERNAME}/job-hunting-tracker-api:latest
       
 deploy heroku:
   stage: deploy
