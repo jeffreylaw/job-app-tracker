@@ -86,8 +86,7 @@ package python files:
     - changes:
       - api/*
       
-
-deploy heroku
+deploy heroku:
   stage: deploy
   image: ubuntu
   before_script:
