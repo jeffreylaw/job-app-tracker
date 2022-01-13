@@ -18,9 +18,15 @@ build:
     - virtualenv venv/
     - source venv/bin/activate
     - pip install -r api/requirements.txt
+    - cd api/sql
+    - python3 create_tables.py
   rules:
     - changes:
       - api/*
+  artifacts:
+    paths:
+      - api/api.db
+    expire_in: 10 mins
 
 test:
   stage: test
