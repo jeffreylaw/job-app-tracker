@@ -17,7 +17,7 @@ const Filter = ({ filter, setFilter }) => {
                             }
                         }/>
                         <Form.Text className="text-muted">
-                        Searches all categories except for <b>result</b> and <b>salary</b>.
+                        Searches all categories except for <b>result</b>, <b>salary</b>, and <b>job description</b>.
                         </Form.Text>
                     </Form.Group>
                 </div>

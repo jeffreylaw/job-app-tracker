@@ -1,3 +1,4 @@
+from cgitb import reset
 import logging.config
 from datetime import datetime
 import connexion
@@ -11,8 +12,8 @@ import os
 from dotenv import load_dotenv
 import flask
 from flask_cors import CORS
-import flask_praetorian
-guard = flask_praetorian.Praetorian()
+import bcrypt
+import jwt
 
 load_dotenv()
 with open('log_conf.yaml', 'r', encoding='utf-8') as f:
@@ -21,23 +22,23 @@ with open('log_conf.yaml', 'r', encoding='utf-8') as f:
 
 logger = logging.getLogger('basicLogger')
 
-engine = create_engine('sqlite:///api.db')
+dev_env = os.getenv("DEV_ENV")
+prod_env = os.getenv("PROD_ENV")
+engine = create_engine(prod_env)
 Session = sessionmaker(bind=engine)
 
 app = connexion.FlaskApp(__name__, specification_dir='')
-app.app.config["SECRET_KEY"] = "top secret"
-app.app.config["JWT_ACCESS_LIFESPAN"] = {"days": 30}
-app.app.config["JWT_REFRESH_LIFESPAN"] = {"days": 30}
-guard.init_app(app.app, User)
 
-@flask_praetorian.auth_required
 def get_jobs():
     """ Return user's job applications """
-    current_username = flask_praetorian.current_user().username
-    logger.info(f'Retrieving jobs for username: {current_username}')
+    token = flask.request.headers.get('Authorization').split()[1]
+    decoded = jwt.decode(token, os.getenv('SECRET'), algorithms="HS256")
+    current_user_id = decoded['id']
+
+    logger.info(f'Retrieving jobs for user: {current_user_id}')
     
     session = Session()
-    jobs = session.query(User).filter_by(username=current_username).first().jobs
+    jobs = session.query(User).filter_by(user_id=current_user_id).first().jobs
     session.close()
     jobs_list = []
     for job in jobs:
@@ -45,17 +46,19 @@ def get_jobs():
 
     res = {
         "jobs": jobs_list,
-        "message": "Successfully returned jobs"
+        "message": "Successfully retrieved jobs"
     }
+    logger.info(f'Retrieving {len(jobs_list)} jobs for user: {current_user_id}')
     return res, 200
 
 
-@flask_praetorian.auth_required
 def add_job(body):
     """ Create a new job application """
-    current_user_id = flask_praetorian.current_user().id
-    current_username = flask_praetorian.current_user().username
-    logger.info(f'Creating new job for username: {current_username}')
+    token = flask.request.headers.get('Authorization').split()[1]
+    decoded = jwt.decode(token, os.getenv('SECRET'), algorithms="HS256")
+    current_user_id = decoded['id']
+
+    logger.info(f'Creating new job for user: {current_user_id}')
 
     random_id = uuid.uuid4().hex
     session = Session()
@@ -84,21 +87,25 @@ def add_job(body):
     logger.info(f'Created new job with id {random_id}')
     return res, 200
 
-
-@flask_praetorian.auth_required
 def update_job(body):
     """ Create a new job application """
     logger.info(f'Updating job with id {body["job_id"]}')
+
+    token = flask.request.headers.get('Authorization').split()[1]
+    decoded = jwt.decode(token, os.getenv("SECRET"), algorithms="HS256")
+    current_user_id = decoded['id']
+
     session = Session()
     job = session.query(Job).filter_by(job_id=body["job_id"]).first()
-
     if not job:
         session.close()
         return f'Job does not exist', 404 
+
     job_user_id = job.user_id
-    if flask_praetorian.current_user().id != job_user_id:
+    if current_user_id != job_user_id:
         session.close()
         return f'Unauthorized access', 401
+
     job.job_title = body['job_title']
     job.job_description = body['job_description']
     job.company = body['company']
@@ -120,20 +127,25 @@ def update_job(body):
     return res, 200
 
 
-@flask_praetorian.auth_required
 def delete_job(id):
     """ Delete a job """
     logger.info(f'Deleting job with id {id}')
+
+    token = flask.request.headers.get('Authorization').split()[1]
+    decoded = jwt.decode(token, os.getenv("SECRET"), algorithms="HS256")
+    current_user_id = decoded['id']
 
     session = Session()
     job = session.query(Job).filter_by(job_id=id).first()
     if not job:
         session.close()
         return f'Job does not exist', 404 
+
     job_user_id = job.user_id
-    if flask_praetorian.current_user().id != job_user_id:
+    if current_user_id != job_user_id:
         session.close()
         return f'Unauthorized access', 401
+
     session.delete(job)
     session.commit()
     session.close()
@@ -156,24 +168,61 @@ def register_user(body):
         session.close()
         return "Username is taken", 401
 
+    password = body['password'].encode("utf-8")
+    random_id = uuid.uuid4().hex
     new_user = User(
+        user_id = random_id,
         username = body['username'],
-        hashed_password = guard.hash_password(body['password']),
-        roles = "user",
+        hashed_password = bcrypt.hashpw(password, bcrypt.gensalt()).decode('utf-8')
     )
     session.add(new_user)
     session.commit()
     session.close()
 
-    user = guard.authenticate(body['username'], body['password'])
-    ret = {
-        "access_token": guard.encode_jwt_token(user),
+    payload_data = {"id": random_id}
+    token = jwt.encode(payload = payload_data, key = os.getenv('SECRET'))
+
+    res = {
+        "access_token": token,
         "username": body['username']
     }
     logger.info(f'Successfully registered a user: {body["username"]}')
-    return flask.jsonify(ret), 200
+    return flask.jsonify(res), 200
 
 
+def login(body):
+    """ Login user """
+    username = body['username']
+    password = body['password'].encode("utf-8")
+
+    session = Session()
+    user = session.query(User).filter_by(username=body['username']).first()
+    if not user:
+        session.close()
+        return "Account does not exist", 404
+
+    if not bcrypt.checkpw(password, user.hashed_password.encode('utf-8')):
+        session.close()
+        return "Incorrect username/password", 401
+    id = user.user_id
+    jobs = user.jobs
+    session.close()
+
+    jobs_list = [job.to_dict() for job in jobs]
+
+    payload_data = {"id": id}
+    token = jwt.encode(payload = payload_data, key = os.getenv('SECRET'))
+
+    res = {
+        "access_token": token,
+        "username": username,
+        "jobs": jobs_list
+    }
+    logger.info(f'Detected login from user: {id}')
+    return flask.jsonify(res), 200
+
+
+# Needs improvement
 def delete_user(body):
     """ Delete a user """
     if 'TEST_PASSWORD' in body:
@@ -189,29 +238,12 @@ def delete_user(body):
     return f'Deleted user {body["username"]}', 200
 
 
-def login(body):
-    username = body['username']
-    password = body['password']
-    user = guard.authenticate(username, password)
-    session = Session()
-    jobs = session.query(User).filter_by(username=username).first().jobs
-    jobs_list = []
-    for job in jobs:
-        jobs_list.append(job.to_dict())
-    ret = {
-        "access_token": guard.encode_jwt_token(user),
-        "username": username,
-        "jobs": jobs_list
-    }
-    session.close()
-    return flask.jsonify(ret), 200
-
+# WIP
 def refresh():
-    old_token = guard.read_token_from_header()
-    new_token = guard.refresh_jwt_token(old_token)
-    ret = {'access_token': new_token}
-    return flask.jsonify(ret), 200
+    return "", 200
 
+
+# WIP
 def test_delete_user(body):
     if body['TEST_PASSWORD'] != os.getenv('TEST_PASSWORD'):
         return

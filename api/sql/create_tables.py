@@ -3,12 +3,14 @@ import sqlite3
 conn = sqlite3.connect('api.db')
 c = conn.cursor()
 
+c.execute("DROP TABLE users")
+c.execute("DROP TABLE jobs")
+
 c.execute("""
     CREATE TABLE IF NOT EXISTS users
     (id INTEGER PRIMARY KEY,
     username VARCHAR(250),
     hashed_password VARCHAR(250),
-    roles VARCHAR(250),
     is_active BOOL
     )
     """)

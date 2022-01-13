@@ -65,7 +65,6 @@ const EditJob = ({ handleClose, show, jobToEdit, setJobToEdit, jobs, setJobs }) 
                 notes: notes
             }, config
             ).then((res) => {
-                console.log(res);
                 toast.dismiss();
                 toast.success("Updated job");
                 if (res.status === 200) {

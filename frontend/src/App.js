@@ -102,6 +102,10 @@ const App = () => {
     }
 
     const deleteJob = (id) => {
+        let confirm = window.confirm("Are you sure you want to delete this job?");
+        if (!confirm) {
+            return;
+        }
         const token = localStorage.getItem("auth_token");
         const config = {
             headers: { Authorization: `Bearer ${token}` }
@@ -109,7 +113,6 @@ const App = () => {
         axios
             .delete(baseURL + '/jobs/' + id, config)
             .then((res) => {
-                console.log(res);
                 if (res.status === 200) {
                     toast.success("Job deleted");
                     let newJobs = jobs.filter(job => job.job_id !== res.data.job_id);
@@ -130,8 +133,8 @@ const App = () => {
     const queryFoundInJob = (query, job) => {
         let found = false;
         for (const [key, value] of Object.entries(job)) {
-            if (!["result", "salary", "user_id", "job_id"].includes(key)) {
-                if (value.includes(query)) {
+            if (!["result", "salary", "user_id", "job_id", "job_description"].includes(key)) {
+                if (value.toLowerCase().includes(query.toLowerCase())) {
                     found = true;
                 }
             }
@@ -141,7 +144,6 @@ const App = () => {
 
     let filteredJobs = filter.resultsToShow === "all" ? jobs : jobs.filter(job => job.result === filter.resultsToShow);
     filteredJobs = filter.searchQuery === "" ? filteredJobs : filteredJobs.filter(job => queryFoundInJob(filter.searchQuery, job));
-
     if (user && jobs) {
         return (
             <div className="main-logged-in">
@@ -186,11 +188,11 @@ const App = () => {
                                             {job.result === 'rejected' && <td><Badge bg="danger">{job.result.toUpperCase()}</Badge></td>}
                                             {filter.categoriesToShow.job_title.show && <td>{job.job_title}</td>}
                                             {filter.categoriesToShow.company.show && <td>{job.company}</td>}
-                                            {filter.categoriesToShow.job_description.show && <td>{job.job_title}</td>}
+                                            {filter.categoriesToShow.job_description.show && <td>{job.job_description}</td>}
                                             {filter.categoriesToShow.salary.show && <td>{job.salary !== 0 ? job.salary : 'n/a'}</td>}
                                             {filter.categoriesToShow.applied_date.show && <td>{job.applied_date.split('T')[0]}</td>}
                                             {filter.categoriesToShow.post_date.show && <td>{job.post_date.split('T')[0]}</td>}
-                                            {filter.categoriesToShow.link.show && <td><a href={job.link} target="_blank" rel="noreferrer">{job.link}</a></td>}
+                                            {filter.categoriesToShow.link.show && <td><a href={"//" + job.link} target="_blank" rel="noreferrer">{job.link}</a></td>}
                                             {filter.categoriesToShow.notes.show && <td>{job.notes}</td>}
 
                                             <td>

@@ -47,10 +47,9 @@ const Login = ({ setUser, setJobs }) => {
                     setUser(res.data.username);
                     setJobs(res.data.jobs);
                 }).catch((err) => {
-                    if (err.response) {
-                        console.log(err.response.data)
-                    }
-                    if (err.response && err.response.data.status_code === 401) {
+                    if (err.response && err.response.status === 404) {
+                        toast.error("Account does not exist");
+                    } else if (err.response && err.response.status === 401) {
                         toast.error("Incorrect username and/or password")
                     } else {
                         toast.error("Please try again later...")
@@ -122,7 +121,7 @@ const Login = ({ setUser, setJobs }) => {
                     }}>
                         Demo Account
                     </Button>
-                    <Button variant="link" style={{ paddingRight: '0px', paddingLeft: '0px' }} onClick={() => switchFormType('register')}>Register here!</Button>
+                    <Button variant="link" style={{ paddingRight: '0px', paddingLeft: '0px' }} onClick={() => switchFormType('register')}>Register</Button>
                 </Form>
             </div>
         )

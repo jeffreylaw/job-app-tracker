@@ -52,7 +52,6 @@ const AddJob = ({ handleClose, handleShow, show, jobs, setJobs }) => {
                 notes: notes
             }, config
             ).then((res) => {
-                console.log(res);
                 toast.dismiss();
                 toast.success("Added new job!");
                 if (res.status === 200) {
