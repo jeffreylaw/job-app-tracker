@@ -52,7 +52,7 @@ lint:
     - virtualenv venv/
     - source venv/bin/activate
   script:
-    - pylint --fail-under 7.0 api/app.py
+    - pylint --fail-under 8.0 api/app.py
   rules:
     - changes:
       - api/*
