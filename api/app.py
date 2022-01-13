@@ -22,12 +22,10 @@ with open('log_conf.yaml', 'r', encoding='utf-8') as f:
 
 logger = logging.getLogger('basicLogger')
 
-dev_env = os.getenv("DEV_ENV")
-prod_env = os.getenv("PROD_ENV")
 if os.getenv("GITLAB_CI"):
-    engine = create_engine(prod_env)
+    engine = create_engine(os.getenv("PIPELINE_ENV"))
 else:
-    engine = create_engine(prod_env)
+    engine = create_engine(os.getenv("PROD_ENV"))
 Session = sessionmaker(bind=engine)
 
 app = connexion.FlaskApp(__name__, specification_dir='')
