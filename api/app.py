@@ -24,7 +24,10 @@ logger = logging.getLogger('basicLogger')
 
 dev_env = os.getenv("DEV_ENV")
 prod_env = os.getenv("PROD_ENV")
-engine = create_engine(prod_env)
+if os.getenv("GITLAB_CI"):
+    engine = create_engine(prod_env)
+else:
+    engine = create_engine(prod_env)
 Session = sessionmaker(bind=engine)
 
 app = connexion.FlaskApp(__name__, specification_dir='')
