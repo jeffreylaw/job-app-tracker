@@ -4,7 +4,8 @@ import Button from 'react-bootstrap/Button';
 import toast, { Toaster } from 'react-hot-toast';
 
 import axios from 'axios';
-const baseURL = 'http://localhost:8080';
+// const baseURL = 'http://localhost:8080';
+const baseURL = '';
 
 
 const Login = ({ setUser, setJobs }) => {

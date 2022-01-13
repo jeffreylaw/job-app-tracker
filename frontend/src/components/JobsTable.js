@@ -1,4 +1,3 @@
-import react from 'react';
 import Table from 'react-bootstrap/Table';
 import Badge from 'react-bootstrap/Badge';
 import { AiOutlineDelete } from 'react-icons/ai'

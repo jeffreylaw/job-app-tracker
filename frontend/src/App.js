@@ -10,8 +10,8 @@ import Filter from './components/Filter';
 import toast, { Toaster } from 'react-hot-toast';
 import './App.css';
 import axios from 'axios';
-const baseURL = 'http://localhost:8080';
-
+// const baseURL = 'http://localhost:8080';
+const baseURL = '';
 
 const App = () => {
     const [user, setUser] = useState(null);
@@ -142,7 +142,7 @@ const App = () => {
 
     let filteredJobs = filter.resultsToShow === "all" ? jobs : jobs.filter(job => job.result === filter.resultsToShow);
     filteredJobs = filter.searchQuery === "" ? filteredJobs : filteredJobs.filter(job => queryFoundInJob(filter.searchQuery, job));
-    
+
     if (user && jobs) {
         return (
             <div className="main-logged-in">
