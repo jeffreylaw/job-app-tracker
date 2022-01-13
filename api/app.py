@@ -32,7 +32,10 @@ app = connexion.FlaskApp(__name__, specification_dir='')
 def get_jobs():
     """ Return user's job applications """
     token = flask.request.headers.get('Authorization').split()[1]
-    decoded = jwt.decode(token, os.getenv('SECRET'), algorithms="HS256")
+    try:
+        decoded = jwt.decode(token, os.getenv('SECRET'), algorithms="HS256")
+    except:
+        return "Invalid token", 401
     current_user_id = decoded['id']
 
     logger.info(f'Retrieving jobs for user: {current_user_id}')
@@ -55,7 +58,10 @@ def get_jobs():
 def add_job(body):
     """ Create a new job application """
     token = flask.request.headers.get('Authorization').split()[1]
-    decoded = jwt.decode(token, os.getenv('SECRET'), algorithms="HS256")
+    try:
+        decoded = jwt.decode(token, os.getenv('SECRET'), algorithms="HS256")
+    except:
+        return "Invalid token", 401
     current_user_id = decoded['id']
 
     logger.info(f'Creating new job for user: {current_user_id}')
@@ -92,7 +98,10 @@ def update_job(body):
     logger.info(f'Updating job with id {body["job_id"]}')
 
     token = flask.request.headers.get('Authorization').split()[1]
-    decoded = jwt.decode(token, os.getenv("SECRET"), algorithms="HS256")
+    try:
+        decoded = jwt.decode(token, os.getenv('SECRET'), algorithms="HS256")
+    except:
+        return "Invalid token", 401
     current_user_id = decoded['id']
 
     session = Session()
@@ -132,7 +141,10 @@ def delete_job(id):
     logger.info(f'Deleting job with id {id}')
 
     token = flask.request.headers.get('Authorization').split()[1]
-    decoded = jwt.decode(token, os.getenv("SECRET"), algorithms="HS256")
+    try:
+        decoded = jwt.decode(token, os.getenv('SECRET'), algorithms="HS256")
+    except:
+        return "Invalid token", 401
     current_user_id = decoded['id']
 
     session = Session()
@@ -250,6 +262,7 @@ def test_delete_user(body):
     session = Session()
     user = session.query(User).filter_by(username=body['username']).first()
     if not user:
+        session.close()
         return f'User {body["username"]} does not exist', 404
     session.delete(user)
     session.commit()

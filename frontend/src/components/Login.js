@@ -105,19 +105,19 @@ const Login = ({ setUser, setJobs }) => {
                 <Form onSubmit={login}>
                     <Form.Group className="mb-3" controlId="formBasicUsername">
                         <Form.Label>Username</Form.Label>
-                        <Form.Control type="string" placeholder="Enter username" value={username} onChange={(e) => setUsername(e.target.value)} />
+                        <Form.Control type="string" autoComplete="off" placeholder="Enter username" value={username} onChange={(e) => setUsername(e.target.value)} />
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formBasicPassword">
                         <Form.Label>Password</Form.Label>
-                        <Form.Control type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                        <Form.Control type="password" autoComplete="off" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
                     </Form.Group>
                     <Button variant="primary" style={{float: 'right'}} type="submit">
                         Login
                     </Button>
                     <Button variant="primary" style={{float: 'right', marginRight: '5px'}} onClick={() => {
                         setUsername("demo");
-                        setPassword("demo");
+                        setPassword("demoabc123");
                     }}>
                         Demo Account
                     </Button>
@@ -130,15 +130,15 @@ const Login = ({ setUser, setJobs }) => {
             <div>
                 <Toaster />
                 <h1>Register</h1>
-                <Form onSubmit={register}>
+                <Form onSubmit={register} autoComplete="off">
                     <Form.Group className="mb-3" controlId="formBasicUsername">
                         <Form.Label>Username</Form.Label>
-                        <Form.Control type="string" placeholder="Enter username" value={username} onChange={(e) => setUsername(e.target.value)} />
+                        <Form.Control type="string" autoComplete="off" placeholder="Enter username" value={username} onChange={(e) => setUsername(e.target.value)} />
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formBasicPassword">
                         <Form.Label>Password</Form.Label>
-                        <Form.Control type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                        <Form.Control type="password" autoComplete="off" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
                     </Form.Group>
                     <Button variant="primary" style={{float: 'right'}} type="submit">
                         Sign up

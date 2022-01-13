@@ -4,6 +4,10 @@ html, body {
   background-color: #00a676 !important; 
 }
 
+.center-text { 
+  text-align: center;
+}
+
 .addJobModal {
   width: 90vw !important;
   max-width: 90vw !important;
@@ -37,6 +41,10 @@ html, body {
   padding-right: 0px !important;
 }
 
+.table-header-row {
+  text-align: center;
+}
+
 .star {
   position: absolute;
   left: 10%;
@@ -51,30 +59,8 @@ html, body {
 
 .filter-section {
   /* width: 30%; */
-  /* flex-wrap: wrap; */
   padding-left: 20px;
   padding-right: 20px;
-}
-
-@media only screen and (max-width: 1200px) {
-  .filter-main {
-    flex-direction: column;
-  }
-
-  .filter-section {
-    margin-top: 5px;
-    margin-bottom: 5px;
-    width: 100%;
-  }
-}
-
-.filter-hide-section {
-  display: flex;
-}
-
-.filter-hide-category {
-  margin-left: 5px;
-  margin-right: 5px;
 }
 
 /* Style the buttons that are used to open and close the accordion panel */
@@ -119,17 +105,23 @@ html, body {
   display: block;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+@media only screen and (max-width: 1200px) {
+  .filter-main {
+    flex-direction: column;
+  }
+
+  .filter-section {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    width: 100%;
   }
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.filter-hide-section {
+  display: flex;
+}
+
+.filter-hide-category {
+  margin-left: 5px;
+  margin-right: 5px;
 }

@@ -5,15 +5,8 @@ import json
 from user import User
 import os
 
-import flask_praetorian
-guard = flask_praetorian.Praetorian()
-
 app = connexion.FlaskApp(__name__)
 app.add_api('openapi.yaml')
-app.app.config["SECRET_KEY"] = "top secret"
-app.app.config["JWT_ACCESS_LIFESPAN"] = {"minutes": 60}
-app.app.config["JWT_REFRESH_LIFESPAN"] = {"days": 1}
-guard.init_app(app.app, User)
 
 @pytest.fixture(scope='module')
 def client():
@@ -31,7 +24,8 @@ def test_register(client):
     assert response.status_code == 200
 
 def test_get_jobs_unauthorized_status_code(client):
-    response = client.get('/jobs')
+    response = client.get('/jobs', headers={'Authorization': 'Bearer ' + 'INVALID'})
+    print(response.data)
     assert response.status_code == 401
 
 def test_get_jobs_authorized_status_code(client):
