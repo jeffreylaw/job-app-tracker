@@ -26,7 +26,10 @@ if os.getenv("GITLAB_CI"):
     engine = create_engine(os.getenv("PIPELINE_ENV"))
 elif 'HEROKU' in os.environ:
     print("Detected Heroku environment")
-    engine = create_engine(os.getenv("DATABASE_URL"))
+    uri = os.getenv("DATABASE_URL") 
+    if uri and uri.startswith("postgres://"):
+        uri = uri.replace("postgres://", "postgresql://", 1)
+    engine = create_engine(uri)
 else:
     engine = create_engine(os.getenv("DEV_ENV"))
 
