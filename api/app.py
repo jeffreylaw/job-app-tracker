@@ -11,6 +11,7 @@ import uuid
 import os
 from dotenv import load_dotenv
 import flask
+from flask import send_from_directory
 from flask_cors import CORS
 import bcrypt
 import jwt
@@ -34,7 +35,11 @@ else:
     engine = create_engine(os.getenv("DEV_ENV"))
 
 Session = sessionmaker(bind=engine)
-app = connexion.FlaskApp(__name__, specification_dir='')
+
+if 'HEROKU' in os.environ:
+    app = connexion.FlaskApp(__name__, specification_dir='', static_folder='build', static_url_path='')
+else:
+    app = connexion.FlaskApp(__name__, specification_dir='')
 
 def get_jobs():
     """ Return user's job applications """
@@ -276,9 +281,13 @@ def test_delete_user(body):
     session.close()
     return f'TEST: Deleted user {body["username"]}', 200
 
+@app.route('/ping')
+def ping():
+    return "<h1>Pong</h1>"
+
 @app.route('/')
 def index():
-    return "<h1>Hello world</h1>"
+    return send_from_directory(app.static_folder, 'index.html')
 
 app.add_api('openapi.yaml', strict_validation=False)
 CORS(app.app)
