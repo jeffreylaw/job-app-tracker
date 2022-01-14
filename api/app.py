@@ -37,7 +37,8 @@ else:
 Session = sessionmaker(bind=engine)
 
 if 'HEROKU' in os.environ:
-    app = connexion.FlaskApp(__name__, specification_dir='', static_folder='build', static_url_path='')
+    app = connexion.FlaskApp(__name__, specification_dir='')
+    app.app
 else:
     app = connexion.FlaskApp(__name__, specification_dir='')
 
@@ -285,9 +286,8 @@ def test_delete_user(body):
 def ping():
     return "<h1>Pong</h1>"
 
-@app.route('/')
 def index():
-    return send_from_directory(app.app.static_folder, 'index.html')
+    return send_from_directory('build', 'index.html')
 
 app.add_api('openapi.yaml', strict_validation=False)
 CORS(app.app)
