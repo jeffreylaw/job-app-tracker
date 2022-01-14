@@ -3,6 +3,10 @@ version: "3.8"
 services:
   db:
     image: postgres
+    POSTGRES_DB: 'jobs-tracker-db'
+    POSTGRES_PASSWORD: 'P@ssw0rd'
+    ports:
+      - '5432:5432'
   api:
     image: jlaw53/job-hunting-tracker-api:latest
   nginx:

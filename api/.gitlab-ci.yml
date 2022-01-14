@@ -101,11 +101,6 @@ deploy heroku:
   stage: deploy
   image: ubuntu
   before_script:
-    - apt-get update && apt-get -y upgrade
-    - pip3 install virtualenv
-    - virtualenv venv/
-    - source venv/bin/activate
-    - pip3 install -r api/requirements.txt
     - apt-get update -qy
     - apt-get install -y ruby-dev
     - gem install dpl
