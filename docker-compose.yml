@@ -1,0 +1,12 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres
+  api:
+    image: jlaw53/test
+  nginx:
+    image: nginx:latest
+    depends_on:
+      - "db"
+      - "api"
