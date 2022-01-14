@@ -101,6 +101,7 @@ deploy heroku:
   stage: deploy
   image: ubuntu
   before_script:
+    - cd api/
     - apt-get update -qy
     - apt-get install -y git curl
     - apt-get install -y ruby-dev
