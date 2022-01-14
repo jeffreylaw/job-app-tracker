@@ -150,7 +150,7 @@ paths:
       operationId: app.index
       responses:
         '200':
-          decription: loaded index html page
+          description: loaded index html page
 
 components:
   schemas:
