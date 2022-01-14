@@ -270,9 +270,6 @@ def test_delete_user(body):
     session.close()
     return f'TEST: Deleted user {body["username"]}', 200
 
-def root():
-    return app.send_static_file('index.html')
-
 app.add_api('openapi.yaml', strict_validation=False)
 CORS(app.app)
 
