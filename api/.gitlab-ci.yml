@@ -96,6 +96,8 @@ dockerize api:
     - docker push ${DOCKERHUB_USERNAME}/job-hunting-tracker-api:latest
   services:
     - docker:dind
+  when: manual
+  allow_failure: false
 
 deploy heroku:
   stage: deploy
