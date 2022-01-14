@@ -31,17 +31,14 @@ elif 'HEROKU' in os.environ:
     if uri and uri.startswith("postgres://"):
         uri = uri.replace("postgres://", "postgresql://", 1)
     engine = create_engine(uri)
-else:
-    engine = create_engine(os.getenv("DEV_ENV"))
-
-Session = sessionmaker(bind=engine)
-
-if 'HEROKU' in os.environ:
     app = connexion.FlaskApp(__name__, specification_dir='')
     app.app.static_folder = "./build/static"
     app.app.static_url_path="/"
 else:
+    engine = create_engine(os.getenv("DEV_ENV"))
     app = connexion.FlaskApp(__name__, specification_dir='')
+
+Session = sessionmaker(bind=engine)
 
 def get_jobs():
     """ Return user's job applications """
@@ -294,4 +291,7 @@ app.add_api('openapi.yaml', strict_validation=False)
 CORS(app.app)
 
 if __name__ == '__main__':
-    app.run(debug=False)
+    if 'HEROKU' in os.environ:
+        app.run(debug=False)
+    else:
+        app.run(port=8080, debug=False)
