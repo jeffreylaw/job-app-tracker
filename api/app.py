@@ -26,7 +26,6 @@ logger = logging.getLogger('basicLogger')
 if os.getenv("GITLAB_CI"):
     engine = create_engine(os.getenv("PIPELINE_ENV"))
 elif 'HEROKU' in os.environ:
-    print("Detected Heroku environment")
     uri = os.getenv("DATABASE_URL") 
     if uri and uri.startswith("postgres://"):
         uri = uri.replace("postgres://", "postgresql://", 1)
@@ -43,6 +42,8 @@ Session = sessionmaker(bind=engine)
 def get_jobs():
     """ Return user's job applications """
     token = flask.request.headers.get('Authorization').split()[1]
+    if not token:
+        return "Missing auth token", 404
     try:
         decoded = jwt.decode(token, os.getenv('SECRET'), algorithms="HS256")
     except:
@@ -69,6 +70,8 @@ def get_jobs():
 def add_job(body):
     """ Create a new job application """
     token = flask.request.headers.get('Authorization').split()[1]
+    if not token:
+        return "Missing auth token", 404
     try:
         decoded = jwt.decode(token, os.getenv('SECRET'), algorithms="HS256")
     except:
@@ -109,6 +112,8 @@ def update_job(body):
     logger.info(f'Updating job with id {body["job_id"]}')
 
     token = flask.request.headers.get('Authorization').split()[1]
+    if not token:
+        return "Missing auth token", 404
     try:
         decoded = jwt.decode(token, os.getenv('SECRET'), algorithms="HS256")
     except:
@@ -152,6 +157,8 @@ def delete_job(id):
     logger.info(f'Deleting job with id {id}')
 
     token = flask.request.headers.get('Authorization').split()[1]
+    if not token:
+        return "Missing auth token", 404
     try:
         decoded = jwt.decode(token, os.getenv('SECRET'), algorithms="HS256")
     except:
@@ -245,7 +252,6 @@ def login(body):
     return flask.jsonify(res), 200
 
 
-# Needs improvement
 def delete_user(body):
     """ Delete a user """
     if 'TEST_PASSWORD' in body:
@@ -261,15 +267,9 @@ def delete_user(body):
     return f'Deleted user {body["username"]}', 200
 
 
-# WIP
-def refresh():
-    return "", 200
-
-
-# WIP
 def test_delete_user(body):
     if body['TEST_PASSWORD'] != os.getenv('TEST_PASSWORD'):
-        return
+        return "Incorrect test password", 401
     session = Session()
     user = session.query(User).filter_by(username=body['username']).first()
     if not user:
@@ -280,12 +280,10 @@ def test_delete_user(body):
     session.close()
     return f'TEST: Deleted user {body["username"]}', 200
 
-# @app.route('/ping')
-# def ping():
-#     return "<h1>Pong</h1>"
 
 def index():
     return send_from_directory('build', 'index.html')
+
 
 app.add_api('openapi.yaml', strict_validation=False)
 CORS(app.app)
