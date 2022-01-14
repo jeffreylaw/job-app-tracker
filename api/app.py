@@ -38,6 +38,8 @@ Session = sessionmaker(bind=engine)
 
 if 'HEROKU' in os.environ:
     app = connexion.FlaskApp(__name__, specification_dir='')
+    app.app.static_folder = "./build"
+    app.app.static_url_path="/"
 else:
     app = connexion.FlaskApp(__name__, specification_dir='')
 
