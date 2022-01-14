@@ -24,10 +24,13 @@ logger = logging.getLogger('basicLogger')
 
 if os.getenv("GITLAB_CI"):
     engine = create_engine(os.getenv("PIPELINE_ENV"))
+elif 'HEROKU' in os.environ:
+    print("Detected Heroku environment")
+    engine = create_engine(os.getenv("DATABASE_URL"))
 else:
-    engine = create_engine(os.getenv("PROD_ENV"))
-Session = sessionmaker(bind=engine)
+    engine = create_engine(os.getenv("DEV_ENV"))
 
+Session = sessionmaker(bind=engine)
 app = connexion.FlaskApp(__name__, specification_dir='')
 
 def get_jobs():
