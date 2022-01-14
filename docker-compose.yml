@@ -4,7 +4,7 @@ services:
   db:
     image: postgres
   api:
-    image: jlaw53/test
+    image: jlaw53/job-hunting-tracker-api:latest
   nginx:
     image: nginx:latest
     depends_on:

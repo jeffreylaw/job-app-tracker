@@ -91,11 +91,12 @@ dockerize api:
   stage: dockerize
   image: docker:latest
   script:
-    - apt-get update && apt-get -y upgrade && apt-get install -y python3
     - docker login -u=${DOCKERHUB_USERNAME} -p=${DOCKERHUB_ACCESS_TOKEN}
     - docker build -t ${DOCKERHUB_USERNAME}/job-hunting-tracker-api:latest .
     - docker push ${DOCKERHUB_USERNAME}/job-hunting-tracker-api:latest
-      
+  services:
+    - docker:dind
+
 deploy heroku:
   stage: deploy
   image: ubuntu
