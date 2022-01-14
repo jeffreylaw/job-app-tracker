@@ -281,9 +281,9 @@ def test_delete_user(body):
     session.close()
     return f'TEST: Deleted user {body["username"]}', 200
 
-@app.route('/ping')
-def ping():
-    return "<h1>Pong</h1>"
+# @app.route('/ping')
+# def ping():
+#     return "<h1>Pong</h1>"
 
 def index():
     return send_from_directory('build', 'index.html')

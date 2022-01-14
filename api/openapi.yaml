@@ -145,12 +145,12 @@ paths:
           description: no token found
   /:
     get:
-    summary: Display root page
-    description: Displays index.html page
-    operationId: app.index
-    responses:
-      '200':
-        decription: loaded index html page
+      summary: Display root page
+      description: Displays index.html page
+      operationId: app.index
+      responses:
+        '200':
+          decription: loaded index html page
 
 components:
   schemas:
