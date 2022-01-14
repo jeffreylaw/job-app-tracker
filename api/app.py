@@ -287,7 +287,7 @@ def ping():
 
 @app.route('/')
 def index():
-    return send_from_directory(app.static_folder, 'index.html')
+    return send_from_directory(app.app.static_folder, 'index.html')
 
 app.add_api('openapi.yaml', strict_validation=False)
 CORS(app.app)
