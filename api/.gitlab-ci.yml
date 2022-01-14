@@ -91,7 +91,6 @@ dockerize api:
   stage: dockerize
   image: docker:latest
   script:
-    - apt-get -y install git
     - docker login -u=${DOCKERHUB_USERNAME} -p=${DOCKERHUB_ACCESS_TOKEN}
     - docker build -t ${DOCKERHUB_USERNAME}/job-hunting-tracker-api:latest .
     - docker push ${DOCKERHUB_USERNAME}/job-hunting-tracker-api:latest
@@ -103,6 +102,7 @@ deploy heroku:
   image: ubuntu
   before_script:
     - apt-get update -qy
+    - apt-get install -y git
     - apt-get install -y ruby-dev
     - gem install dpl
   script:
