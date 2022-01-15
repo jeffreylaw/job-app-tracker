@@ -41,7 +41,7 @@ build frontend:
     - mv build/ ..
   rules:
     - changes:
-      - frontend/*
+      - ../frontend/*
 
 test:
   stage: test
