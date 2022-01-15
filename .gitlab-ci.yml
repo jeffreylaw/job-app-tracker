@@ -115,10 +115,10 @@ package python files:
     paths:
       - api/artifacts.zip
   rules:
-    - changes:
-      - api/**/*
-      - .gitlab-ci.yml
     - if: '$CI_COMMIT_BRANCH == "main"'
+      changes:
+        - api/**/*
+        - .gitlab-ci.yml
 
 dockerize api:
   stage: dockerize
@@ -146,11 +146,11 @@ deploy heroku:
     - dpl --provider=heroku --app=$HEROKU_APP_PRODUCTION --api-key=$HEROKU_API_KEY --skip_cleanup
   allow_failure: true
   rules:
-    - changes:
-      - api/**/*
-      - frontend/**/*
-      - .gitlab-ci.yml
     - if: '$CI_COMMIT_BRANCH == "main"'
+      changes:
+        - api/**/*
+        - frontend/**/*
+        - .gitlab-ci.yml
 
 production tests:
   stage: production tests
