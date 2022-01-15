@@ -42,9 +42,7 @@ build frontend:
   script:
     - npm install
     - npm run build
-    - ls
     - mv build ../api
-    - ls ../api
   rules:
     - changes:
       - frontend/*
@@ -115,6 +113,7 @@ deploy heroku:
   image: ubuntu
   before_script:
     - cd api/
+    - ls
     - apt-get update -qy
     - apt-get install -y git curl
     - apt-get install -y ruby-dev
