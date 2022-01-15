@@ -159,8 +159,9 @@ def delete_job(job_id):
     try:
         decoded_payload = decode_auth_token()
     except ValueError:
-        logger.error('Failed DELETE: /jobs/{{}} due to invalid auth token')
+        logger.error('Failed DELETE: /jobs/{job_id} due to invalid auth token')
         return "Invalid token", 401
+    print("ok")
     current_user_id = decoded_payload['id']
 
     logger.info(f'Deleting job with id {job_id}')
@@ -181,10 +182,10 @@ def delete_job(job_id):
     session.close()
 
     res = {
-        "job_id": id,
-        "message": f'Deleted job with id {id}'
+        "job_id": job_id,
+        "message": f'Deleted job with id {job_id}'
     }
-    logger.debug(f'Deleted job with id {id}')
+    logger.debug(f'Deleted job with id {job_id}')
     return res, 200
 
 

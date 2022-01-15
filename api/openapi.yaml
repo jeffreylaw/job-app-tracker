@@ -115,7 +115,7 @@ paths:
           description: 'invalid input, job invalid'
         '401':
           description: unauthorized access
-  /jobs/{id}:
+  /jobs/{job_id}:
     delete:
       tags:
         - jobs
@@ -124,7 +124,7 @@ paths:
       description: Delete a job in the database
       parameters:
         - in: path
-          name: id
+          name: job_id
           required: true
           schema:
             type: string
