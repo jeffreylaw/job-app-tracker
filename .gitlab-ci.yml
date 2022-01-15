@@ -22,7 +22,7 @@ build api:
     - virtualenv venv/
     - source venv/bin/activate
     - pip install -r requirements.txt
-    - python3 create_tables.py
+    - python3 sql/create_tables.py
   rules:
     - changes:
       - api/*
