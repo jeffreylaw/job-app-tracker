@@ -126,6 +126,7 @@ deploy heroku:
   image: ubuntu
   before_script:
     - cd api/
+    - ls
     - test -d build/
     - apt-get update -qy
     - apt-get install -y git curl
