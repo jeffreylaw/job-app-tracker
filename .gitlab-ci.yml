@@ -3,7 +3,7 @@ image: python:3.10
 cache:
   key: ${CI_COMMIT_REF_SLUG}
   paths:
-    - venv/
+    - api/venv/
     - frontend/node_modules
 
 stages:
@@ -17,41 +17,44 @@ stages:
 build api:
   stage: build
   script:
+    - cd api/
     - pip install virtualenv
     - virtualenv venv/
     - source venv/bin/activate
     - pip install -r api/requirements.txt
     - cd api/sql
-    - python3 create_tables.py
+    - ls
+    # - python3 create_tables.py
   rules:
     - changes:
       - api/*
-  artifacts:
-    paths:
-      - api/api.db
-    expire_in: 10 mins
+  # artifacts:
+  #   paths:
+  #     - api/api.db
+  #   expire_in: 10 mins
 
 build frontend:
   stage: build
   image: node:14
+  before_script:
+    - cd frontend/
   script:
     - echo "Build frontend"
-    # - cd frontend/
-    # - npm install
-    # - npm run build
-    # - mv build/ ..
+    - npm install
+    - npm run build
+    - ls
   rules:
     - changes:
-      - ../frontend/*
+      - frontend/*
 
 test:
   stage: test
   before_script:
+    - cd api/
     - pip install virtualenv
     - virtualenv venv/
     - source venv/bin/activate
   script:
-    - cd api/
     - pytest test*.py --junitxml=report.xml
   artifacts:
     when: always
@@ -64,6 +67,7 @@ test:
 lint:
   stage: lint
   before_script:
+    - cd api/
     - pip install virtualenv
     - virtualenv venv/
     - source venv/bin/activate
@@ -77,6 +81,8 @@ package python files:
   stage: package
   image: alpine
   cache: []
+  before_script:
+    - cd api/
   script:
     - apk --no-cache add zip
     - zip api/artifacts.zip api/*.py -x api/test*.py
