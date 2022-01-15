@@ -110,3 +110,7 @@ deploy heroku:
   script:
     - dpl --provider=heroku --app=$HEROKU_APP_PRODUCTION --api-key=$HEROKU_API_KEY
   allow_failure: true
+  rules:
+    - changes:
+      - api/*
+      - frontend/*
