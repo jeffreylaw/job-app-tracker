@@ -23,8 +23,6 @@ build api:
     - source venv/bin/activate
     - pip install -r requirements.txt
     - python3 sql/create_tables.py
-    - ls
-    - ls sql/
   rules:
     - changes:
       - api/*
@@ -40,10 +38,8 @@ build frontend:
   before_script:
     - cd frontend/
   script:
-    - echo "Build frontend"
     - npm install
     - npm run build
-    - ls
   rules:
     - changes:
       - frontend/*
@@ -52,10 +48,8 @@ build frontend:
 test:
   stage: test
   before_script:
-    - ls
     - cd api/
     - pip install virtualenv
-    - ls
     - virtualenv venv/
     - source venv/bin/activate
   script:
