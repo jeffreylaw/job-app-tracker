@@ -180,7 +180,7 @@ const App = () => {
                     <Login setUser={setUser} setJobs={setJobs} />
                 </div>
                 <div className="version-div">
-                    Version: %REACT_APP_VERSION%
+                    Version: {process.env.REACT_APP_VERSION}
                 </div>
             </div>
         );
