@@ -1,6 +1,6 @@
 import sqlite3
 
-conn = sqlite3.connect('../api.db')
+conn = sqlite3.connect('./api.db')
 c = conn.cursor()
 
 c.execute("DROP TABLE IF EXISTS users")
