@@ -1,20 +1,27 @@
-from cgitb import reset
-import logging.config
+"""
+API for Job-hunting-tracker
+"""
+# Standard library imports
 from datetime import datetime
-import connexion
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-from job import Job
-from user import User
-import yaml
-import uuid
+import logging.config
 import os
-from dotenv import load_dotenv
+import uuid
+import yaml
+
+# Third-party imports
+import bcrypt
+import connexion
 import flask
 from flask import send_from_directory
 from flask_cors import CORS
-import bcrypt
 import jwt
+from dotenv import load_dotenv
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+
+# Application imports
+from job import Job
+from user import User
 
 load_dotenv()
 with open('log_conf.yaml', 'r', encoding='utf-8') as f:
@@ -26,7 +33,7 @@ logger = logging.getLogger('basicLogger')
 if os.getenv("GITLAB_CI"):
     engine = create_engine(os.getenv("PIPELINE_ENV"))
 elif 'HEROKU' in os.environ:
-    uri = os.getenv("DATABASE_URL") 
+    uri = os.getenv("DATABASE_URL")
     if uri and uri.startswith("postgres://"):
         uri = uri.replace("postgres://", "postgresql://", 1)
     engine = create_engine(uri)
@@ -41,17 +48,15 @@ Session = sessionmaker(bind=engine)
 
 def get_jobs():
     """ Return user's job applications """
-    token = flask.request.headers.get('Authorization').split()[1]
-    if not token:
-        return "Missing auth token", 404
     try:
-        decoded = jwt.decode(token, os.getenv('SECRET'), algorithms="HS256")
-    except:
+        decoded_payload = decode_auth_token()
+    except ValueError:
+        logger.error('Failed GET: /jobs due to invalid auth token')
         return "Invalid token", 401
-    current_user_id = decoded['id']
+    current_user_id = decoded_payload['id']
 
     logger.info(f'Retrieving jobs for user: {current_user_id}')
-    
+
     session = Session()
     jobs = session.query(User).filter_by(user_id=current_user_id).first().jobs
     session.close()
@@ -69,14 +74,12 @@ def get_jobs():
 
 def add_job(body):
     """ Create a new job application """
-    token = flask.request.headers.get('Authorization').split()[1]
-    if not token:
-        return "Missing auth token", 404
     try:
-        decoded = jwt.decode(token, os.getenv('SECRET'), algorithms="HS256")
-    except:
+        decoded_payload = decode_auth_token()
+    except ValueError:
+        logger.error('Failed POST: /jobs due to invalid auth token')
         return "Invalid token", 401
-    current_user_id = decoded['id']
+    current_user_id = decoded_payload['id']
 
     logger.info(f'Creating new job for user: {current_user_id}')
 
@@ -107,29 +110,28 @@ def add_job(body):
     logger.info(f'Created new job with id {random_id}')
     return res, 200
 
+
 def update_job(body):
     """ Create a new job application """
-    logger.info(f'Updating job with id {body["job_id"]}')
-
-    token = flask.request.headers.get('Authorization').split()[1]
-    if not token:
-        return "Missing auth token", 404
     try:
-        decoded = jwt.decode(token, os.getenv('SECRET'), algorithms="HS256")
-    except:
+        decoded_payload = decode_auth_token()
+    except ValueError:
+        logger.error('Failed PUT: /jobs due to invalid auth token')
         return "Invalid token", 401
-    current_user_id = decoded['id']
+    current_user_id = decoded_payload['id']
+
+    logger.info(f'Updating job with id {body["job_id"]}')
 
     session = Session()
     job = session.query(Job).filter_by(job_id=body["job_id"]).first()
     if not job:
         session.close()
-        return f'Job does not exist', 404 
+        return "Job does not exist", 404
 
     job_user_id = job.user_id
     if current_user_id != job_user_id:
         session.close()
-        return f'Unauthorized access', 401
+        return "Unauthorized access", 401
 
     job.job_title = body['job_title']
     job.job_description = body['job_description']
@@ -152,29 +154,27 @@ def update_job(body):
     return res, 200
 
 
-def delete_job(id):
+def delete_job(job_id):
     """ Delete a job """
-    logger.info(f'Deleting job with id {id}')
-
-    token = flask.request.headers.get('Authorization').split()[1]
-    if not token:
-        return "Missing auth token", 404
     try:
-        decoded = jwt.decode(token, os.getenv('SECRET'), algorithms="HS256")
-    except:
+        decoded_payload = decode_auth_token()
+    except ValueError:
+        logger.error('Failed DELETE: /jobs/{{}} due to invalid auth token')
         return "Invalid token", 401
-    current_user_id = decoded['id']
+    current_user_id = decoded_payload['id']
+
+    logger.info(f'Deleting job with id {job_id}')
 
     session = Session()
-    job = session.query(Job).filter_by(job_id=id).first()
+    job = session.query(Job).filter_by(job_id=job_id).first()
     if not job:
         session.close()
-        return f'Job does not exist', 404 
+        return "Job does not exist", 404
 
     job_user_id = job.user_id
     if current_user_id != job_user_id:
         session.close()
-        return f'Unauthorized access', 401
+        return "Unauthorized access", 401
 
     session.delete(job)
     session.commit()
@@ -234,13 +234,13 @@ def login(body):
     if not bcrypt.checkpw(password, user.hashed_password.encode('utf-8')):
         session.close()
         return "Incorrect username/password", 401
-    id = user.user_id
+    current_user_id = user.user_id
     jobs = user.jobs
     session.close()
 
     jobs_list = [job.to_dict() for job in jobs]
 
-    payload_data = {"id": id}
+    payload_data = {"id": current_user_id}
     token = jwt.encode(payload = payload_data, key = os.getenv('SECRET'))
 
     res = {
@@ -248,14 +248,16 @@ def login(body):
         "username": username,
         "jobs": jobs_list
     }
-    logger.info(f'Detected login from user: {id}')
+    logger.info(f'Detected login from user: {current_user_id}')
     return flask.jsonify(res), 200
 
 
+# WIP: Possibly add auth requirement or admin role to access this endpoint
 def delete_user(body):
     """ Delete a user """
     if 'TEST_PASSWORD' in body:
-        test_delete_user(body)
+        if body['TEST_PASSWORD'] != os.getenv('TEST_PASSWORD'):
+            return "Incorrect test password", 401
 
     session = Session()
     user = session.query(User).filter_by(username=body['username']).first()
@@ -267,22 +269,22 @@ def delete_user(body):
     return f'Deleted user {body["username"]}', 200
 
 
-def test_delete_user(body):
-    if body['TEST_PASSWORD'] != os.getenv('TEST_PASSWORD'):
-        return "Incorrect test password", 401
-    session = Session()
-    user = session.query(User).filter_by(username=body['username']).first()
-    if not user:
-        session.close()
-        return f'User {body["username"]} does not exist', 404
-    session.delete(user)
-    session.commit()
-    session.close()
-    return f'TEST: Deleted user {body["username"]}', 200
-
-
 def index():
+    """ Return static index.html file """
     return send_from_directory('build', 'index.html')
+
+
+def decode_auth_token():
+    """ Return decoded payload from auth token """
+    try:
+        headers = flask.request.headers.get('Authorization')
+        token = headers.split()[1]
+        decoded = jwt.decode(token, os.getenv('SECRET'), algorithms="HS256")
+        if "id" not in decoded or not decoded["id"]:
+            raise KeyError("Invalid token")
+        return decoded
+    except (AttributeError, jwt.exceptions.DecodeError, KeyError):
+        raise ValueError
 
 
 app.add_api('openapi.yaml', strict_validation=False)
@@ -292,4 +294,4 @@ if __name__ == '__main__':
     if 'HEROKU' in os.environ:
         app.run(debug=False)
     else:
-        app.run(port=8080, debug=False)
+        app.run(port=8080, debug=True)

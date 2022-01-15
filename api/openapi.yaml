@@ -133,16 +133,6 @@ paths:
           description: job deleted
         '401':
           description: unauthorized access
-  /refresh:
-    get:
-      summary: refresh token
-      operationId: app.refresh
-      description: refresh jwt token
-      responses:
-        '200':
-          description: token refreshed
-        '404':
-          description: no token found
   /:
     get:
       summary: Display root page
