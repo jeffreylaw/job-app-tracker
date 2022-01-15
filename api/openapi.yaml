@@ -115,7 +115,7 @@ paths:
           description: 'invalid input, job invalid'
         '401':
           description: unauthorized access
-  /jobs/{id}:
+  /jobs/{job_id}:
     delete:
       tags:
         - jobs
@@ -124,7 +124,7 @@ paths:
       description: Delete a job in the database
       parameters:
         - in: path
-          name: id
+          name: job_id
           required: true
           schema:
             type: string
@@ -133,16 +133,15 @@ paths:
           description: job deleted
         '401':
           description: unauthorized access
-  /refresh:
+  /:
     get:
-      summary: refresh token
-      operationId: app.refresh
-      description: refresh jwt token
+      summary: Display root page
+      description: Displays index.html page
+      operationId: app.index
       responses:
         '200':
-          description: token refreshed
-        '404':
-          description: no token found
+          description: loaded index html page
+
 components:
   schemas:
     JobApplication:

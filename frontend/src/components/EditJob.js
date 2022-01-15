@@ -6,7 +6,8 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ToggleButton from 'react-bootstrap/ToggleButton';
 import toast from 'react-hot-toast';
 import axios from 'axios';
-const baseURL = 'http://localhost:8080';
+// const baseURL = 'http://localhost:8080';
+const baseURL = '';
 
 const EditJob = ({ handleClose, show, jobToEdit, setJobToEdit, jobs, setJobs }) => {
     const [addJobStatus, setAddJobStatus] = useState('');
@@ -65,7 +66,6 @@ const EditJob = ({ handleClose, show, jobToEdit, setJobToEdit, jobs, setJobs }) 
                 notes: notes
             }, config
             ).then((res) => {
-                console.log(res);
                 toast.dismiss();
                 toast.success("Updated job");
                 if (res.status === 200) {

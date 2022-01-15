@@ -16,7 +16,7 @@ class Job(Base):
     applied_date = Column(DateTime)
     result = Column(String, nullable=False)
     notes = Column(String)
-    user_id = Column(Integer, ForeignKey('users.id'))
+    user_id = Column(Integer, ForeignKey('users.user_id'))
 
     def __init__(self, job_id, job_title, job_description, company, salary, link, post_date, applied_date, result, notes, user_id):
         self.job_id = job_id

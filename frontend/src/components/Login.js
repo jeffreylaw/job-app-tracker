@@ -4,7 +4,8 @@ import Button from 'react-bootstrap/Button';
 import toast, { Toaster } from 'react-hot-toast';
 
 import axios from 'axios';
-const baseURL = 'http://localhost:8080';
+// const baseURL = 'http://localhost:8080';
+const baseURL = '';
 
 
 const Login = ({ setUser, setJobs }) => {
@@ -38,19 +39,18 @@ const Login = ({ setUser, setJobs }) => {
                     username: username,
                     password: password
                 }).then((res) => {
+                    toast(`Welcome ${username}!`, {
+                        icon: '🤗',
+                      });
                     localStorage.setItem("auth_token", res.data.access_token);
                     localStorage.setItem("username", res.data.username);
                     localStorage.setItem("jobs", JSON.stringify(res.data.jobs));
                     setUser(res.data.username);
                     setJobs(res.data.jobs);
-                    toast(`Welcome ${username}!`, {
-                        icon: '🤗',
-                      });
                 }).catch((err) => {
-                    if (err.response) {
-                        console.log(err.response.data)
-                    }
-                    if (err.response && err.response.data.status_code === 401) {
+                    if (err.response && err.response.status === 404) {
+                        toast.error("Account does not exist");
+                    } else if (err.response && err.response.status === 401) {
                         toast.error("Incorrect username and/or password")
                     } else {
                         toast.error("Please try again later...")
@@ -106,23 +106,23 @@ const Login = ({ setUser, setJobs }) => {
                 <Form onSubmit={login}>
                     <Form.Group className="mb-3" controlId="formBasicUsername">
                         <Form.Label>Username</Form.Label>
-                        <Form.Control type="string" placeholder="Enter username" value={username} onChange={(e) => setUsername(e.target.value)} />
+                        <Form.Control type="string" autoComplete="off" placeholder="Enter username" value={username} onChange={(e) => setUsername(e.target.value)} />
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formBasicPassword">
                         <Form.Label>Password</Form.Label>
-                        <Form.Control type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                        <Form.Control type="password" autoComplete="off" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
                     </Form.Group>
                     <Button variant="primary" style={{float: 'right'}} type="submit">
                         Login
                     </Button>
                     <Button variant="primary" style={{float: 'right', marginRight: '5px'}} onClick={() => {
                         setUsername("demo");
-                        setPassword("demo");
+                        setPassword("demoabc123");
                     }}>
                         Demo Account
                     </Button>
-                    <Button variant="link" style={{ paddingRight: '0px', paddingLeft: '0px' }} onClick={() => switchFormType('register')}>Register here!</Button>
+                    <Button variant="link" style={{ paddingRight: '0px', paddingLeft: '0px' }} onClick={() => switchFormType('register')}>Register</Button>
                 </Form>
             </div>
         )
@@ -131,15 +131,15 @@ const Login = ({ setUser, setJobs }) => {
             <div>
                 <Toaster />
                 <h1>Register</h1>
-                <Form onSubmit={register}>
+                <Form onSubmit={register} autoComplete="off">
                     <Form.Group className="mb-3" controlId="formBasicUsername">
                         <Form.Label>Username</Form.Label>
-                        <Form.Control type="string" placeholder="Enter username" value={username} onChange={(e) => setUsername(e.target.value)} />
+                        <Form.Control type="string" autoComplete="off" placeholder="Enter username" value={username} onChange={(e) => setUsername(e.target.value)} />
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formBasicPassword">
                         <Form.Label>Password</Form.Label>
-                        <Form.Control type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                        <Form.Control type="password" autoComplete="off" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
                     </Form.Group>
                     <Button variant="primary" style={{float: 'right'}} type="submit">
                         Sign up

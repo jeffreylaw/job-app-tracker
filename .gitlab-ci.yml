@@ -1,0 +1,159 @@
+image: python:3.10
+
+# Using workflow to specify which types of pipelines can run
+# Run branch pipelines when a merge request is not open for the branch
+# Run merge request pipelines when a merge request is open for the branch
+workflow:
+  rules:
+    # If it is a merge request, run a merge request pipeline
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    # If there's a change to a branch, but a merge request is open for that branch, don't run a branch pipeline
+    - if: '$CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS'
+      when: never
+    # If there's a change to a branch, but without any open merge requests, run a branch pipeline
+    - if: '$CI_COMMIT_BRANCH'
+
+variables:
+  PRODUCTION_DOMAIN: http://job-hunting-tracker.herokuapp.com/
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - api/venv/
+    - frontend/node_modules
+
+stages:
+  - dependencies
+  - build
+  - test
+  - lint
+  - package
+  - dockerize
+  - deploy
+  - production tests
+
+build pipeline dependencies:
+  stage: dependencies
+  script:
+    - cd api/
+    - pip install virtualenv
+    - virtualenv venv/
+    - source venv/bin/activate
+    - pip install -r requirements.txt
+    - python3 sql/create_tables.py
+  rules:
+    - changes:
+      - api/**/*
+      - .gitlab-ci.yml
+  artifacts:
+    paths:
+      - api/api.db
+    expire_in: 10 mins
+
+build frontend:
+  stage: build
+  image: node:14
+  before_script:
+    - cd frontend/
+  script:
+    - npm install
+    - npm run build
+    - mv build ../api
+  rules:
+    - changes:
+      - frontend/**/*
+      - .gitlab-ci.yml
+  artifacts:
+    paths:
+      - api/build
+    expire_in: 10 mins
+  variables:
+    REACT_APP_VERSION: ${CI_COMMIT_SHORT_SHA}
+
+test:
+  stage: test
+  before_script:
+    - cd api/
+    - pip install virtualenv
+    - virtualenv venv/
+    - source venv/bin/activate
+  script:
+    - pytest test*.py --junitxml=report.xml
+  artifacts:
+    when: always
+    reports:
+      junit: api/report.xml
+  rules:
+    - changes:
+      - api/**/*
+      - .gitlab-ci.yml
+
+lint:
+  stage: lint
+  before_script:
+    - cd api/
+    - pip install virtualenv
+    - virtualenv venv/
+    - source venv/bin/activate
+  script:
+    - pylint --fail-under 8.0 app.py
+  rules:
+    - changes:
+      - api/app.py
+      - .gitlab-ci.yml
+
+package python files:
+  stage: package
+  image: alpine
+  cache: []
+  before_script:
+    - cd api/
+  script:
+    - apk --no-cache add zip
+    - zip artifacts.zip *.py -x test*.py
+  artifacts:
+    paths:
+      - api/artifacts.zip
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+      changes:
+        - api/**/*
+        - .gitlab-ci.yml
+
+dockerize api:
+  stage: dockerize
+  image: docker:latest
+  script:
+    - docker login -u=${DOCKERHUB_USERNAME} -p=${DOCKERHUB_ACCESS_TOKEN}
+    - docker build -t ${DOCKERHUB_USERNAME}/job-hunting-tracker-api:latest .
+    - docker push ${DOCKERHUB_USERNAME}/job-hunting-tracker-api:latest
+  services:
+    - docker:dind
+  when: manual
+
+deploy heroku:
+  stage: deploy
+  image: ubuntu
+  before_script:
+    - cd api/
+    - ls build/
+    - test -d build/
+    - apt-get update -qy
+    - apt-get install -y git curl
+    - apt-get install -y ruby-dev
+    - gem install dpl
+  script:
+    - dpl --provider=heroku --app=$HEROKU_APP_PRODUCTION --api-key=$HEROKU_API_KEY --skip_cleanup
+  allow_failure: true
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+
+production tests:
+  stage: production tests
+  image: alpine
+  cache: []
+  script:
+    - apk add curl
+    - curl $PRODUCTION DOMAIN | grep -q "Job Tracker"
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
