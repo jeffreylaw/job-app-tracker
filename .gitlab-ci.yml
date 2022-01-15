@@ -52,6 +52,7 @@ test:
   stage: test
   before_script:
     - cd api/
+    - ls
     - pip install virtualenv
     - virtualenv venv/
     - source venv/bin/activate
