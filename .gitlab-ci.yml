@@ -82,7 +82,7 @@ lint:
     - pylint --fail-under 8.0 app.py
   rules:
     - changes:
-      - api/*
+      - api/app.py
       - .gitlab-ci.yml
 
 package python files:
