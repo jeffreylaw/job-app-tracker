@@ -40,7 +40,7 @@ elif 'HEROKU' in os.environ:
         uri = uri.replace("postgres://", "postgresql://", 1)
     engine = create_engine(uri)
     app = connexion.FlaskApp(__name__, specification_dir='')
-    app.app.static_folder = "./build/static"
+    app.app.static_folder = "build/static"
     app.app.static_url_path="/"
 else:
     engine = create_engine(os.getenv("DEV_ENV"))
@@ -274,6 +274,7 @@ def delete_user(body):
 
 def index():
     """ Return static index.html file """
+    print("Index file ******************************************")
     return send_from_directory('build', 'index.html')
 
 
@@ -282,6 +283,7 @@ CORS(app.app)
 
 if __name__ == '__main__':
     if 'HEROKU' in os.environ:
+        print("Running app on Heroku")
         app.run(debug=False)
     else:
         app.run(port=8080, debug=True)

@@ -127,6 +127,7 @@ deploy heroku:
   before_script:
     - cd api/
     - ls
+    - ls api/build/
     - test -d build/
     - apt-get update -qy
     - apt-get install -y git curl
