@@ -22,15 +22,15 @@ build api:
     - virtualenv venv/
     - source venv/bin/activate
     - pip install -r requirements.txt
-    # - python3 create_tables.py
+    - python3 create_tables.py
   rules:
     - changes:
       - api/*
       - .gitlab-ci.yml
-  # artifacts:
-  #   paths:
-  #     - api/api.db
-  #   expire_in: 10 mins
+  artifacts:
+    paths:
+      - api/api.db
+    expire_in: 10 mins
 
 build frontend:
   stage: build
