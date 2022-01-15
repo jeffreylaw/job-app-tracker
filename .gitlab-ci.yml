@@ -1,5 +1,21 @@
 image: python:3.10
 
+# Using workflow to specify which types of pipelines can run
+# Run branch pipelines when a merge request is not open for the branch
+# Run merge request pipelines when a merge request is open for the branch
+workflow:
+  rules:
+    # If it is a merge request, run a merge request pipeline
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    # If there's a change to a branch, but a merge request is open for that branch, don't run a branch pipeline
+    - if: '$CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS'
+      when: never
+    # If there's a change to a branch, but without any open merge requests, run a branch pipeline
+    - if: '$CI_COMMIT_BRANCH'
+
+variables:
+  PRODUCTION_DOMAIN: http://job-hunting-tracker.herokuapp.com/
+
 cache:
   key: ${CI_COMMIT_REF_SLUG}
   paths:
@@ -14,6 +30,7 @@ stages:
   - package
   - dockerize
   - deploy
+  - production tests
 
 build pipeline dependencies:
   stage: dependencies
@@ -101,6 +118,7 @@ package python files:
     - changes:
       - api/**/*
       - .gitlab-ci.yml
+    - if: '$CI_COMMIT_BRANCH == "main"'
 
 dockerize api:
   stage: dockerize
@@ -132,3 +150,14 @@ deploy heroku:
       - api/**/*
       - frontend/**/*
       - .gitlab-ci.yml
+    - if: '$CI_COMMIT_BRANCH == "main"'
+
+production tests:
+  stage: production tests
+  image: alpine
+  cache: []
+  script:
+    - apk add curl
+    - curl $PRODUCTION DOMAIN | grep -q "Job Tracker"
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
