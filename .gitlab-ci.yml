@@ -7,7 +7,6 @@ cache:
     - frontend/node_modules
 
 stages:
-  - debug
   - dependencies
   - build
   - test
@@ -15,13 +14,6 @@ stages:
   - package
   - dockerize
   - deploy
-
-debug:
-  stage: debug
-  script:
-    - ls
-    - ls api/
-    - ls frontend/
 
 build pipeline dependencies:
   stage: dependencies
@@ -34,7 +26,7 @@ build pipeline dependencies:
     - python3 sql/create_tables.py
   rules:
     - changes:
-      - api/*
+      - api/**/*
       - .gitlab-ci.yml
   artifacts:
     paths:
@@ -52,7 +44,7 @@ build frontend:
     - mv build ../api
   rules:
     - changes:
-      - frontend/*
+      - frontend/**/*
       - .gitlab-ci.yml
   artifacts:
     paths:
@@ -76,7 +68,7 @@ test:
       junit: api/report.xml
   rules:
     - changes:
-      - api/*
+      - api/**/*
       - .gitlab-ci.yml
 
 lint:
@@ -107,7 +99,7 @@ package python files:
       - api/artifacts.zip
   rules:
     - changes:
-      - api/*
+      - api/**/*
       - .gitlab-ci.yml
 
 dockerize api:
@@ -137,6 +129,6 @@ deploy heroku:
   allow_failure: true
   rules:
     - changes:
-      - api/*
-      - frontend/*
+      - api/**/*
+      - frontend/**/*
       - .gitlab-ci.yml
