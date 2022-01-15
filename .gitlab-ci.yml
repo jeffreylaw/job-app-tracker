@@ -58,6 +58,8 @@ build frontend:
     paths:
       - api/build
     expire_in: 10 mins
+  variables:
+    REACT_APP_VERSION: ${CI_COMMIT_REF_SLUG}
 
 test:
   stage: test
@@ -137,5 +139,3 @@ deploy heroku:
       - api/*
       - frontend/*
       - .gitlab-ci.yml
-  variables:
-    REACT_APP_VERSION: ${CI_COMMIT_REF_SLUG}
