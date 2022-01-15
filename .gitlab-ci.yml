@@ -59,7 +59,7 @@ build frontend:
       - api/build
     expire_in: 10 mins
   variables:
-    REACT_APP_VERSION: ${CI_COMMIT_REF_SLUG}
+    REACT_APP_VERSION: ${CI_COMMIT_SHORT_SHA}
 
 test:
   stage: test
