@@ -43,8 +43,8 @@ build frontend:
     - npm install
     - npm run build
     - ls
-    - mv build ../frontend
-    - ls ../frontend
+    - mv build ../api
+    - ls ../api
   rules:
     - changes:
       - frontend/*
