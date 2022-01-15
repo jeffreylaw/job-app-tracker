@@ -147,10 +147,6 @@ deploy heroku:
   allow_failure: true
   rules:
     - if: '$CI_COMMIT_BRANCH == "main"'
-      changes:
-        - api/**/*
-        - frontend/**/*
-        - .gitlab-ci.yml
 
 production tests:
   stage: production tests
