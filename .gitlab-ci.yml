@@ -18,11 +18,12 @@ build api:
   stage: build
   script:
     - cd api/
+    - ls
     - pip install virtualenv
     - virtualenv venv/
     - source venv/bin/activate
-    - pip install -r api/requirements.txt
-    - cd api/sql
+    - pip install -r requirements.txt
+    - cd sql/
     - ls
     # - python3 create_tables.py
   rules:
@@ -72,7 +73,7 @@ lint:
     - virtualenv venv/
     - source venv/bin/activate
   script:
-    - pylint --fail-under 8.0 api/app.py
+    - pylint --fail-under 8.0 app.py
   rules:
     - changes:
       - api/*
