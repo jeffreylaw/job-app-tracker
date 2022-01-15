@@ -33,6 +33,7 @@ logger = logging.getLogger('basicLogger')
 
 if os.getenv("GITLAB_CI"):
     engine = create_engine(os.getenv("PIPELINE_ENV"))
+    app = connexion.FlaskApp(__name__, specification_dir='')
 elif 'HEROKU' in os.environ:
     uri = os.getenv("DATABASE_URL")
     if uri and uri.startswith("postgres://"):
