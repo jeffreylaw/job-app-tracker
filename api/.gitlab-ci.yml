@@ -35,10 +35,11 @@ build frontend:
   stage: build
   image: node:14
   script:
-    - cd frontend/
-    - npm install
-    - npm run build
-    - mv build/ ..
+    - echo "Build frontend"
+    # - cd frontend/
+    # - npm install
+    # - npm run build
+    # - mv build/ ..
   rules:
     - changes:
       - ../frontend/*
