@@ -18,13 +18,10 @@ build api:
   stage: build
   script:
     - cd api/
-    - ls
     - pip install virtualenv
     - virtualenv venv/
     - source venv/bin/activate
     - pip install -r requirements.txt
-    - cd sql/
-    - ls
     # - python3 create_tables.py
   rules:
     - changes:
@@ -53,8 +50,10 @@ build frontend:
 test:
   stage: test
   before_script:
+    - ls
     - cd api/
     - pip install virtualenv
+    - ls
     - virtualenv venv/
     - source venv/bin/activate
   script:
