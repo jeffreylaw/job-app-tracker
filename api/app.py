@@ -22,6 +22,7 @@ from sqlalchemy.orm import sessionmaker
 # Application imports
 from job import Job
 from user import User
+from helper import decode_auth_token
 
 load_dotenv()
 with open('log_conf.yaml', 'r', encoding='utf-8') as f:
@@ -273,19 +274,6 @@ def delete_user(body):
 def index():
     """ Return static index.html file """
     return send_from_directory('build', 'index.html')
-
-
-def decode_auth_token():
-    """ Return decoded payload from auth token """
-    try:
-        headers = flask.request.headers.get('Authorization')
-        token = headers.split()[1]
-        decoded = jwt.decode(token, os.getenv('SECRET'), algorithms="HS256")
-        if "id" not in decoded or not decoded["id"]:
-            raise KeyError("Invalid token")
-        return decoded
-    except (AttributeError, jwt.exceptions.DecodeError, KeyError):
-        raise ValueError
 
 
 app.add_api('openapi.yaml', strict_validation=False)
