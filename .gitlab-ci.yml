@@ -51,6 +51,7 @@ build frontend:
 test:
   stage: test
   before_script:
+    - ls frontend/
     - cd api/
     - ls
     - pip install virtualenv
