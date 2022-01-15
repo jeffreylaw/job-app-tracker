@@ -29,6 +29,7 @@ build api:
   rules:
     - changes:
       - api/*
+      - .gitlab-ci.yml
   # artifacts:
   #   paths:
   #     - api/api.db
@@ -47,6 +48,7 @@ build frontend:
   rules:
     - changes:
       - frontend/*
+      - .gitlab-ci.yml
 
 test:
   stage: test
@@ -64,6 +66,7 @@ test:
   rules:
     - changes:
       - api/*
+      - .gitlab-ci.yml
 
 lint:
   stage: lint
@@ -77,6 +80,7 @@ lint:
   rules:
     - changes:
       - api/*
+      - .gitlab-ci.yml
 
 package python files:
   stage: package
@@ -93,6 +97,7 @@ package python files:
   rules:
     - changes:
       - api/*
+      - .gitlab-ci.yml
 
 dockerize api:
   stage: dockerize
@@ -121,3 +126,4 @@ deploy heroku:
     - changes:
       - api/*
       - frontend/*
+      - .gitlab-ci.yml
