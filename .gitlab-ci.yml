@@ -36,10 +36,15 @@ build frontend:
   stage: build
   image: node:14
   before_script:
+    - ls
     - cd frontend/
+    - ls
   script:
     - npm install
     - npm run build
+    - ls
+    - mv build ../frontend
+    - ls ../frontend
   rules:
     - changes:
       - frontend/*
