@@ -7,6 +7,7 @@ cache:
     - frontend/node_modules
 
 stages:
+  - debug
   - dependencies
   - build
   - test
@@ -15,7 +16,14 @@ stages:
   - dockerize
   - deploy
 
-install python dependencies and test database:
+debug:
+  stage: debug
+  script:
+    - ls
+    - ls /api
+    - ls /frontend
+
+build pipeline dependencies:
   stage: dependencies
   script:
     - cd api/
@@ -37,9 +45,7 @@ build frontend:
   stage: build
   image: node:14
   before_script:
-    - ls
     - cd frontend/
-    - ls
   script:
     - npm install
     - npm run build
@@ -48,13 +54,15 @@ build frontend:
     - changes:
       - frontend/*
       - .gitlab-ci.yml
+  artifacts:
+    paths:
+      - api/build
+    expire_in: 10 mins
 
 test:
   stage: test
   before_script:
-    - ls frontend/
     - cd api/
-    - ls
     - pip install virtualenv
     - virtualenv venv/
     - source venv/bin/activate
@@ -116,7 +124,7 @@ deploy heroku:
   image: ubuntu
   before_script:
     - cd api/
-    - ls
+    - test -d build/
     - apt-get update -qy
     - apt-get install -y git curl
     - apt-get install -y ruby-dev
@@ -129,3 +137,5 @@ deploy heroku:
       - api/*
       - frontend/*
       - .gitlab-ci.yml
+  variables:
+    REACT_APP_VERSION: ${CI_COMMIT_REF_SLUG}

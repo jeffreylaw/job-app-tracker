@@ -14,7 +14,6 @@ html, body {
 }
 
 .hover-btn:hover {
-  /* outline: black solid 2px; */
   cursor: pointer;
 }
 
@@ -43,12 +42,6 @@ html, body {
 
 .table-header-row {
   text-align: center;
-}
-
-.star {
-  position: absolute;
-  left: 10%;
-  height: 100px;
 }
 
 .filter-main {
@@ -103,6 +96,13 @@ html, body {
 
 .visible {
   display: block;
+}
+
+.version-div {
+  position: fixed;
+  bottom: 0px;
+  right: 0px;
+  color: white;
 }
 
 @media only screen and (max-width: 1200px) {

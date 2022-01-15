@@ -179,6 +179,9 @@ const App = () => {
                 <div className="login-div">
                     <Login setUser={setUser} setJobs={setJobs} />
                 </div>
+                <div className="version-div">
+                    Version: %REACT_APP_VERSION%
+                </div>
             </div>
         );
     }
