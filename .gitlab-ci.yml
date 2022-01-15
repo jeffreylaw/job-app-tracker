@@ -85,8 +85,7 @@ package python files:
     - cd api/
   script:
     - apk --no-cache add zip
-    - zip api/artifacts.zip api/*.py -x api/test*.py
-
+    - zip artifacts.zip *.py -x test*.py
   artifacts:
     paths:
       - api/artifacts.zip
