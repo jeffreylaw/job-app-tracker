@@ -20,8 +20,8 @@ debug:
   stage: debug
   script:
     - ls
-    - ls /api
-    - ls /frontend
+    - ls api/
+    - ls frontend/
 
 build pipeline dependencies:
   stage: dependencies
