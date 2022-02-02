@@ -14,7 +14,7 @@ workflow:
     - if: '$CI_COMMIT_BRANCH'
 
 variables:
-  PRODUCTION_DOMAIN: http://job-hunting-tracker.herokuapp.com/
+  PRODUCTION_DOMAIN: https://git.heroku.com/job-apps-tracker.git
 
 cache:
   key: ${CI_COMMIT_REF_SLUG}
@@ -125,8 +125,8 @@ dockerize api:
   image: docker:latest
   script:
     - docker login -u=${DOCKERHUB_USERNAME} -p=${DOCKERHUB_ACCESS_TOKEN}
-    - docker build -t ${DOCKERHUB_USERNAME}/job-hunting-tracker-api:latest .
-    - docker push ${DOCKERHUB_USERNAME}/job-hunting-tracker-api:latest
+    - docker build -t ${DOCKERHUB_USERNAME}/job-apps-tracker-api:latest .
+    - docker push ${DOCKERHUB_USERNAME}/job-apps-tracker-api:latest
   services:
     - docker:dind
   when: manual
