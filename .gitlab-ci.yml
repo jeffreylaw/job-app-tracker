@@ -154,6 +154,6 @@ production tests:
   cache: []
   script:
     - apk add curl
-    - curl $PRODUCTION_DOMAIN | grep -q "Job Application Tracker"
+    - curl $PRODUCTION_DOMAIN | grep -q "Job App Tracker"
   rules:
     - if: '$CI_COMMIT_BRANCH == "main"'
