@@ -102,7 +102,7 @@ const Login = ({ setUser, setJobs }) => {
         return (
             <div>
                 <Toaster />
-                <h1>Job Tracker</h1>
+                <h1>Job Application Tracker</h1>
                 <Form onSubmit={login}>
                     <Form.Group className="mb-3" controlId="formBasicUsername">
                         <Form.Label>Username</Form.Label>
