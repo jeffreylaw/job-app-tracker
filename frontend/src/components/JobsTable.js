@@ -7,7 +7,7 @@ const JobsTable = ({ filter, filteredJobs, setShowEditJob, setJobToEdit, deleteJ
 
 
     return (
-        <Table striped bordered hover>
+        <Table striped bordered hover responsive>
             <thead>
                 <tr className="table-header-row">
                     {filter.categoriesToShow.result.show && <th>Result</th>}
@@ -19,6 +19,7 @@ const JobsTable = ({ filter, filteredJobs, setShowEditJob, setJobToEdit, deleteJ
                     {filter.categoriesToShow.post_date.show && <th>Post Date</th>}
                     {filter.categoriesToShow.link.show && <th>Link</th>}
                     {filter.categoriesToShow.notes.show && <th>Notes</th>}
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -34,13 +35,13 @@ const JobsTable = ({ filter, filteredJobs, setShowEditJob, setJobToEdit, deleteJ
                                 {filter.categoriesToShow.job_title.show && <td>{job.job_title}</td>}
                                 {filter.categoriesToShow.company.show && <td>{job.company}</td>}
                                 {filter.categoriesToShow.job_description.show && <td>{job.job_description}</td>}
-                                {filter.categoriesToShow.salary.show && <td>{job.salary !== 0 ? job.salary : 'n/a'}</td>}
+                                {filter.categoriesToShow.salary.show && <td className="center-text">{job.salary !== 0 ? "$" + job.salary : 'n/a'}</td>}
                                 {filter.categoriesToShow.applied_date.show && <td className="center-text">{job.applied_date.split('T')[0]}</td>}
                                 {filter.categoriesToShow.post_date.show && <td className="center-text">{job.post_date.split('T')[0]}</td>}
                                 {filter.categoriesToShow.link.show && <td><a href={"//" + job.link} target="_blank" rel="noreferrer">{job.link}</a></td>}
                                 {filter.categoriesToShow.notes.show && <td>{job.notes}</td>}
 
-                                <td>
+                                <td className="edit-delete-btns">
                                     <AiOutlineEdit
                                         size="1.5em"
                                         onClick={() => {

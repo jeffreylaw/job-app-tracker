@@ -13,6 +13,16 @@ html, body {
   max-width: 90vw !important;
 }
 
+.edit-delete-btns {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.hover-btn {
+  margin-top: 6px;
+  margin-bottom: 6px;
+}
+
 .hover-btn:hover {
   cursor: pointer;
 }
@@ -116,6 +126,11 @@ html, body {
     margin-top: 5px;
     margin-bottom: 5px;
     width: 100%;
+  }
+
+  .edit-delete-btns {
+    text-align: center;
+    vertical-align: top;
   }
 }
 
