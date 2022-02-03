@@ -14,7 +14,7 @@ workflow:
     - if: '$CI_COMMIT_BRANCH'
 
 variables:
-  PRODUCTION_DOMAIN: https://git.heroku.com/job-apps-tracker.git
+  PRODUCTION_DOMAIN: https://job-apps-tracker.herokuapp.com
 
 cache:
   key: ${CI_COMMIT_REF_SLUG}
