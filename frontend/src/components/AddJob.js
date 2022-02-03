@@ -147,7 +147,7 @@ const AddJob = ({ handleClose, handleShow, show, jobs, setJobs }) => {
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formCompany">
                     <Form.Label>Company</Form.Label>
-                    <Form.Control type="text" placeholder="Enter email" value={company} onChange={(e) => setCompany(e.target.value)} />
+                    <Form.Control type="text" placeholder="Enter company name" value={company} onChange={(e) => setCompany(e.target.value)} />
                     <Form.Text className="text-muted">
                         Required
                     </Form.Text>
