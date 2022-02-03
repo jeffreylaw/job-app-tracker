@@ -160,7 +160,7 @@ const AddJob = ({ handleClose, handleShow, show, jobs, setJobs }) => {
 
                 <Form.Group className="mb-3" controlId="formSalary">
                     <Form.Label>Salary</Form.Label>
-                    <Form.Control type="number" min="0" max="500000" value={salary} onChange={(e) => setSalary(e.target.value)} />
+                    <Form.Control type="number" min="0" max="500000" value={salary} onChange={(e) => setSalary(parseInt(e.target.value))} />
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formJobPostDate">
