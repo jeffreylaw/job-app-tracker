@@ -1,6 +1,6 @@
 import React, { useState } from "react";
   
-const JobDescription = ({ children }) => {
+const ReadMore = ({ children }) => {
   const text = children;
   const [showMore, setShowMore] = useState(true);
   const toggleReadMore = () => {
@@ -21,4 +21,4 @@ const JobDescription = ({ children }) => {
   );
 };
   
-export default JobDescription;
+export default ReadMore;

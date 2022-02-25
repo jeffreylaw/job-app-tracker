@@ -2,7 +2,7 @@ import Table from 'react-bootstrap/Table';
 import Badge from 'react-bootstrap/Badge';
 import { AiOutlineDelete } from 'react-icons/ai'
 import { AiOutlineEdit } from 'react-icons/ai';
-import JobDescription from './JobDescription';
+import ReadMore from './ReadMore';
 
 const JobsTable = ({ filter, filteredJobs, setShowEditJob, setJobToEdit, deleteJob }) => {
 
@@ -39,7 +39,7 @@ const JobsTable = ({ filter, filteredJobs, setShowEditJob, setJobToEdit, deleteJ
 
                                 {filter.categoriesToShow.company.show && <td>{job.company}</td>}
                                 {filter.categoriesToShow.job_description.show && <td className="job-description-td">
-                                    <JobDescription>{job.job_description}</JobDescription>
+                                    <ReadMore>{job.job_description}</ReadMore>
                                 </td>}
                                 {filter.categoriesToShow.salary.show && <td className="center-text">{job.salary !== 0 ? "$" + job.salary : 'n/a'}</td>}
                                 {filter.categoriesToShow.applied_date.show && <td className="center-text">{job.applied_date.split('T')[0]}</td>}
