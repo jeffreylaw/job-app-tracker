@@ -2,6 +2,7 @@ import Table from 'react-bootstrap/Table';
 import Badge from 'react-bootstrap/Badge';
 import { AiOutlineDelete } from 'react-icons/ai'
 import { AiOutlineEdit } from 'react-icons/ai';
+import JobDescription from './JobDescription';
 
 const JobsTable = ({ filter, filteredJobs, setShowEditJob, setJobToEdit, deleteJob }) => {
 
@@ -33,7 +34,9 @@ const JobsTable = ({ filter, filteredJobs, setShowEditJob, setJobToEdit, deleteJ
                                 {job.result === 'rejected' && <td><Badge bg="danger">{job.result.toUpperCase()}</Badge></td>}
                                 {filter.categoriesToShow.job_title.show && <td><a href={"//" + job.link} target="_blank" rel="noreferrer">{job.job_title}</a></td>}
                                 {filter.categoriesToShow.company.show && <td>{job.company}</td>}
-                                {filter.categoriesToShow.job_description.show && <td className="job-description-td">{job.job_description}</td>}
+                                {filter.categoriesToShow.job_description.show && <td className="job-description-td">
+                                    <JobDescription>{job.job_description}</JobDescription>
+                                </td>}
                                 {filter.categoriesToShow.salary.show && <td className="center-text">{job.salary !== 0 ? "$" + job.salary : 'n/a'}</td>}
                                 {filter.categoriesToShow.applied_date.show && <td className="center-text">{job.applied_date.split('T')[0]}</td>}
                                 {filter.categoriesToShow.post_date.show && <td className="center-text">{job.post_date.split('T')[0]}</td>}
