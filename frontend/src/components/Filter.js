@@ -17,7 +17,7 @@ const Filter = ({ filter, setFilter }) => {
                             }
                         }/>
                         <Form.Text className="text-muted">
-                        Searches all categories except for <b>result</b>, <b>salary</b>, and <b>job description</b>.
+                        Searches <b>job title</b>, <b>company</b>, <b>applied date</b>, and <b>posted date</b>.
                         </Form.Text>
                     </Form.Group>
                 </div>
@@ -31,16 +31,13 @@ const Filter = ({ filter, setFilter }) => {
                             setFilter(newFilter)
                         }}
                     >
-                        <option value="all">All results</option>
+                        <option value="all">All results (default)</option>
                         <option value="not applied">Not Applied</option>
                         <option value="applied">Applied</option>
                         <option value="interview">Interview</option>
                         <option value="waiting">Waiting</option>
                         <option value="rejected">Rejected</option>
                     </Form.Select>
-                    <Form.Text className="text-muted">
-                        By default, all results are shown.
-                    </Form.Text>
                 </div>
 
                 <div className="filter-section">

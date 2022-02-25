@@ -127,7 +127,7 @@ const App = () => {
     const queryFoundInJob = (query, job) => {
         let found = false;
         for (const [key, value] of Object.entries(job)) {
-            if (!["result", "salary", "user_id", "job_id", "job_description"].includes(key)) {
+            if (!["result", "salary", "user_id", "job_id"].includes(key)) {
                 if (value.toLowerCase().includes(query.toLowerCase())) {
                     found = true;
                 }
