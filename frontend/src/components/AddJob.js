@@ -4,7 +4,6 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ToggleButton from 'react-bootstrap/ToggleButton';
-import InputGroup from 'react-bootstrap/InputGroup';
 import toast from 'react-hot-toast';
 import axios from 'axios';
 // const baseURL = 'http://localhost:8080';
@@ -32,17 +31,10 @@ const AddJob = ({ handleClose, handleShow, show, jobs, setJobs }) => {
 
     const createJob = (event) => {
         const form = event.currentTarget;
-        console.log(form)
+        event.preventDefault();
+        event.stopPropagation();
         if (form.checkValidity() === false) {
-            event.preventDefault();
-            event.stopPropagation();
-        }
-        setValidated(true);
-        return;
-
-        if (!validForm()) {
-            toast.dismiss()
-            toast.error('Please fill out form.');
+            setValidated(true);
             return;
         }
         toast.loading('Adding job...');
@@ -77,13 +69,6 @@ const AddJob = ({ handleClose, handleShow, show, jobs, setJobs }) => {
                 toast.dismiss();
                 toast.error("Failed to add job. Please try again.")
             })
-    }
-
-    const validForm = () => {
-        if (!jobTitle || !company || !jobDescription || !salary || !link || !jobStatus) {
-            return false
-        }
-        return true
     }
 
     const closeModal = () => {
