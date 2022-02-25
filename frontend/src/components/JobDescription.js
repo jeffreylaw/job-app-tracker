@@ -7,6 +7,10 @@ const JobDescription = ({ children }) => {
     setShowMore(!showMore);
   };
 
+  if (!text) {
+      return null;
+  }
+
   return (
     <p>
       {showMore ? text.slice(0, 400) + "..." : text}
