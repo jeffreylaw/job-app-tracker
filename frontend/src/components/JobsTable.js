@@ -14,10 +14,10 @@ const JobsTable = ({ filter, filteredJobs, setShowEditJob, setJobToEdit, deleteJ
                     {filter.categoriesToShow.result.show && <th>Result</th>}
                     {filter.categoriesToShow.job_title.show && <th>Job Title</th>}
                     {filter.categoriesToShow.company.show && <th>Company</th>}
-                    {filter.categoriesToShow.job_description.show && <th>Job Description</th>}
+                    {filter.categoriesToShow.job_description.show && <th>Description</th>}
                     {filter.categoriesToShow.salary.show && <th>Salary</th>}
-                    {filter.categoriesToShow.applied_date.show && <th>Applied Date</th>}
-                    {filter.categoriesToShow.post_date.show && <th>Post Date</th>}
+                    {filter.categoriesToShow.applied_date.show && <th>Applied</th>}
+                    {filter.categoriesToShow.post_date.show && <th>Posted</th>}
                     {filter.categoriesToShow.notes.show && <th>Notes</th>}
                     <th></th>
                 </tr>
