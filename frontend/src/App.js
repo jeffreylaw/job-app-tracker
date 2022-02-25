@@ -49,10 +49,6 @@ const App = () => {
                 name: "Post date",
                 show: true
             },
-            link: {
-                name: "Link",
-                show: true
-            },
             notes: {
                 name: "Notes",
                 show: true

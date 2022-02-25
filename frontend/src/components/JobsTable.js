@@ -17,7 +17,6 @@ const JobsTable = ({ filter, filteredJobs, setShowEditJob, setJobToEdit, deleteJ
                     {filter.categoriesToShow.salary.show && <th>Salary</th>}
                     {filter.categoriesToShow.applied_date.show && <th>Applied Date</th>}
                     {filter.categoriesToShow.post_date.show && <th>Post Date</th>}
-                    {filter.categoriesToShow.link.show && <th>Link</th>}
                     {filter.categoriesToShow.notes.show && <th>Notes</th>}
                     <th></th>
                 </tr>
@@ -32,13 +31,12 @@ const JobsTable = ({ filter, filteredJobs, setShowEditJob, setJobToEdit, deleteJ
                                 {job.result === 'interview' && <td><Badge bg="info">{job.result.toUpperCase()}</Badge></td>}
                                 {job.result === 'waiting' && <td><Badge bg="success">{job.result.toUpperCase()}</Badge></td>}
                                 {job.result === 'rejected' && <td><Badge bg="danger">{job.result.toUpperCase()}</Badge></td>}
-                                {filter.categoriesToShow.job_title.show && <td>{job.job_title}</td>}
+                                {filter.categoriesToShow.job_title.show && <td><a href={"//" + job.link} target="_blank" rel="noreferrer">{job.job_title}</a></td>}
                                 {filter.categoriesToShow.company.show && <td>{job.company}</td>}
                                 {filter.categoriesToShow.job_description.show && <td>{job.job_description}</td>}
                                 {filter.categoriesToShow.salary.show && <td className="center-text">{job.salary !== 0 ? "$" + job.salary : 'n/a'}</td>}
                                 {filter.categoriesToShow.applied_date.show && <td className="center-text">{job.applied_date.split('T')[0]}</td>}
                                 {filter.categoriesToShow.post_date.show && <td className="center-text">{job.post_date.split('T')[0]}</td>}
-                                {filter.categoriesToShow.link.show && <td><a href={"//" + job.link} target="_blank" rel="noreferrer">{job.link}</a></td>}
                                 {filter.categoriesToShow.notes.show && <td>{job.notes}</td>}
 
                                 <td className="edit-delete-btns">
