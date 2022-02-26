@@ -6,6 +6,7 @@ import Login from './components/Login';
 import JobsTable from './components/JobsTable';
 import AddJob from './components/AddJob';
 import EditJob from './components/EditJob';
+import Notes from './components/Notes';
 import Filter from './components/Filter';
 import toast, { Toaster } from 'react-hot-toast';
 import './App.css';
@@ -18,6 +19,7 @@ const App = () => {
     const [jobs, setJobs] = useState([]);
     const [showAddJob, setShowAddJob] = useState(false);
     const [showEditJob, setShowEditJob] = useState(false);
+    const [showNotes, setShowNotes] = useState(false);
     const [jobToEdit, setJobToEdit] = useState(null);
     const [filter, setFilter] = useState({
         categoriesToShow: {
@@ -82,14 +84,9 @@ const App = () => {
         }
     }, [])
 
-    const handleCloseAddJob = () => {
-        setShowAddJob(false);
-    };
-    const handleShowAddJob = () => setShowAddJob(true);
-
-    const handleToggleEditJob = () => {
-        setShowEditJob(!showEditJob);
-    }
+    const handleToggleAddJob = () => setShowAddJob(!showAddJob);
+    const handleToggleEditJob = () => setShowEditJob(!showEditJob);
+    const handleToggleNotes = () => setShowNotes(!showNotes);
 
     const logout = () => {
         toast.dismiss();
@@ -151,7 +148,7 @@ const App = () => {
                     <Container>
                         <Navbar.Brand >Job Tracker</Navbar.Brand>
                         <Nav className="me-auto">
-                            <Nav.Link onClick={handleShowAddJob}>Add Job</Nav.Link>
+                            <Nav.Link onClick={handleToggleAddJob}>Add Job</Nav.Link>
                             <Nav.Link onClick={() => logout()}>Logout ({user})</Nav.Link>
                         </Nav>
                     </Container>
@@ -161,15 +158,26 @@ const App = () => {
                     <div className="hidden panel" id="filter">
                         <Filter filter={filter} setFilter={setFilter} />
                     </div>
-                    <JobsTable filter={filter} filteredJobs={filteredJobs} setShowEditJob={setShowEditJob} setJobToEdit={setJobToEdit} deleteJob={deleteJob} />
+                    <JobsTable 
+                        filter={filter} 
+                        filteredJobs={filteredJobs} 
+                        setShowEditJob={setShowEditJob} 
+                        setJobToEdit={setJobToEdit} 
+                        deleteJob={deleteJob} 
+                        setShowNotes={setShowNotes}
+                    />
                 </div>
                 {
                     showAddJob &&
-                    <AddJob handleClose={handleCloseAddJob} handleShow={handleShowAddJob} show={showAddJob} jobs={jobs} setJobs={setJobs} />
+                    <AddJob handleClose={handleToggleAddJob} show={showAddJob} jobs={jobs} setJobs={setJobs} />
                 }
                 {
                     showEditJob &&
                     <EditJob handleClose={handleToggleEditJob} show={showEditJob} jobToEdit={jobToEdit} setJobToEdit={setJobToEdit} jobs={jobs} setJobs={setJobs} />
+                }
+                {
+                    showNotes &&
+                    <Notes handleClose={handleToggleNotes} show={showNotes} jobToEdit={jobToEdit} />
                 }
             </div>
         )

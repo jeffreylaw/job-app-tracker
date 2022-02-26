@@ -9,7 +9,7 @@ import axios from 'axios';
 // const baseURL = 'http://localhost:8080';
 const baseURL = '';
 
-const AddJob = ({ handleClose, handleShow, show, jobs, setJobs }) => {
+const AddJob = ({ handleClose, show, jobs, setJobs }) => {
     const [jobStatus, setJobStatus] = useState('not applied');
     const [jobTitle, setJobTitle] = useState('');
     const [company, setCompany] = useState('');

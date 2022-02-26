@@ -4,7 +4,7 @@ import { AiOutlineDelete } from 'react-icons/ai'
 import { AiOutlineEdit } from 'react-icons/ai';
 import ReadMore from './ReadMore';
 
-const JobsTable = ({ filter, filteredJobs, setShowEditJob, setJobToEdit, deleteJob }) => {
+const JobsTable = ({ filter, filteredJobs, setShowEditJob, setJobToEdit, deleteJob, setShowNotes }) => {
 
     return (
         <Table bordered hover responsive>
@@ -32,7 +32,7 @@ const JobsTable = ({ filter, filteredJobs, setShowEditJob, setJobToEdit, deleteJ
                                 {job.result === 'waiting' && <td><Badge bg="success">{job.result.toUpperCase()}</Badge></td>}
                                 {job.result === 'rejected' && <td><Badge bg="danger">{job.result.toUpperCase()}</Badge></td>}
                                 {filter.categoriesToShow.job_title.show && <td>
-                                    {job.link ? <a href={job.link.startsWith("http://") || job.link.startsWith("https://")  ? job.link : "//" + job.link} target="_blank" rel="noreferrer">{job.job_title}</a> : <span>{job.job_title}</span>}
+                                    {job.link ? <a href={job.link.startsWith("http://") || job.link.startsWith("https://") ? job.link : "//" + job.link} target="_blank" rel="noreferrer">{job.job_title}</a> : <span>{job.job_title}</span>}
                                 </td>}
                                 {filter.categoriesToShow.company.show && <td>{job.company}</td>}
                                 {filter.categoriesToShow.job_description.show && <td className="job-description-td">
@@ -40,9 +40,19 @@ const JobsTable = ({ filter, filteredJobs, setShowEditJob, setJobToEdit, deleteJ
                                 </td>}
 
                                 {filter.categoriesToShow.salary.show && <td className="center-text">{job.salary !== 0 ? "$" + job.salary : 'n/a'}</td>}
-                                {filter.categoriesToShow.post_date.show && <td className="center-text">{job.post_date ? job.post_date.split('T')[0] : 'n/a' }</td>}
-                                {filter.categoriesToShow.applied_date.show && <td className="center-text">{job.applied_date ? job.applied_date.split('T')[0] : 'n/a' }</td>}
-                                {filter.categoriesToShow.notes.show && <td>{job.notes}</td>}
+                                {filter.categoriesToShow.post_date.show && <td className="center-text">{job.post_date ? job.post_date.split('T')[0] : 'n/a'}</td>}
+                                {filter.categoriesToShow.applied_date.show && <td className="center-text">{job.applied_date ? job.applied_date.split('T')[0] : 'n/a'}</td>}
+                                {/* {filter.categoriesToShow.notes.show && <td>{job.notes}</td>} */}
+                                {filter.categoriesToShow.notes.show &&
+                                    <td><button
+                                        onClick={() => {
+                                            console.log("Opening Notes")
+                                            setJobToEdit(job);
+                                            setShowNotes(true);
+                                        }}>
+                                        Open
+                                    </button>
+                                    </td>}
 
                                 <td className="edit-delete-btns">
                                     <AiOutlineEdit
