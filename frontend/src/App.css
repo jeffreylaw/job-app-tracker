@@ -1,9 +1,12 @@
 
 html, body {
   height: 100%;
+}
+
+body {
   background-image: url("bg.jpg");
-  background-repeat: no-repeat;
   background-position: center;
+  background-repeat: no-repeat;
   background-size: cover;
 }
 
@@ -22,17 +25,55 @@ html, body {
   max-width: 90vw !important;
 }
 
+.table {
+  height: 1px;
+}
+
 .edit-delete-btns {
+  height: 100%;
+  width: 5vw;
+  padding: 0 !important;
+  margin: 0 !important;
+  display: flex;
+  flex-direction: column;
+
   text-align: center;
   vertical-align: middle;
 }
 
 .hover-btn {
-  margin-top: 6px;
-  margin-bottom: 6px;
+  height: inherit;
+  width: inherit;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.hover-btn:hover {
+.hover-btn svg {
+  width: 50%;
+  height: 50%;
+}
+
+.hover-btn svg:hover {
+  cursor: pointer;
+}
+
+.hover-btn .tooltiptext {
+  visibility: hidden;
+  width: 60px;
+  background-color: black;
+  color: white;
+  text-align: center;
+  padding: 8px 5px;
+  border-radius: 6px;
+  font-size: 12px;
+ 
+  position: absolute;
+  z-index: 1;
+}
+
+.hover-btn:hover .tooltiptext {
+  visibility: visible;
   cursor: pointer;
 }
 

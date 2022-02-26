@@ -1,24 +1,31 @@
+import React from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 
+
 const Notes = ({ handleClose, show, jobToEdit }) => {
-    console.log(jobToEdit)
+    // const [showEditor, setShowEditor] = useState(false);
+
     return (
         <Modal show={show} fullscreen={true} onHide={handleClose}>
             <Modal.Header closeButton>
                 <Modal.Title>Notes</Modal.Title>
             </Modal.Header>
-            <Modal.Body>{jobToEdit.notes}</Modal.Body>
+            <Modal.Body>
+                {
+                    jobToEdit.notes
+                }
+            </Modal.Body>
             <Modal.Footer>
-                <Button variant="success" style={{ marginRight: "auto" }}>
+                {/* <Button variant="success" style={{ marginRight: "auto" }}>
                     Edit
-                </Button>
+                </Button> */}
                 <Button variant="secondary" onClick={handleClose}>
-                    Cancel
+                    Close
                 </Button>
-                <Button variant="primary" type="submit">
+                {/* <Button variant="primary" type="submit">
                     Save
-                </Button>
+                </Button> */}
             </Modal.Footer>
 
         </Modal>

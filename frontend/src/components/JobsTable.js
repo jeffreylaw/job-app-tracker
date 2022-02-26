@@ -1,5 +1,6 @@
 import Table from 'react-bootstrap/Table';
 import Badge from 'react-bootstrap/Badge';
+import Button from 'react-bootstrap/Button';
 import { AiOutlineDelete } from 'react-icons/ai'
 import { AiOutlineEdit } from 'react-icons/ai';
 import ReadMore from './ReadMore';
@@ -42,32 +43,36 @@ const JobsTable = ({ filter, filteredJobs, setShowEditJob, setJobToEdit, deleteJ
                                 {filter.categoriesToShow.salary.show && <td className="center-text">{job.salary !== 0 ? "$" + job.salary : 'n/a'}</td>}
                                 {filter.categoriesToShow.post_date.show && <td className="center-text">{job.post_date ? job.post_date.split('T')[0] : 'n/a'}</td>}
                                 {filter.categoriesToShow.applied_date.show && <td className="center-text">{job.applied_date ? job.applied_date.split('T')[0] : 'n/a'}</td>}
-                                {/* {filter.categoriesToShow.notes.show && <td>{job.notes}</td>} */}
-                                {filter.categoriesToShow.notes.show &&
-                                    <td><button
+                                {job.notes && filter.categoriesToShow.notes.show &&
+                                    <td><Button variant="link"
                                         onClick={() => {
-                                            console.log("Opening Notes")
-                                            setJobToEdit(job);
+                                            // setJobToEdit(job);
                                             setShowNotes(true);
                                         }}>
                                         Open
-                                    </button>
+                                    </Button>
                                     </td>}
-
+                                {!job.notes && <td></td>}
                                 <td className="edit-delete-btns">
-                                    <AiOutlineEdit
-                                        size="1.5em"
-                                        onClick={() => {
-                                            setShowEditJob(true);
-                                            setJobToEdit(job);
-                                        }}
-                                        className="hover-btn"
-                                    />
-                                    <AiOutlineDelete
-                                        size="1.5em"
-                                        onClick={() => deleteJob(job.job_id)}
-                                        className="hover-btn"
-                                    />
+                                    <div className="hover-btn">
+                                        <span class="tooltiptext"
+                                            onClick={() => {
+                                                setShowEditJob(true);
+                                                setJobToEdit(job);
+                                            }}>Edit</span>
+                                        <AiOutlineEdit
+                                            onClick={() => {
+                                                setShowEditJob(true);
+                                                setJobToEdit(job);
+                                            }}
+                                        />
+                                    </div>
+                                    <div className="hover-btn">
+                                        <span class="tooltiptext" onClick={() => deleteJob(job.job_id)}>Delete</span>
+                                        <AiOutlineDelete
+                                            onClick={() => deleteJob(job.job_id)}
+                                        />
+                                    </div>
 
                                 </td>
                             </tr>
