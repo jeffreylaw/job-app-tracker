@@ -41,12 +41,12 @@ const App = () => {
                 name: "Salary",
                 show: true
             },
-            applied_date: {
-                name: "Applied date",
+            post_date: {
+                name: "Posted date",
                 show: true
             },
-            post_date: {
-                name: "Post date",
+            applied_date: {
+                name: "Applied date",
                 show: true
             },
             notes: {
