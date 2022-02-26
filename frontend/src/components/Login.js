@@ -102,7 +102,7 @@ const Login = ({ setUser, setJobs }) => {
         return (
             <div>
                 <Toaster />
-                <h1>Job Application Tracker</h1>
+                <h2>Job Tracker</h2>
                 <Form onSubmit={login}>
                     <Form.Group className="mb-3" controlId="formBasicUsername">
                         <Form.Label>Username</Form.Label>
@@ -130,7 +130,7 @@ const Login = ({ setUser, setJobs }) => {
         return (
             <div>
                 <Toaster />
-                <h1>Register</h1>
+                <h2>Register</h2>
                 <Form onSubmit={register} autoComplete="off">
                     <Form.Group className="mb-3" controlId="formBasicUsername">
                         <Form.Label>Username</Form.Label>
@@ -144,7 +144,7 @@ const Login = ({ setUser, setJobs }) => {
                     <Button variant="primary" style={{float: 'right'}} type="submit">
                         Sign up
                     </Button>
-                    <p><Button variant="link" style={{ paddingRight: '0px', paddingLeft: '0px' }} onClick={() => switchFormType('login')}>Login</Button></p>
+                    <Button variant="link" style={{ paddingRight: '0px', paddingLeft: '0px' }} onClick={() => switchFormType('login')}>Login</Button>
                 </Form>
             </div>
         )
