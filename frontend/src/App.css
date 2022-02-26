@@ -1,7 +1,16 @@
 
 html, body {
   height: 100%;
-  background-color: #00a676 !important; 
+  background-image: url("bg.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.main-page-heading {
+  font-family: 'Raleway', sans-serif;
+  font-weight: bold;
+  color: #232323;
 }
 
 .center-text { 
