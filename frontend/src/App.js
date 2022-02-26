@@ -73,6 +73,10 @@ const App = () => {
                     setJobs(res.data.jobs);
                 }).catch((err) => {
                     console.log(err)
+                    console.log(err.response);
+                    if (err.response.status === 500) {
+                        toast.error("Error connecting with backend server. Please try again later.")
+                    }
                 });
             setUser(localStorage.getItem("username"));
         }

@@ -52,8 +52,10 @@ const Login = ({ setUser, setJobs }) => {
                         toast.error("Account does not exist");
                     } else if (err.response && err.response.status === 401) {
                         toast.error("Incorrect username and/or password")
+                    } else if (err.response && err.response.status === 500) {
+                        toast.error("Error connecting with backend server. Please try again later.")
                     } else {
-                        toast.error("Please try again later...")
+                        toast.error("Oops, an unexpected error occured. Please try again later.")
                     }
                 });
     }
