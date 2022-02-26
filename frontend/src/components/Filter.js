@@ -23,7 +23,7 @@ const Filter = ({ filter, setFilter }) => {
                 </div>
 
                 <div className="filter-section">
-                    <h4>Show applications for specific results</h4>
+                    <h4>Filter applications by result status</h4>
                     <Form.Select aria-label="Default select example"
                         onChange={(e) => {
                             let newFilter = JSON.parse(JSON.stringify(filter));
