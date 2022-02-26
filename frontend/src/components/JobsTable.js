@@ -7,7 +7,7 @@ import ReadMore from './ReadMore';
 const JobsTable = ({ filter, filteredJobs, setShowEditJob, setJobToEdit, deleteJob }) => {
 
     return (
-        <Table striped bordered hover responsive>
+        <Table bordered hover responsive>
             <thead>
                 <tr className="table-header-row">
                     {filter.categoriesToShow.result.show && <th>Result</th>}
