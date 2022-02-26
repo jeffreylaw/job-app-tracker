@@ -33,7 +33,7 @@ const JobsTable = ({ filter, filteredJobs, setShowEditJob, setJobToEdit, deleteJ
                                 {job.result === 'rejected' && <td><Badge bg="danger">{job.result.toUpperCase()}</Badge></td>}
 
                                 {filter.categoriesToShow.job_title.show && <td>
-                                    {job.link ? <a href={"//" + job.link} target="_blank" rel="noreferrer">{job.job_title}</a> : <span>{job.job_title}</span>}
+                                    {job.link ? <a href={job.link} target="_blank" rel="noreferrer">{job.job_title}</a> : <span>{job.job_title}</span>}
                                 </td>}
 
                                 {filter.categoriesToShow.company.show && <td>{job.company}</td>}
