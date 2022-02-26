@@ -17,7 +17,7 @@ const Filter = ({ filter, setFilter }) => {
                             }
                         }/>
                         <Form.Text className="text-muted">
-                        Searches and filter <b>job title</b>, <b>company</b>, and <b>description</b> (highlighted).
+                        Searches and filter <b>title</b>, <b>company</b>, and <b>description</b> (highlighted).
                         </Form.Text>
                     </Form.Group>
                 </div>
