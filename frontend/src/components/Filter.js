@@ -8,7 +8,7 @@ const Filter = ({ filter, setFilter }) => {
             <div className="filter-main">
                 <div className="filter-section">
                     <h4>Search Filter</h4>
-                    <Form.Group className="mb-3" controlId="formSearch">
+                    <Form.Group className="mb-1" controlId="formSearch">
                         <Form.Control type="text" placeholder="Enter search value" onChange={
                             (e) => {
                                 let newFilter = JSON.parse(JSON.stringify(filter));
