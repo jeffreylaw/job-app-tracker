@@ -6,13 +6,12 @@ import ReadMore from './ReadMore';
 
 const JobsTable = ({ filter, filteredJobs, setShowEditJob, setJobToEdit, deleteJob }) => {
 
-
     return (
         <Table striped bordered hover responsive>
             <thead>
                 <tr className="table-header-row">
                     {filter.categoriesToShow.result.show && <th>Result</th>}
-                    {filter.categoriesToShow.job_title.show && <th>Job Title</th>}
+                    {filter.categoriesToShow.job_title.show && <th>Title</th>}
                     {filter.categoriesToShow.company.show && <th>Company</th>}
                     {filter.categoriesToShow.job_description.show && <th>Description</th>}
                     {filter.categoriesToShow.salary.show && <th>Salary</th>}
@@ -39,8 +38,9 @@ const JobsTable = ({ filter, filteredJobs, setShowEditJob, setJobToEdit, deleteJ
 
                                 {filter.categoriesToShow.company.show && <td>{job.company}</td>}
                                 {filter.categoriesToShow.job_description.show && <td className="job-description-td">
-                                    <ReadMore>{job.job_description}</ReadMore>
+                                    <ReadMore filter={filter} text={job.job_description} highlightable={true}></ReadMore>
                                 </td>}
+
                                 {filter.categoriesToShow.salary.show && <td className="center-text">{job.salary !== 0 ? "$" + job.salary : 'n/a'}</td>}
                                 {filter.categoriesToShow.applied_date.show && <td className="center-text">{job.applied_date.split('T')[0]}</td>}
                                 {filter.categoriesToShow.post_date.show && <td className="center-text">{job.post_date.split('T')[0]}</td>}

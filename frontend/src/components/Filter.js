@@ -7,7 +7,7 @@ const Filter = ({ filter, setFilter }) => {
         <Form>
             <div className="filter-main">
                 <div className="filter-section">
-                    <h4>Search</h4>
+                    <h4>Search Filter</h4>
                     <Form.Group className="mb-3" controlId="formSearch">
                         <Form.Control type="text" placeholder="Enter search value" onChange={
                             (e) => {
@@ -17,7 +17,7 @@ const Filter = ({ filter, setFilter }) => {
                             }
                         }/>
                         <Form.Text className="text-muted">
-                        Searches <b>job title</b>, <b>company</b>, <b>applied date</b>, and <b>posted date</b>.
+                        Searches and filter <b>job title</b>, <b>company</b>, and <b>description</b> (highlighted).
                         </Form.Text>
                     </Form.Group>
                 </div>
