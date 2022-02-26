@@ -31,11 +31,9 @@ const JobsTable = ({ filter, filteredJobs, setShowEditJob, setJobToEdit, deleteJ
                                 {job.result === 'interview' && <td><Badge bg="info">{job.result.toUpperCase()}</Badge></td>}
                                 {job.result === 'waiting' && <td><Badge bg="success">{job.result.toUpperCase()}</Badge></td>}
                                 {job.result === 'rejected' && <td><Badge bg="danger">{job.result.toUpperCase()}</Badge></td>}
-
                                 {filter.categoriesToShow.job_title.show && <td>
-                                    {job.link ? <a href={job.link} target="_blank" rel="noreferrer">{job.job_title}</a> : <span>{job.job_title}</span>}
+                                    {job.link ? <a href={job.link.startsWith("http://") || job.link.startsWith("https://")  ? job.link : "//" + job.link} target="_blank" rel="noreferrer">{job.job_title}</a> : <span>{job.job_title}</span>}
                                 </td>}
-
                                 {filter.categoriesToShow.company.show && <td>{job.company}</td>}
                                 {filter.categoriesToShow.job_description.show && <td className="job-description-td">
                                     <ReadMore filter={filter} text={job.job_description} highlightable={true}></ReadMore>
