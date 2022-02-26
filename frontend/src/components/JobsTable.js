@@ -15,8 +15,8 @@ const JobsTable = ({ filter, filteredJobs, setShowEditJob, setJobToEdit, deleteJ
                     {filter.categoriesToShow.company.show && <th>Company</th>}
                     {filter.categoriesToShow.job_description.show && <th>Description</th>}
                     {filter.categoriesToShow.salary.show && <th>Salary</th>}
-                    {filter.categoriesToShow.applied_date.show && <th>Applied</th>}
                     {filter.categoriesToShow.post_date.show && <th>Posted</th>}
+                    {filter.categoriesToShow.applied_date.show && <th>Applied</th>}
                     {filter.categoriesToShow.notes.show && <th>Notes</th>}
                     <th></th>
                 </tr>
@@ -42,8 +42,8 @@ const JobsTable = ({ filter, filteredJobs, setShowEditJob, setJobToEdit, deleteJ
                                 </td>}
 
                                 {filter.categoriesToShow.salary.show && <td className="center-text">{job.salary !== 0 ? "$" + job.salary : 'n/a'}</td>}
-                                {filter.categoriesToShow.applied_date.show && <td className="center-text">{job.applied_date.split('T')[0]}</td>}
-                                {filter.categoriesToShow.post_date.show && <td className="center-text">{job.post_date.split('T')[0]}</td>}
+                                {filter.categoriesToShow.post_date.show && <td className="center-text">{job.post_date ? job.post_date.split('T')[0] : 'n/a' }</td>}
+                                {filter.categoriesToShow.applied_date.show && <td className="center-text">{job.applied_date ? job.applied_date.split('T')[0] : 'n/a' }</td>}
                                 {filter.categoriesToShow.notes.show && <td>{job.notes}</td>}
 
                                 <td className="edit-delete-btns">

@@ -160,7 +160,7 @@ const AddJob = ({ handleClose, handleShow, show, jobs, setJobs }) => {
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formJobPostDate">
-                        <Form.Label>Job Post Date</Form.Label>
+                        <Form.Label>Posted Date</Form.Label>
                         <Form.Control type="date" value={jobPostDate} onChange={(e) => setJobPostDate(e.target.value)} />
                     </Form.Group>
 

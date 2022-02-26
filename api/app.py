@@ -85,6 +85,16 @@ def add_job(body):
 
     logger.info(f'Creating new job for user: {current_user_id}')
 
+    try:
+        post_date = datetime.fromisoformat(body['post_date'])
+    except:
+        post_date = None
+
+    try:
+        applied_date = datetime.fromisoformat(body['applied_date'])
+    except:
+        applied_date = None
+
     random_id = uuid.uuid4().hex
     session = Session()
     new_job = Job(
@@ -94,8 +104,8 @@ def add_job(body):
         body['company'],
         body['salary'],
         body['link'],
-        datetime.fromisoformat(body['post_date']),
-        datetime.fromisoformat(body['applied_date']),
+        post_date,
+        applied_date,
         body['result'],
         body['notes'],
         current_user_id
@@ -135,15 +145,26 @@ def update_job(body):
         session.close()
         return "Unauthorized access", 401
 
+    try:
+        post_date = datetime.fromisoformat(body['post_date'])
+    except:
+        post_date = None
+
+    try:
+        applied_date = datetime.fromisoformat(body['applied_date'])
+    except:
+        applied_date = None
+
     job.job_title = body['job_title']
     job.job_description = body['job_description']
     job.company = body['company']
     job.salary = body['salary']
     job.link = body['link']
-    job.post_date = datetime.fromisoformat(body['post_date'])
-    job.applied_date = datetime.fromisoformat(body['applied_date'])
+    job.post_date = post_date
+    job.applied_date = applied_date
     job.result = body['result']
     job.notes = body['notes']
+    
     session.merge(job)
     session.commit()
     session.close()
