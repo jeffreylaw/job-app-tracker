@@ -43,19 +43,20 @@ const JobsTable = ({ filter, filteredJobs, setShowEditJob, setJobToEdit, deleteJ
                                 {filter.categoriesToShow.salary.show && <td className="center-text">{job.salary !== 0 ? "$" + job.salary : 'n/a'}</td>}
                                 {filter.categoriesToShow.post_date.show && <td className="center-text">{job.post_date ? job.post_date.split('T')[0] : 'n/a'}</td>}
                                 {filter.categoriesToShow.applied_date.show && <td className="center-text">{job.applied_date ? job.applied_date.split('T')[0] : 'n/a'}</td>}
-                                {job.notes && filter.categoriesToShow.notes.show &&
-                                    <td><Button variant="link"
-                                        onClick={() => {
-                                            setJobToEdit(job);
-                                            setShowNotes(true);
-                                        }}>
-                                        Open
-                                    </Button>
+                                {filter.categoriesToShow.notes.show && job.notes.length > 0 &&
+                                    <td>
+                                        <Button variant="link"
+                                            onClick={() => {
+                                                setJobToEdit(job);
+                                                setShowNotes(true);
+                                            }}>Open
+                                        </Button>
                                     </td>}
+
                                 {!job.notes && <td></td>}
                                 <td className="edit-delete-btns">
                                     <div className="hover-btn">
-                                        <span class="tooltiptext"
+                                        <span className="tooltiptext"
                                             onClick={() => {
                                                 setShowEditJob(true);
                                                 setJobToEdit(job);
@@ -68,7 +69,7 @@ const JobsTable = ({ filter, filteredJobs, setShowEditJob, setJobToEdit, deleteJ
                                         />
                                     </div>
                                     <div className="hover-btn">
-                                        <span class="tooltiptext" onClick={() => deleteJob(job.job_id)}>Delete</span>
+                                        <span className="tooltiptext" onClick={() => deleteJob(job.job_id)}>Delete</span>
                                         <AiOutlineDelete
                                             onClick={() => deleteJob(job.job_id)}
                                         />
