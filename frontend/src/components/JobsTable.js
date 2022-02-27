@@ -53,7 +53,7 @@ const JobsTable = ({ filter, filteredJobs, setShowEditJob, setJobToEdit, deleteJ
                                         </Button>
                                     </td>}
 
-                                {!job.notes && <td></td>}
+                                {filter.categoriesToShow.notes.show && !job.notes && <td></td>}
                                 <td className="edit-delete-btns">
                                     <div className="hover-btn">
                                         {/* <span className="tooltiptext"
