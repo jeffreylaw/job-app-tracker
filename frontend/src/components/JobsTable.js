@@ -56,11 +56,11 @@ const JobsTable = ({ filter, filteredJobs, setShowEditJob, setJobToEdit, deleteJ
                                 {!job.notes && <td></td>}
                                 <td className="edit-delete-btns">
                                     <div className="hover-btn">
-                                        <span className="tooltiptext"
+                                        {/* <span className="tooltiptext"
                                             onClick={() => {
                                                 setShowEditJob(true);
                                                 setJobToEdit(job);
-                                            }}>Edit</span>
+                                            }}>Edit</span> */}
                                         <AiOutlineEdit
                                             onClick={() => {
                                                 setShowEditJob(true);
@@ -69,7 +69,7 @@ const JobsTable = ({ filter, filteredJobs, setShowEditJob, setJobToEdit, deleteJ
                                         />
                                     </div>
                                     <div className="hover-btn">
-                                        <span className="tooltiptext" onClick={() => deleteJob(job.job_id)}>Delete</span>
+                                        {/* <span className="tooltiptext" onClick={() => deleteJob(job.job_id)}>Delete</span> */}
                                         <AiOutlineDelete
                                             onClick={() => deleteJob(job.job_id)}
                                         />
