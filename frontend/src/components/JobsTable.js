@@ -46,7 +46,7 @@ const JobsTable = ({ filter, filteredJobs, setShowEditJob, setJobToEdit, deleteJ
                                 {job.notes && filter.categoriesToShow.notes.show &&
                                     <td><Button variant="link"
                                         onClick={() => {
-                                            // setJobToEdit(job);
+                                            setJobToEdit(job);
                                             setShowNotes(true);
                                         }}>
                                         Open
