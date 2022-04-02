@@ -7,7 +7,7 @@ import ToggleButton from 'react-bootstrap/ToggleButton';
 import toast from 'react-hot-toast';
 import axios from 'axios';
 // const baseURL = 'http://localhost:8080';
-const baseURL = '';
+const baseURL = '/api';
 
 const EditJob = ({ handleClose, show, jobToEdit, setJobToEdit, jobs, setJobs }) => {
     const [addJobStatus, setAddJobStatus] = useState('');

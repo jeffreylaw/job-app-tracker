@@ -11,7 +11,7 @@ tags:
   - name: user
     description: User-related calls
 paths:
-  /register:
+  /api/register:
     post:
       tags:
         - user
@@ -28,7 +28,7 @@ paths:
             schema:
               $ref: '#/components/schemas/User'
         description: User
-  /login:
+  /api/login:
     post:
       tags:
         - user
@@ -46,7 +46,7 @@ paths:
             schema:
               $ref: '#/components/schemas/User'
         description: User
-  /delete_user:
+  /api/delete_user:
     post:
       tags:
         - user
@@ -115,7 +115,7 @@ paths:
           description: 'invalid input, job invalid'
         '401':
           description: unauthorized access
-  /jobs/{job_id}:
+  /api/jobs/{job_id}:
     delete:
       tags:
         - jobs

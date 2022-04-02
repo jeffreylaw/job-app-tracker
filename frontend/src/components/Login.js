@@ -5,7 +5,7 @@ import toast, { Toaster } from 'react-hot-toast';
 
 import axios from 'axios';
 // const baseURL = 'http://localhost:8080';
-const baseURL = '';
+const baseURL = '/api';
 
 
 const Login = ({ setUser, setJobs }) => {
