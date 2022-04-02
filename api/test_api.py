@@ -5,6 +5,8 @@ import json
 from user import User
 import os
 
+base_url = '/api'
+
 app = connexion.FlaskApp(__name__)
 app.add_api('openapi.yaml')
 
@@ -19,12 +21,12 @@ def test_register(client):
         "username": "test28a678afrraac",
         "password": "passwordkafkoa39f83"
     }
-    response = client.post('/register', data=json.dumps(credentials), headers=headers)
-    client.post('/delete_user', data=json.dumps({'username': credentials['username'], 'TEST_PASSWORD': os.getenv('TEST_PASSWORD')}), headers=headers)
+    response = client.post(base_url + '/register', data=json.dumps(credentials), headers=headers)
+    client.post(base_url + '/delete_user', data=json.dumps({'username': credentials['username'], 'TEST_PASSWORD': os.getenv('TEST_PASSWORD')}), headers=headers)
     assert response.status_code == 200
 
 def test_get_jobs_unauthorized_status_code(client):
-    response = client.get('/jobs', headers={'Authorization': 'Bearer ' + 'INVALID'})
+    response = client.get(base_url + '/jobs', headers={'Authorization': 'Bearer ' + 'INVALID'})
     print(response.data)
     assert response.status_code == 401
 
@@ -34,11 +36,11 @@ def test_get_jobs_authorized_status_code(client):
         "username": "test28a678afrraac",
         "password": "passwordkafkoa39f83"
     }
-    response = client.post('/register', data=json.dumps(credentials), headers=headers)
+    response = client.post(base_url + '/register', data=json.dumps(credentials), headers=headers)
     response_with_token = json.loads(response.data.decode('utf-8'))
 
-    response = client.get('/jobs', headers={'Authorization': 'Bearer ' + response_with_token['access_token']})
-    client.post('/delete_user', data=json.dumps({'username': credentials['username'], 'TEST_PASSWORD': os.getenv('TEST_PASSWORD')}), headers=headers)
+    response = client.get(base_url + '/jobs', headers={'Authorization': 'Bearer ' + response_with_token['access_token']})
+    client.post(base_url + '/delete_user', data=json.dumps({'username': credentials['username'], 'TEST_PASSWORD': os.getenv('TEST_PASSWORD')}), headers=headers)
     assert response.status_code == 200
 
 def test_get_jobs_authorized_contents(client):
@@ -47,13 +49,13 @@ def test_get_jobs_authorized_contents(client):
         "username": "test28a678afrraac",
         "password": "passwordkafkoa39f83"
     }
-    response = client.post('/register', data=json.dumps(credentials), headers=headers)
+    response = client.post(base_url + '/register', data=json.dumps(credentials), headers=headers)
     response_with_token = json.loads(response.data.decode('utf-8'))
 
-    response = client.get('/jobs', headers={'Authorization': 'Bearer ' + response_with_token['access_token']})
+    response = client.get(base_url + '/jobs', headers={'Authorization': 'Bearer ' + response_with_token['access_token']})
     response = json.loads(response.data.decode('utf-8'))
 
-    client.post('/delete_user', data=json.dumps({'username': credentials['username'], 'TEST_PASSWORD': os.getenv('TEST_PASSWORD')}), headers=headers)
+    client.post(base_url + '/delete_user', data=json.dumps({'username': credentials['username'], 'TEST_PASSWORD': os.getenv('TEST_PASSWORD')}), headers=headers)
     assert type(response['jobs']) is list
     assert len(response['jobs']) == 0
 
