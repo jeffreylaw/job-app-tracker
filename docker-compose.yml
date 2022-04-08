@@ -3,14 +3,25 @@ version: "3.8"
 services:
   db:
     image: postgres
-    POSTGRES_DB: 'jobs-tracker-db'
-    POSTGRES_PASSWORD: 'P@ssw0rd'
-    ports:
-      - '5432:5432'
+    environment:
+      - POSTGRES_DB=job-tracker-db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=P@ssw0rd
+    volumes:
+      - ./api/sql/db.sql:/docker-entrypoint-initdb.d/init.sql
   api:
-    image: jlaw53/job-hunting-tracker-api:latest
+   build: ./api
+   environment:
+      - DEV_ENV=postgresql://postgres:P%40ssw0rd@db:5432/job-tracker-db
+      - SECRET=GREENBEAR
+   ports:
+     - 8080:8080
+   depends_on:
+     - db
   nginx:
-    image: nginx:latest
+    build: ./frontend
+    ports:
+      - 80:80
     depends_on:
-      - "db"
-      - "api"
+      - db
+      - api
