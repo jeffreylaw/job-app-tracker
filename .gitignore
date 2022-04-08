@@ -2,7 +2,8 @@ env/
 __pycache__/
 .pytest_cache/
 node_modules/
-app.log
 .env
 report.xml
 *.log
+.DS_STORE
+*.swp
