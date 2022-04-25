@@ -28,7 +28,7 @@ stages:
   - test
   - lint
   - package
-  - dockerize
+  - containerize
   - deploy
   - production tests
 
@@ -120,13 +120,29 @@ package python files:
         - api/**/*
         - .gitlab-ci.yml
 
-dockerize api:
-  stage: dockerize
+containerize api:
+  stage: containerize
   image: docker:latest
+  before_script:
+    - cd api/
   script:
+    - cd api/
     - docker login -u=${DOCKERHUB_USERNAME} -p=${DOCKERHUB_ACCESS_TOKEN}
     - docker build -t ${DOCKERHUB_USERNAME}/job-apps-tracker-api:latest .
     - docker push ${DOCKERHUB_USERNAME}/job-apps-tracker-api:latest
+  services:
+    - docker:dind
+  when: manual
+
+containerize frontend:
+  stage: containerize
+  image: docker:latest
+  before_script:
+    - cd frontend/
+  script:
+    - docker login -u=${DOCKERHUB_USERNAME} -p=${DOCKERHUB_ACCESS_TOKEN}
+    - docker build -t ${DOCKERHUB_USERNAME}/job-apps-tracker-frontend:latest .
+    - docker push ${DOCKERHUB_USERNAME}/job-apps-tracker-frontend:latest
   services:
     - docker:dind
   when: manual
