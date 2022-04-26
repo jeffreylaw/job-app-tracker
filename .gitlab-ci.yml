@@ -126,7 +126,6 @@ containerize api:
   before_script:
     - cd api/
   script:
-    - cd api/
     - docker login -u=${DOCKERHUB_USERNAME} -p=${DOCKERHUB_ACCESS_TOKEN}
     - docker build -t ${DOCKERHUB_USERNAME}/job-apps-tracker-api:latest .
     - docker push ${DOCKERHUB_USERNAME}/job-apps-tracker-api:latest
