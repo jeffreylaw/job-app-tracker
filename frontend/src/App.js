@@ -56,7 +56,7 @@ const App = () => {
                 show: true
             }
         },
-        resultsToShow: "all",
+        resultsToShow: "active",
         searchQuery: ""
     });
 
@@ -137,7 +137,11 @@ const App = () => {
         return found;
     }
 
-    let filteredJobs = filter.resultsToShow === "all" ? jobs : jobs.filter(job => job.result === filter.resultsToShow);
+
+    let filteredJobs = filter.resultsToShow === "all" ? jobs 
+                    :   filter.resultsToShow === "active" ? jobs.filter(job => job.result !== "rejected")
+                    : jobs.filter(job => job.result === filter.resultsToShow);
+
     filteredJobs = filter.searchQuery === "" ? filteredJobs : filteredJobs.filter(job => queryFoundInJob(filter.searchQuery, job));
 
     if (user && jobs) {

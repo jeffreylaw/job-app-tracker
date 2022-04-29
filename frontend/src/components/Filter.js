@@ -31,7 +31,8 @@ const Filter = ({ filter, setFilter }) => {
                             setFilter(newFilter)
                         }}
                     >
-                        <option value="all">All results (default)</option>
+                        <option value="active">Active (default)</option>
+                        <option value="all">All results</option>
                         <option value="not applied">Not Applied</option>
                         <option value="applied">Applied</option>
                         <option value="interview">Interview</option>
