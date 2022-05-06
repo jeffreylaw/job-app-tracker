@@ -14,6 +14,45 @@ import axios from 'axios';
 // const baseURL = 'http://localhost:8080';
 const baseURL = '/api';
 
+const initialState = {
+    categoriesToShow: {
+        result: {
+            name: "Result",
+            show: true
+        },
+        job_title: {
+            name: "Job title",
+            show: true
+        },
+        company: {
+            name: "Company",
+            show: true
+        },
+        job_description: {
+            name: "Job description",
+            show: true
+        },
+        salary: {
+            name: "Salary",
+            show: true
+        },
+        post_date: {
+            name: "Posted date",
+            show: true
+        },
+        applied_date: {
+            name: "Applied date",
+            show: true
+        },
+        notes: {
+            name: "Notes",
+            show: true
+        }
+    },
+    resultsToShow: "active",
+    searchQuery: ""
+}
+
 const App = () => {
     const [user, setUser] = useState(null);
     const [jobs, setJobs] = useState([]);
@@ -21,44 +60,7 @@ const App = () => {
     const [showEditJob, setShowEditJob] = useState(false);
     const [showNotes, setShowNotes] = useState(false);
     const [jobToEdit, setJobToEdit] = useState(null);
-    const [filter, setFilter] = useState({
-        categoriesToShow: {
-            result: {
-                name: "Result",
-                show: true
-            },
-            job_title: {
-                name: "Job title",
-                show: true
-            },
-            company: {
-                name: "Company",
-                show: true
-            },
-            job_description: {
-                name: "Job description",
-                show: true
-            },
-            salary: {
-                name: "Salary",
-                show: true
-            },
-            post_date: {
-                name: "Posted date",
-                show: true
-            },
-            applied_date: {
-                name: "Applied date",
-                show: true
-            },
-            notes: {
-                name: "Notes",
-                show: true
-            }
-        },
-        resultsToShow: "active",
-        searchQuery: ""
-    });
+    const [filter, setFilter] = useState(initialState);
 
     useEffect(() => {
         if (localStorage.getItem("auth_token") && localStorage.getItem("username")) {
@@ -93,6 +95,7 @@ const App = () => {
         localStorage.clear();
         setUser(null);
         setJobs([]);
+        setFilter(initialState);
     }
 
     const deleteJob = (id) => {
