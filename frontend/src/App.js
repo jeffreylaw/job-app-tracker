@@ -139,7 +139,7 @@ const App = () => {
 
 
     let filteredJobs = filter.resultsToShow === "all" ? jobs 
-                    :   filter.resultsToShow === "active" ? jobs.filter(job => job.result !== "rejected")
+                    : filter.resultsToShow === "active" ? jobs.filter(job => job.result !== "rejected")
                     : jobs.filter(job => job.result === filter.resultsToShow);
 
     filteredJobs = filter.searchQuery === "" ? filteredJobs : filteredJobs.filter(job => queryFoundInJob(filter.searchQuery, job));
