@@ -92,7 +92,7 @@ const App = () => {
         toast.dismiss();
         localStorage.clear();
         setUser(null);
-        setJobs(null);
+        setJobs([]);
     }
 
     const deleteJob = (id) => {
