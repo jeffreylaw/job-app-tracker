@@ -3,7 +3,8 @@ __pycache__/
 .pytest_cache/
 node_modules/
 .env
-report.xml
 *.log
-.DS_STORE
 *.swp
+.DS_STORE
+report.xml
+api.db
