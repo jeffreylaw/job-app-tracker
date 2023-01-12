@@ -13,8 +13,8 @@ workflow:
     # If there's a change to a branch, but without any open merge requests, run a branch pipeline
     - if: '$CI_COMMIT_BRANCH'
 
-variables:
-  PRODUCTION_DOMAIN: https://job-apps-tracker.herokuapp.com
+# variables:
+#   PRODUCTION_DOMAIN: https://
 
 cache:
   key: ${CI_COMMIT_REF_SLUG}
@@ -52,7 +52,7 @@ build pipeline dependencies:
 
 build frontend:
   stage: build
-  image: node:14
+  image: node:19
   before_script:
     - cd frontend/
   script:
@@ -129,9 +129,12 @@ containerize api:
     - docker login -u=${DOCKERHUB_USERNAME} -p=${DOCKERHUB_ACCESS_TOKEN}
     - docker build -t ${DOCKERHUB_USERNAME}/job-apps-tracker-api:latest .
     - docker push ${DOCKERHUB_USERNAME}/job-apps-tracker-api:latest
+  rules:
+    - changes:
+      - frontend/**/*
+      - .gitlab-ci.yml
   services:
     - docker:dind
-  when: manual
 
 containerize frontend:
   stage: containerize
@@ -142,33 +145,19 @@ containerize frontend:
     - docker login -u=${DOCKERHUB_USERNAME} -p=${DOCKERHUB_ACCESS_TOKEN}
     - docker build -t ${DOCKERHUB_USERNAME}/job-apps-tracker-frontend:latest .
     - docker push ${DOCKERHUB_USERNAME}/job-apps-tracker-frontend:latest
+  rules:
+    - changes:
+      - api/**/*
+      - .gitlab-ci.yml
   services:
     - docker:dind
-  when: manual
 
-deploy heroku:
-  stage: deploy
-  image: ubuntu
-  before_script:
-    - cd api/
-    - ls build/
-    - test -d build/
-    - apt-get update -qy
-    - apt-get install -y git curl
-    - apt-get install -y ruby-dev
-    - gem install dpl
-  script:
-    - dpl --provider=heroku --app=$HEROKU_APP_PRODUCTION --api-key=$HEROKU_API_KEY --skip_cleanup
-  allow_failure: true
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'
-
-production tests:
-  stage: production tests
-  image: alpine
-  cache: []
-  script:
-    - apk add curl
-    - curl $PRODUCTION_DOMAIN | grep -q "Job App Tracker"
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'
+# production tests:
+#   stage: production tests
+#   image: alpine
+#   cache: []
+#   script:
+#     - apk add curl
+#     - curl $PRODUCTION_DOMAIN | grep -q "Job App Tracker"
+#   rules:
+#     - if: '$CI_COMMIT_BRANCH == "main"'
