@@ -131,7 +131,7 @@ containerize api:
     - docker push ${DOCKERHUB_USERNAME}/job-apps-tracker-api:latest
   rules:
     - changes:
-      - frontend/**/*
+      - api/**/*
       - .gitlab-ci.yml
   services:
     - docker:dind
@@ -147,7 +147,7 @@ containerize frontend:
     - docker push ${DOCKERHUB_USERNAME}/job-apps-tracker-frontend:latest
   rules:
     - changes:
-      - api/**/*
+      - frontend/**/*
       - .gitlab-ci.yml
   services:
     - docker:dind
