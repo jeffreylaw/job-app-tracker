@@ -295,16 +295,16 @@ def delete_user(body):
 
 def index():
     """ Return static index.html file """
-    print("Index file ******************************************")
-    return send_from_directory('build', 'index.html')
+    print(("*" * 10) + "Index endpoint" + ("*" * 10))
+    return "Hello from Job application tracker API!"
 
 
 app.add_api('openapi.yaml', strict_validation=False)
 CORS(app.app)
 
 if __name__ == '__main__':
-    if 'HEROKU' in os.environ:
-        print("Running app on Heroku")
+    if 'DIGITALOCEAN' in os.environ:
+        print("Running app on DIGITALOCEAN")
         app.run(debug=False)
     else:
         app.run(port=8080, debug=True)
