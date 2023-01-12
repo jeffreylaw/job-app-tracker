@@ -6,7 +6,6 @@ WORKDIR /app
 COPY ./requirements.txt /app/requirements.txt
 RUN pip3 install -r requirements.txt
 COPY . /app
-ENTRYPOINT ["python3"]
-CMD ["app.py"]
-
-#CMD gunicorn app:app --bind 0.0.0.0:8080
+# ENTRYPOINT ["python3"]
+# CMD ["app.py"]
+CMD gunicorn app:app --bind 0.0.0.0:8080
