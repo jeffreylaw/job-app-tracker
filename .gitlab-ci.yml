@@ -57,7 +57,6 @@ build frontend:
     - cd frontend/
   script:
     - npm install
-    - echo "$REACT_APP_VERSION"
     - npm run build
     - mv build ../api
   rules:
@@ -68,9 +67,7 @@ build frontend:
     paths:
       - api/build
     expire_in: 10 mins
-  variables:
-    REACT_APP_VERSION: ${CI_COMMIT_SHORT_SHA}
-
+    
 test:
   stage: test
   before_script:
@@ -128,7 +125,7 @@ containerize api:
     - cd api/
   script:
     - docker login -u=${DOCKERHUB_USERNAME} -p=${DOCKERHUB_ACCESS_TOKEN}
-    - docker build -t ${DOCKERHUB_USERNAME}/job-apps-tracker-api:latest .
+    - docker build -t ${DOCKERHUB_USERNAME}/job-apps-tracker-api:latest --build-arg version=${CI_COMMIT_SHORT_SHA} .
     - docker push ${DOCKERHUB_USERNAME}/job-apps-tracker-api:latest
   rules:
     - changes:

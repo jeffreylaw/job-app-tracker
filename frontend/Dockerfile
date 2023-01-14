@@ -6,6 +6,7 @@ COPY ./package.json /app/package.json
 RUN npm install
 RUN npm install -g serve
 COPY . .
+ENV REACT_APP_VERSION $version
 RUN npm run build
 CMD ["serve", "-l", "3000", "-s", "build"]
 
