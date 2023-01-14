@@ -4,12 +4,9 @@ WORKDIR /app
 
 COPY ./package.json /app/package.json
 RUN npm install
+RUN npm install -g serve
 COPY . .
 RUN npm run build
+CMD ["serve", "-l", "3000", "-s", "build"]
 
-FROM nginx
-
-COPY --from=builder /app/build/ /usr/share/nginx/html
-COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
-
-CMD ["nginx", "-g", "daemon off;"]
+# CMD ["npm", "run", "start"]

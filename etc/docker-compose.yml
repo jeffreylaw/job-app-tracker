@@ -9,41 +9,25 @@ services:
       - POSTGRES_PASSWORD=P@ssw0rd
     volumes:
       - ./api/sql/db.sql:/docker-entrypoint-initdb.d/init.sql
-    networks:
-      - job-app-tracker_default
   api:
-    image: jlaw53/job-apps-tracker-api
-    container_name: job-apps-tracker-api
-    environment:
+   image: jlaw53/job-apps-tracker-api
+   environment:
       - DEV_ENV=postgresql://postgres:P%40ssw0rd@db:5432/job-tracker-db
       - SECRET=GREENBEAR
-    ports:
-      - 8080:8080
-    depends_on:
-      - db
-    networks:
-      - nginx_network
-      - job-app-tracker_default
-  frontend:
+   ports:
+     - 8080:8080
+   depends_on:
+     - db
+  nginx:
     image: jlaw53/job-apps-tracker-frontend
-    container_name: job-apps-tracker-frontend
     ports:
-      - 3000:3000
+      - 80:80
     depends_on:
       - db
       - api
-    networks:
-      - nginx_network
-      - job-app-tracker_default
   watchtower:
     image: containrrr/watchtower
     container_name: watchtower
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     command: --interval 250
-    networks:
-      - job-app-tracker_default
-networks:
-  nginx_network:
-    external: true
-  job-app-tracker_default:

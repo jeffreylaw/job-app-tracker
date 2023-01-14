@@ -6,7 +6,7 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ToggleButton from 'react-bootstrap/ToggleButton';
 import toast from 'react-hot-toast';
 import axios from 'axios';
-// const baseURL = 'http://localhost:8080';
+// const baseURL = 'http://localhost:8000';
 const baseURL = '/api';
 
 const AddJob = ({ handleClose, show, jobs, setJobs }) => {

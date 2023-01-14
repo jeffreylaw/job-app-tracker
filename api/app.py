@@ -307,4 +307,4 @@ if __name__ == '__main__':
         print("Running app on DIGITALOCEAN")
         app.run(debug=False)
     else:
-        app.run(port=8080, debug=True)
+        app.run(port=8000, debug=True)
