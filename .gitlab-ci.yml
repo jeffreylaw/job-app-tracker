@@ -150,12 +150,12 @@ containerize frontend:
   services:
     - docker:dind
 
-# production tests:
-#   stage: production tests
-#   image: alpine
-#   cache: []
-#   script:
-#     - apk add curl
-#     - curl $PRODUCTION_DOMAIN | grep -q "Job App Tracker"
-#   rules:
-#     - if: '$CI_COMMIT_BRANCH == "main"'
+production tests:
+  stage: production tests
+  image: alpine
+  cache: []
+  script:
+    - apk add curl
+    - curl $PRODUCTION_DOMAIN | grep -q "Job App Tracker"
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
