@@ -99,7 +99,7 @@ const App = () => {
     }
 
     const deleteJob = (id) => {
-        let confirm = window.confirm("Are you sure you want to delete this job?");
+        let confirm = window.confirm("Are you sure you want to delete this application?");
         if (!confirm) {
             return;
         }
