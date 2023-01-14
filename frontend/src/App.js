@@ -34,7 +34,7 @@ const initialState = {
         },
         salary: {
             name: "Salary",
-            show: true
+            show: false
         },
         post_date: {
             name: "Posted date",
