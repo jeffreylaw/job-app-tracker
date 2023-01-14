@@ -17,13 +17,13 @@ const Filter = ({ filter, setFilter }) => {
                             }
                         }/>
                         <Form.Text className="text-muted">
-                        Searches and filter <b>title</b>, <b>company</b>, and <b>description</b> (highlighted).
+                        Filter by <b>title</b>, <b>company</b>, and <b>description</b> (highlighted).
                         </Form.Text>
                     </Form.Group>
                 </div>
 
                 <div className="filter-section">
-                    <h4>Filter applications by status</h4>
+                    <h4>Filter by Status</h4>
                     <Form.Select aria-label="Default select example"
                         onChange={(e) => {
                             let newFilter = JSON.parse(JSON.stringify(filter));
@@ -42,7 +42,7 @@ const Filter = ({ filter, setFilter }) => {
                 </div>
 
                 <div className="filter-section">
-                    <h4>Show Categories</h4>
+                    <h4>Toggle Categories</h4>
                     <div className="filter-hide-section">
                         {Object.keys(filter.categoriesToShow).map((key) => {
                             if (["result", "job_title", "company"].some(i => i === key)) {

@@ -93,13 +93,21 @@ const AddJob = ({ handleClose, show, jobs, setJobs }) => {
         let month = d.getMonth() + 1 < 10 ? '0' + (d.getMonth() + 1).toString() : d.getMonth() + 1
         let day = d.getDate() < 10 ? '0' + d.getDate().toString() : d.getDate()
 
+        let d2 = d.addDays(5);
+        let month2 = d2.getMonth() + 1 < 10 ? '0' + (d2.getMonth() + 1).toString() : d2.getMonth() + 1
+        let day2 = d2.getDate() < 10 ? '0' + d2.getDate().toString() : d2.getDate()
+
         setJobStatus('interview')
-        setJobTitle('DevOps Engineer');
-        setCompany('Untitled Company');
-        setJobDescription('Engage and improve life-cycle of service from inception and design to deployment, operation, migration and sunsets - Well organized and strict alignment to SLAs - Experience working with different teams to coordinate and execute critical projects - Write, review and develop code and documentation that solves the hardest problems on some of the largest and most complex systems - Real passion for quality and automation, ability to understand complex systems and a desire to constantly make things better - Prioritize and work efficiently in a fast-paced environment - Measure and optimize system performance - Strong interpersonal skills - Demonstrate ability to deliver results on time with high quality - Share on-call rotation with the existing team members to provide 24x7 support');
-        setSalary(499999);
+        setJobTitle('Cybersecurity Analyst');
+        setCompany('Untitled Tech Company');
+        setJobDescription(`Conduct in-depth forensics analysis on compromised Windows and Linux operating systems
+        Develop threat intelligence based on the artifacts and indicators of compromise during investigations
+        Identify attack vectors and other affected systems
+        Perform memory forensics and malware analysis
+        Work closely with the Security teams to contain and remediate incidents`);
+        setSalary(123456);
         setJobPostDate(`${d.getFullYear()}-${month}-${day}`);
-        setJobAppliedDate(`${d.getFullYear()}-${month}-${day}`);
+        setJobAppliedDate(`${d.getFullYear()}-${month2}-${day2}`);
         setLink('indeed.ca');
     }
 
@@ -170,13 +178,13 @@ const AddJob = ({ handleClose, show, jobs, setJobs }) => {
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formLink">
-                        <Form.Label>Link</Form.Label>
-                        <Form.Control type="text" placeholder="Enter url" value={link} onChange={(e) => setLink(e.target.value)} />
+                        <Form.Label>Job Posting URL</Form.Label>
+                        <Form.Control type="text" placeholder="Enter URL" value={link} onChange={(e) => setLink(e.target.value)} />
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formNotes">
                         <Form.Label>Notes</Form.Label>
-                        <Form.Control as="textarea" rows="3" placeholder="Enter any notes here" value={notes} onChange={(e) => setNotes(e.target.value)} />
+                        <Form.Control as="textarea" rows="3" placeholder="Enter notes here" value={notes} onChange={(e) => setNotes(e.target.value)} />
                     </Form.Group>
 
                 </Modal.Body>
