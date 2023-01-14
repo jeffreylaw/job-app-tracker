@@ -153,7 +153,7 @@ const App = () => {
                 <Toaster />
                 <Navbar bg="dark" variant="dark">
                     <Container>
-                        <Navbar.Brand >Job Tracker</Navbar.Brand>
+                        <Navbar.Brand >Job Application Tracker</Navbar.Brand>
                         <Nav className="me-auto">
                             <Nav.Link onClick={handleToggleAddJob}>Add Job</Nav.Link>
                             <Nav.Link onClick={() => logout()}>Logout ({user})</Nav.Link>
