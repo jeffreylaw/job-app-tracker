@@ -4,8 +4,25 @@ import Button from 'react-bootstrap/Button';
 import { AiOutlineDelete } from 'react-icons/ai'
 import { AiOutlineEdit } from 'react-icons/ai';
 import ReadMore from './ReadMore';
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 
 const JobsTable = ({ filter, filteredJobs, setShowEditJob, setJobToEdit, deleteJob, setShowNotes }) => {
+    const deleteApplication = (id) => {
+        confirmAlert({
+          title: 'Delete Application',
+          message: 'Are you sure you want to delete this application?',
+          buttons: [
+            {
+              label: 'Yes',
+              onClick: () => deleteJob(id)
+            },
+            {
+              label: 'No'
+            }
+          ]
+        });
+      };
 
     return (
         <Table bordered hover responsive>
@@ -71,7 +88,7 @@ const JobsTable = ({ filter, filteredJobs, setShowEditJob, setJobToEdit, deleteJ
                                     <div className="hover-btn">
                                         {/* <span className="tooltiptext" onClick={() => deleteJob(job.job_id)}>Delete</span> */}
                                         <AiOutlineDelete
-                                            onClick={() => deleteJob(job.job_id)}
+                                            onClick={() => deleteApplication(job.job_id)}
                                         />
                                     </div>
 

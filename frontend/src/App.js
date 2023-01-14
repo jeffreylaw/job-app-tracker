@@ -99,10 +99,6 @@ const App = () => {
     }
 
     const deleteJob = (id) => {
-        let confirm = window.confirm("Are you sure you want to delete this application?");
-        if (!confirm) {
-            return;
-        }
         const token = localStorage.getItem("auth_token");
         const config = {
             headers: { Authorization: `Bearer ${token}` }
