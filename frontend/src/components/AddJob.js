@@ -100,11 +100,11 @@ const AddJob = ({ handleClose, show, jobs, setJobs }) => {
         setJobStatus('interview')
         setJobTitle('Cybersecurity Analyst');
         setCompany('Untitled Tech Company');
-        setJobDescription(`Conduct in-depth forensics analysis on compromised Windows and Linux operating systems
-        Develop threat intelligence based on the artifacts and indicators of compromise during investigations
-        Identify attack vectors and other affected systems
-        Perform memory forensics and malware analysis
-        Work closely with the Security teams to contain and remediate incidents`);
+        setJobDescription(`- Conduct in-depth forensics analysis on compromised Windows and Linux operating systems
+- Develop threat intelligence based on the artifacts and indicators of compromise during investigations
+- Identify attack vectors and other affected systems
+- Perform memory forensics and malware analysis
+- Work closely with the Security teams to contain and remediate incidents`);
         setSalary(123456);
         setJobPostDate(`${d.getFullYear()}-${month}-${day}`);
         setJobAppliedDate(`${d.getFullYear()}-${month2}-${day2}`);
