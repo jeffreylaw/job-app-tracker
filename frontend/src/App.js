@@ -194,9 +194,9 @@ const App = () => {
                 <div className="login-div">
                     <Login setUser={setUser} setJobs={setJobs} />
                 </div>
-                {/* <div className="version-div">
+                <div className="version-div">
                     Version: {process.env.REACT_APP_VERSION}
-                </div> */}
+                </div>
             </div>
         );
     }
