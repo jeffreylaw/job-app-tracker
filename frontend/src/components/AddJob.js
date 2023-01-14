@@ -89,13 +89,13 @@ const AddJob = ({ handleClose, show, jobs, setJobs }) => {
     }
 
     const fillInFormValues = () => {
-        const d = new Date();
+        let d = new Date();
         let month = d.getMonth() + 1 < 10 ? '0' + (d.getMonth() + 1).toString() : d.getMonth() + 1
         let day = d.getDate() < 10 ? '0' + d.getDate().toString() : d.getDate()
 
-        let d2 = d.addDays(5);
-        let month2 = d2.getMonth() + 1 < 10 ? '0' + (d2.getMonth() + 1).toString() : d2.getMonth() + 1
-        let day2 = d2.getDate() < 10 ? '0' + d2.getDate().toString() : d2.getDate()
+        d.setDate(d.getDate() + 10);
+        let month2 = d.getMonth() + 1 < 10 ? '0' + (d.getMonth() + 1).toString() : d.getMonth() + 1
+        let day2 = d.getDate() < 10 ? '0' + d.getDate().toStrsing() : d.getDate()
 
         setJobStatus('interview')
         setJobTitle('Cybersecurity Analyst');
