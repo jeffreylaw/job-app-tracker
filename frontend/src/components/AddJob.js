@@ -114,7 +114,7 @@ const AddJob = ({ handleClose, show, jobs, setJobs }) => {
     return (
         <Modal show={show} onHide={handleClose} backdrop="static" dialogClassName="addJobModal">
             <Modal.Header closeButton>
-                <Modal.Title>Add New Job</Modal.Title>
+                <Modal.Title>New Application</Modal.Title>
             </Modal.Header>
             <Form noValidate validated={validated} onSubmit={createJob}>
                 <Modal.Body>

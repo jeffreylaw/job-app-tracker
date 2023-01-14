@@ -155,7 +155,7 @@ const App = () => {
                     <Container>
                         <Navbar.Brand >Job Application Tracker</Navbar.Brand>
                         <Nav className="me-auto">
-                            <Nav.Link onClick={handleToggleAddJob}>Add Job</Nav.Link>
+                            <Nav.Link onClick={handleToggleAddJob}>Add Application</Nav.Link>
                             <Nav.Link onClick={() => logout()}>Logout ({user})</Nav.Link>
                         </Nav>
                     </Container>
