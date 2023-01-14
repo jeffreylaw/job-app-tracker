@@ -11,7 +11,7 @@ const JobsTable = ({ filter, filteredJobs, setShowEditJob, setJobToEdit, deleteJ
         <Table bordered hover responsive>
             <thead>
                 <tr className="table-header-row">
-                    {filter.categoriesToShow.result.show && <th>Result</th>}
+                    {filter.categoriesToShow.result.show && <th>Status</th>}
                     {filter.categoriesToShow.job_title.show && <th>Title</th>}
                     {filter.categoriesToShow.company.show && <th>Company</th>}
                     {filter.categoriesToShow.job_description.show && <th>Description</th>}

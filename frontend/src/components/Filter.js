@@ -23,7 +23,7 @@ const Filter = ({ filter, setFilter }) => {
                 </div>
 
                 <div className="filter-section">
-                    <h4>Filter applications by result status</h4>
+                    <h4>Filter applications by status</h4>
                     <Form.Select aria-label="Default select example"
                         onChange={(e) => {
                             let newFilter = JSON.parse(JSON.stringify(filter));
@@ -32,7 +32,7 @@ const Filter = ({ filter, setFilter }) => {
                         }}
                     >
                         <option value="active">Active (default)</option>
-                        <option value="all">All results</option>
+                        <option value="all">All Applications</option>
                         <option value="not applied">Not Applied</option>
                         <option value="applied">Applied</option>
                         <option value="interview">Interview</option>
