@@ -3,17 +3,21 @@ image: python:3.10
 cache:
   key: ${CI_COMMIT_REF_SLUG}
   paths:
-    - venv/
+    - api/venv/
+    - frontend/node_modules
 
 stages:
   - build
   - test
   - lint
   - package
+  - dockerize
+  - deploy
 
-build:
+build api:
   stage: build
   script:
+    - cd api/
     - pip install virtualenv
     - virtualenv venv/
     - source venv/bin/activate
@@ -22,14 +26,29 @@ build:
     - changes:
       - api/*
 
+
+build frontend:
+  stage: build
+  image: node:14
+  before_script:
+    - cd frontend/
+  script:
+    - echo "Build frontend"
+    - npm install
+    - npm run build
+    - ls
+  rules:
+    - changes:
+      - frontend/*
+
 test:
   stage: test
   before_script:
+    - cd api/
     - pip install virtualenv
     - virtualenv venv/
     - source venv/bin/activate
   script:
-    - cd api/
     - pytest test*.py --junitxml=report.xml
   artifacts:
     when: always
@@ -42,11 +61,12 @@ test:
 lint:
   stage: lint
   before_script:
+    - cd api/
     - pip install virtualenv
     - virtualenv venv/
     - source venv/bin/activate
   script:
-    - pylint --fail-under 7.0 api/app.py
+    - pylint --fail-under 8.0 api/app.py
   rules:
     - changes:
       - api/*
@@ -55,6 +75,8 @@ package python files:
   stage: package
   image: alpine
   cache: []
+  before_script:
+    - cd api/
   script:
     - apk --no-cache add zip
     - zip api/artifacts.zip api/*.py -x api/test*.py
@@ -65,3 +87,31 @@ package python files:
   rules:
     - changes:
       - api/*
+
+dockerize api:
+  stage: dockerize
+  image: docker:latest
+  script:
+    - docker login -u=${DOCKERHUB_USERNAME} -p=${DOCKERHUB_ACCESS_TOKEN}
+    - docker build -t ${DOCKERHUB_USERNAME}/job-hunting-tracker-api:latest .
+    - docker push ${DOCKERHUB_USERNAME}/job-hunting-tracker-api:latest
+  services:
+    - docker:dind
+  when: manual
+
+deploy heroku:
+  stage: deploy
+  image: ubuntu
+  before_script:
+    - cd api/
+    - apt-get update -qy
+    - apt-get install -y git curl
+    - apt-get install -y ruby-dev
+    - gem install dpl
+  script:
+    - dpl --provider=heroku --app=$HEROKU_APP_PRODUCTION --api-key=$HEROKU_API_KEY
+  allow_failure: true
+  rules:
+    - changes:
+      - api/*
+      - frontend/*
