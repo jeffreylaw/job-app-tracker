@@ -74,6 +74,17 @@ const Login = ({ setUser, setJobs }) => {
             toast.error("Please enter a password");
             return
         }
+
+        if (password.length < 8 || password.length > 16) {
+            toast.error("Password must be 8 to 16 characters long")
+            return
+        }
+
+        if (!/[0-9]/.test(password)) {
+            toast.error("Password must contain a number")
+            return
+        }
+
         toast.loading('Registering...');
         axios
             .post(baseURL + '/register',

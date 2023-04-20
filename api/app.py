@@ -23,6 +23,7 @@ from sqlalchemy.orm import sessionmaker
 from job import Job
 from user import User
 from helper import decode_auth_token
+from helper import check_password
 
 load_dotenv()
 with open('log_conf.yaml', 'r', encoding='utf-8') as f:
@@ -222,7 +223,11 @@ def register_user(body):
         session.close()
         return "Username is taken", 401
 
+    result = check_password(body['password'])
+    if result != "valid":
+        return result, 403
     password = body['password'].encode("utf-8")
+
     random_id = uuid.uuid4().hex
     new_user = User(
         user_id = random_id,
