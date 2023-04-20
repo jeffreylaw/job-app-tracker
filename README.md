@@ -43,5 +43,12 @@ cd api/
 docker build -t job-hunter-tracker .
 ```
 
+### Env file
+1. For development, create an .env file in /api with\
+    ```
+       DEV_ENV=sqlite:///api.db
+       SECRET=YOURSECRETHERE
+    ```
+
 # Frontend
 Frontend React app for CRUD job applications
