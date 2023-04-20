@@ -48,6 +48,7 @@ else:
 
 Session = sessionmaker(bind=engine)
 
+
 def get_jobs():
     """ Return user's job applications """
     try:
@@ -184,7 +185,6 @@ def delete_job(job_id):
     except ValueError:
         logger.error('Failed DELETE: /jobs/{job_id} due to invalid auth token')
         return "Invalid token", 401
-    print("ok")
     current_user_id = decoded_payload['id']
 
     logger.info(f'Deleting job with id {job_id}')
