@@ -7,7 +7,7 @@ const ReadMore = ({ filter, text, highlightable }) => {
         setShowMore(!showMore);
     };
 
-    const getHighlightedText = (text) => {
+    const getHighlightedText = (text,) => {
         let searchQuery = filter.searchQuery;
         if (!searchQuery) {
             return text;
@@ -27,22 +27,30 @@ const ReadMore = ({ filter, text, highlightable }) => {
     if (!highlightable) {
         return (
             <p>
-                {showMore ? text.slice(0, 200) : text}
+                {showMore ? text.slice(0, 300) + "..." : text}
                 <span onClick={toggleReadMore} className="read-more-span">
                     {showMore ? "\nShow More" : "\nShow Less"}
                 </span>
             </p>
-        ); 
+        );
     }
 
-    return (
-        <p>
-            {showMore ? getHighlightedText(text.slice(0, 200)) : getHighlightedText(text)}
-            <span onClick={toggleReadMore} className="read-more-span">
-                {showMore ? "\nShow More" : "\nShow Less"}
-            </span>
-        </p>
-    );
+    if (text.length >= 300) {
+        return (
+            <p>
+                {showMore ? getHighlightedText(text.slice(0,300) + "...") : getHighlightedText(text)}
+                <span onClick={toggleReadMore} className="read-more-span">
+                    {showMore ? "\nShow More" : "\nShow Less"}
+                </span>
+            </p>
+        );
+    } else {
+        return (
+            <p>
+                {getHighlightedText(text)}
+            </p>
+        );
+    }
 };
 
 export default ReadMore;
