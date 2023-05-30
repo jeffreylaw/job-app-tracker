@@ -95,7 +95,7 @@ const AddJob = ({ handleClose, show, jobs, setJobs }) => {
 
         d.setDate(d.getDate() + 10);
         let month2 = d.getMonth() + 1 < 10 ? '0' + (d.getMonth() + 1).toString() : d.getMonth() + 1
-        let day2 = d.getDate() < 10 ? '0' + d.getDate().toStrsing() : d.getDate()
+        let day2 = d.getDate() < 10 ? '0' + d.getDate().toString() : d.getDate()
 
         setJobStatus('interview')
         setJobTitle('Cybersecurity Analyst');

@@ -12,7 +12,7 @@ services:
     networks:
       - job-app-tracker_default
   api:
-    image: jlaw53/job-apps-tracker-api
+    build: ./api
     container_name: job-apps-tracker-api
     environment:
       - DEV_ENV=postgresql://postgres:P%40ssw0rd@db:5432/job-tracker-db
@@ -25,7 +25,7 @@ services:
       - nginx_network
       - job-app-tracker_default
   frontend:
-    image: jlaw53/job-apps-tracker-frontend
+    build: ./frontend
     container_name: job-apps-tracker-frontend
     ports:
       - 3000:3000
@@ -34,14 +34,6 @@ services:
       - api
     networks:
       - nginx_network
-      - job-app-tracker_default
-  watchtower:
-    image: containrrr/watchtower
-    container_name: watchtower
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    command: --interval 250
-    networks:
       - job-app-tracker_default
 networks:
   nginx_network:
