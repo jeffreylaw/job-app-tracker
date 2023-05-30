@@ -27,11 +27,11 @@ body {
 
 .table {
   height: 1px;
+  margin-bottom: 0px !important;
 }
 
 .edit-delete-btns {
   height: 100%;
-  width: 5vw;
   padding: 0 !important;
   margin: 0 !important;
   display: flex;
