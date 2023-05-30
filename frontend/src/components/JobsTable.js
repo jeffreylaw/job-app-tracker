@@ -10,19 +10,19 @@ import 'react-confirm-alert/src/react-confirm-alert.css';
 const JobsTable = ({ filter, filteredJobs, setShowEditJob, setJobToEdit, deleteJob, setShowNotes }) => {
     const deleteApplication = (id) => {
         confirmAlert({
-          title: 'Delete Application',
-          message: 'Are you sure you want to delete this application?',
-          buttons: [
-            {
-              label: 'Yes',
-              onClick: () => deleteJob(id)
-            },
-            {
-              label: 'No'
-            }
-          ]
+            title: 'Delete Application',
+            message: 'Are you sure you want to delete this application?',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: () => deleteJob(id)
+                },
+                {
+                    label: 'No'
+                }
+            ]
         });
-      };
+    };
 
     return (
         <Table bordered hover responsive>
@@ -32,10 +32,10 @@ const JobsTable = ({ filter, filteredJobs, setShowEditJob, setJobToEdit, deleteJ
                     {filter.categoriesToShow.job_title.show && <th>Title</th>}
                     {filter.categoriesToShow.company.show && <th>Company</th>}
                     {filter.categoriesToShow.job_description.show && <th>Description</th>}
-                    {filter.categoriesToShow.salary.show && <th>Salary</th>}
                     {filter.categoriesToShow.post_date.show && <th>Posted</th>}
                     {filter.categoriesToShow.applied_date.show && <th>Applied</th>}
                     {filter.categoriesToShow.notes.show && <th>Notes</th>}
+                    {filter.categoriesToShow.salary.show && <th>Salary</th>}
                     <th></th>
                 </tr>
             </thead>
@@ -57,7 +57,6 @@ const JobsTable = ({ filter, filteredJobs, setShowEditJob, setJobToEdit, deleteJ
                                     <ReadMore filter={filter} text={job.job_description} highlightable={true}></ReadMore>
                                 </td>}
 
-                                {filter.categoriesToShow.salary.show && <td className="center-text">{job.salary !== 0 ? "$" + job.salary : 'n/a'}</td>}
                                 {filter.categoriesToShow.post_date.show && <td className="center-text">{job.post_date ? job.post_date.split('T')[0] : 'n/a'}</td>}
                                 {filter.categoriesToShow.applied_date.show && <td className="center-text">{job.applied_date ? job.applied_date.split('T')[0] : 'n/a'}</td>}
                                 {filter.categoriesToShow.notes.show && job.notes.length > 0 &&
@@ -71,6 +70,8 @@ const JobsTable = ({ filter, filteredJobs, setShowEditJob, setJobToEdit, deleteJ
                                     </td>}
 
                                 {filter.categoriesToShow.notes.show && !job.notes && <td></td>}
+                                {filter.categoriesToShow.salary.show && <td className="center-text">{job.salary !== 0 ? "$" + job.salary : 'n/a'}</td>}
+
                                 <td className="edit-delete-btns">
                                     <div className="hover-btn">
                                         {/* <span className="tooltiptext"
@@ -85,6 +86,7 @@ const JobsTable = ({ filter, filteredJobs, setShowEditJob, setJobToEdit, deleteJ
                                             }}
                                         />
                                     </div>
+            
                                     <div className="hover-btn">
                                         {/* <span className="tooltiptext" onClick={() => deleteJob(job.job_id)}>Delete</span> */}
                                         <AiOutlineDelete

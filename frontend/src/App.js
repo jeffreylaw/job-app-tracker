@@ -32,13 +32,9 @@ const initialState = {
             name: "Job description",
             show: true
         },
-        salary: {
-            name: "Salary",
-            show: false
-        },
         post_date: {
             name: "Posted date",
-            show: true
+            show: false
         },
         applied_date: {
             name: "Applied date",
@@ -47,7 +43,11 @@ const initialState = {
         notes: {
             name: "Notes",
             show: true
-        }
+        },
+        salary: {
+            name: "Salary",
+            show: false
+        },
     },
     resultsToShow: "active",
     searchQuery: ""
@@ -157,10 +157,11 @@ const App = () => {
                     </Container>
                 </Navbar>
                 <div>
-                    <button className="accordion" onClick={toggleFilter}>Filter</button>
-                    <div className="hidden panel" id="filter">
+                    {/* <button className="accordion" onClick={toggleFilter}><b>Filter</b></button> */}
+                    {/* <div className="hidden panel" id="filter">
                         <Filter filter={filter} setFilter={setFilter} />
-                    </div>
+                    </div> */}
+                    <Filter filter={filter} setFilter={setFilter} />
                     <JobsTable 
                         filter={filter} 
                         filteredJobs={filteredJobs} 

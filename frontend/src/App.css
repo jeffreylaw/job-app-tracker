@@ -124,13 +124,13 @@ body {
 
 /* Style the buttons that are used to open and close the accordion panel */
 .accordion {
-  background-color: rgb(233, 233, 233);
+  background-color: #e6e6e6;
   color: #444;
   cursor: pointer;
   padding-top: 8px;
   padding-bottom: 8px;
   width: 100%;
-  text-align: right;
+  text-align: left;
   border: none;
   outline: none;
   transition: 0.4s;
@@ -183,6 +183,10 @@ body {
   float: right;
 }
 
+.toggle-category-div {
+  padding-top: 20px;
+}
+
 @media only screen and (max-width: 1200px) {
   .filter-main {
     flex-direction: column;
@@ -198,6 +202,11 @@ body {
     text-align: center;
     vertical-align: top;
   }
+
+  .toggle-category-div {
+    padding-top: 0px;
+  }
+  
 }
 
 .filter-hide-section {

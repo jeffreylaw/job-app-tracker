@@ -7,7 +7,6 @@ const Filter = ({ filter, setFilter }) => {
         <Form>
             <div className="filter-main">
                 <div className="filter-section">
-                    <h4>Search Filter</h4>
                     <Form.Group className="mb-1" controlId="formSearch">
                         <Form.Control type="text" placeholder="Enter search value" onChange={
                             (e) => {
@@ -15,15 +14,14 @@ const Filter = ({ filter, setFilter }) => {
                                 newFilter.searchQuery = e.target.value;
                                 setFilter(newFilter);
                             }
-                        }/>
+                        } />
                         <Form.Text className="text-muted">
-                        Filter by <b>title</b>, <b>company</b>, and <b>description</b> (highlighted).
+                            Search by title, company, and description (highlighted).
                         </Form.Text>
                     </Form.Group>
                 </div>
 
                 <div className="filter-section">
-                    <h4>Filter by Status</h4>
                     <Form.Select aria-label="Default select example"
                         onChange={(e) => {
                             let newFilter = JSON.parse(JSON.stringify(filter));
@@ -31,7 +29,7 @@ const Filter = ({ filter, setFilter }) => {
                             setFilter(newFilter)
                         }}
                     >
-                        <option value="active">Active (default)</option>
+                        <option value="active">Active</option>
                         <option value="all">Show All</option>
                         <option value="not applied">Not Applied</option>
                         <option value="applied">Applied</option>
@@ -39,29 +37,31 @@ const Filter = ({ filter, setFilter }) => {
                         <option value="waiting">Waiting</option>
                         <option value="rejected">Rejected</option>
                     </Form.Select>
+                    <Form.Text className="text-muted">
+                        Show applications by status.
+                    </Form.Text>
                 </div>
 
                 <div className="filter-section">
-                    <h4>Toggle Categories</h4>
-                    <div className="filter-hide-section">
+                    <div className="filter-hide-section toggle-category-div">
                         {Object.keys(filter.categoriesToShow).map((key) => {
                             if (["result", "job_title", "company"].some(i => i === key)) {
                                 return null
                             }
                             return (
-                            <div key={key} className="filter-hide-category">
-                                <Form.Check
-                                    type="checkbox"
-                                    id={filter.categoriesToShow[key].name}
-                                    label={filter.categoriesToShow[key].name}
-                                    defaultChecked={filter.categoriesToShow[key].show}
-                                    onClick={(e) => {
-                                        let newFilter = JSON.parse(JSON.stringify(filter));
-                                        newFilter.categoriesToShow[key].show = e.target.checked;
-                                        setFilter(newFilter)
-                                    }}
-                                />
-                            </div>
+                                <div key={key} className="filter-hide-category">
+                                    <Form.Check
+                                        type="checkbox"
+                                        id={filter.categoriesToShow[key].name}
+                                        label={filter.categoriesToShow[key].name}
+                                        defaultChecked={filter.categoriesToShow[key].show}
+                                        onClick={(e) => {
+                                            let newFilter = JSON.parse(JSON.stringify(filter));
+                                            newFilter.categoriesToShow[key].show = e.target.checked;
+                                            setFilter(newFilter)
+                                        }}
+                                    />
+                                </div>
                             )
                         })}
                     </div>
