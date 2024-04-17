@@ -118,12 +118,6 @@ const App = () => {
             })
     }
 
-    const toggleFilter = () => {
-        const oldClass = document.getElementById("filter").className;
-        const newClass = oldClass === "hidden panel" ? "visible panel" : "hidden panel";
-        document.getElementById("filter").className = newClass;
-    }
-
     const queryFoundInJob = (query, job) => {
         let found = false;
         for (const [key, value] of Object.entries(job)) {
@@ -157,10 +151,6 @@ const App = () => {
                     </Container>
                 </Navbar>
                 <div>
-                    {/* <button className="accordion" onClick={toggleFilter}><b>Filter</b></button> */}
-                    {/* <div className="hidden panel" id="filter">
-                        <Filter filter={filter} setFilter={setFilter} />
-                    </div> */}
                     <Filter filter={filter} setFilter={setFilter} />
                     <JobsTable 
                         filter={filter} 

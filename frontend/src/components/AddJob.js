@@ -46,14 +46,14 @@ const AddJob = ({ handleClose, show, jobs, setJobs }) => {
             .post(baseURL + '/jobs',
                 {
                     result: jobStatus,
-                    job_title: jobTitle,
-                    company: company,
-                    job_description: jobDescription,
+                    job_title: jobTitle.trim(),
+                    company: company.trim(),
+                    job_description: jobDescription.trim(),
                     salary: salary,
                     post_date: jobPostDate,
                     applied_date: jobAppliedDate,
-                    link: link,
-                    notes: notes
+                    link: link.trim(),
+                    notes: notes.trim()
                 }, config
             ).then((res) => {
                 toast.dismiss();

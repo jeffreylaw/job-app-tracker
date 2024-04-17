@@ -18,7 +18,7 @@ API for tracking job applications built on Python, Connexion, SQLAlchemy, and cu
 git clone https://github.com/jeffreylaw/job-hunting-tracker.git
 cd api/
 python3 -m venv env
-source env/bin/activate
+source env/bin/activate (.\env\Scripts\activate on Windows)
 pip install -r requirements.txt
 python3 app.py
 ```
