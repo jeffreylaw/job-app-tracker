@@ -15,7 +15,6 @@ const EditJob = ({ handleClose, show, jobToEdit, setJobToEdit, jobs, setJobs }) 
     const [company, setCompany] = useState('');
     const [jobDescription, setJobDescription] = useState('');
     const [salary, setSalary] = useState(0);
-    const [jobPostDate, setJobPostDate] = useState('');
     const [jobAppliedDate, setJobAppliedDate] = useState('');
     const [link, setLink] = useState('');
     const [notes, setNotes] = useState('');
@@ -30,12 +29,7 @@ const EditJob = ({ handleClose, show, jobToEdit, setJobToEdit, jobs, setJobs }) 
         setLink(jobToEdit.link);
         setNotes(jobToEdit.notes);
 
-        setJobPostDate('')
         setJobAppliedDate('')
-
-        if (jobToEdit.post_date) {
-            setJobPostDate(jobToEdit.post_date.split('T')[0]);
-        }
 
         if (jobToEdit.applied_date) {
             setJobAppliedDate(jobToEdit.applied_date.split('T')[0]);
@@ -73,7 +67,6 @@ const EditJob = ({ handleClose, show, jobToEdit, setJobToEdit, jobs, setJobs }) 
                     company: company,
                     job_description: jobDescription,
                     salary: salary,
-                    post_date: jobPostDate,
                     applied_date: jobAppliedDate,
                     link: link,
                     notes: notes
@@ -105,7 +98,6 @@ const EditJob = ({ handleClose, show, jobToEdit, setJobToEdit, jobs, setJobs }) 
         setCompany('');
         setJobDescription('');
         setSalary('');
-        setJobPostDate('');
         setJobAppliedDate('');
         setLink('');
         setNotes('');
@@ -140,35 +132,30 @@ const EditJob = ({ handleClose, show, jobToEdit, setJobToEdit, jobs, setJobs }) 
                             </ButtonGroup>
                         </div>
                     </Form.Group>
-                    <Form.Group className="mb-3" controlId="formJobTitle">
-                        <Form.Label>Job Title</Form.Label>
-                        <Form.Control type="text" placeholder="Enter title" required value={jobTitle} onChange={(e) => setJobTitle(e.target.value)} />
-                        <Form.Control.Feedback type="invalid">
-                            Please enter a job title.
-                        </Form.Control.Feedback>
-                    </Form.Group>
                     <Form.Group className="mb-3" controlId="formCompany">
                         <Form.Label>Company</Form.Label>
-                        <Form.Control type="text" placeholder="Enter company name" required value={company} onChange={(e) => setCompany(e.target.value)} />
+                        <Form.Control type="text" placeholder="" required value={company} onChange={(e) => setCompany(e.target.value)} />
                         <Form.Control.Feedback type="invalid">
                             Please enter a company name.
+                        </Form.Control.Feedback>
+                    </Form.Group>
+                    <Form.Group className="mb-3" controlId="formJobTitle">
+                        <Form.Label>Position</Form.Label>
+                        <Form.Control type="text" placeholder="" required value={jobTitle} onChange={(e) => setJobTitle(e.target.value)} />
+                        <Form.Control.Feedback type="invalid">
+                            Please enter a job position.
                         </Form.Control.Feedback>
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formJobDescription">
                         <Form.Label>Job Description</Form.Label>
-                        <Form.Control as="textarea" rows="3" placeholder="Enter description" value={jobDescription} onChange={(e) => setJobDescription(e.target.value)} />
+                        <Form.Control as="textarea" rows="3" placeholder="" value={jobDescription} onChange={(e) => setJobDescription(e.target.value)} />
                     </Form.Group>
 
-                    <Form.Group className="mb-3" controlId="formSalary">
+                    {/* <Form.Group className="mb-3" controlId="formSalary">
                         <Form.Label>Salary</Form.Label>
                         <Form.Control type="number" min="0" max="500000" value={salary} onChange={(e) => setSalary(e.target.value)} />
-                    </Form.Group>
-
-                    <Form.Group className="mb-3" controlId="formJobPostDate">
-                        <Form.Label>Posted Date</Form.Label>
-                        <Form.Control type="date" value={jobPostDate} onChange={(e) => setJobPostDate(e.target.value)} />
-                    </Form.Group>
+                    </Form.Group> */}
 
                     <Form.Group className="mb-3" controlId="formJobAppliedDate">
                         <Form.Label>Applied Date</Form.Label>
@@ -176,13 +163,13 @@ const EditJob = ({ handleClose, show, jobToEdit, setJobToEdit, jobs, setJobs }) 
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formLink">
-                        <Form.Label>Link</Form.Label>
-                        <Form.Control type="text" placeholder="Enter url" value={link} onChange={(e) => setLink(e.target.value)} />
+                        <Form.Label>Job Posting Link</Form.Label>
+                        <Form.Control type="text" placeholder="" value={link} onChange={(e) => setLink(e.target.value)} />
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formNotes">
                         <Form.Label>Notes</Form.Label>
-                        <Form.Control as="textarea" rows="3" placeholder="Enter any notes here" value={notes} onChange={(e) => setNotes(e.target.value)} />
+                        <Form.Control as="textarea" rows="3" placeholder="" value={notes} onChange={(e) => setNotes(e.target.value)} />
                     </Form.Group>
 
                 </Modal.Body>

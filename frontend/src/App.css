@@ -20,6 +20,11 @@ body {
   text-align: center;
 }
 
+#navbar {
+  position: sticky;
+  top: 0;
+}
+
 .addJobModal {
   width: 90vw !important;
   max-width: 90vw !important;

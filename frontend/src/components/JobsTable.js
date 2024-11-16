@@ -29,13 +29,12 @@ const JobsTable = ({ filter, filteredJobs, setShowEditJob, setJobToEdit, deleteJ
             <thead>
                 <tr className="table-header-row">
                     {filter.categoriesToShow.result.show && <th>Status</th>}
-                    {filter.categoriesToShow.job_title.show && <th>Title</th>}
                     {filter.categoriesToShow.company.show && <th>Company</th>}
+                    {filter.categoriesToShow.job_title.show && <th>Job Position</th>}
                     {filter.categoriesToShow.job_description.show && <th>Description</th>}
-                    {filter.categoriesToShow.post_date.show && <th>Posted</th>}
                     {filter.categoriesToShow.applied_date.show && <th>Applied</th>}
                     {filter.categoriesToShow.notes.show && <th>Notes</th>}
-                    {filter.categoriesToShow.salary.show && <th>Salary</th>}
+                    {/* {filter.categoriesToShow.salary.show && <th>Salary</th>} */}
                     <th></th>
                 </tr>
             </thead>
@@ -49,16 +48,23 @@ const JobsTable = ({ filter, filteredJobs, setShowEditJob, setJobToEdit, deleteJ
                                 {job.result === 'interview' && <td><Badge bg="info">{job.result.toUpperCase()}</Badge></td>}
                                 {job.result === 'waiting' && <td><Badge bg="success">{job.result.toUpperCase()}</Badge></td>}
                                 {job.result === 'rejected' && <td><Badge bg="danger">{job.result.toUpperCase()}</Badge></td>}
+                                {filter.categoriesToShow.company.show && <td>{job.company}</td>}
                                 {filter.categoriesToShow.job_title.show && <td>
                                     {job.link ? <a href={job.link.startsWith("http://") || job.link.startsWith("https://") ? job.link : "//" + job.link} target="_blank" rel="noreferrer">{job.job_title}</a> : <span>{job.job_title}</span>}
                                 </td>}
-                                {filter.categoriesToShow.company.show && <td>{job.company}</td>}
                                 {filter.categoriesToShow.job_description.show && <td className="job-description-td">
                                     <ReadMore filter={filter} text={job.job_description} highlightable={true}></ReadMore>
                                 </td>}
 
-                                {filter.categoriesToShow.post_date.show && <td className="center-text">{job.post_date ? job.post_date.split('T')[0] : 'n/a'}</td>}
-                                {filter.categoriesToShow.applied_date.show && <td className="center-text">{job.applied_date ? job.applied_date.split('T')[0] : 'n/a'}</td>}
+                                {filter.categoriesToShow.applied_date.show && 
+                                    <td className="center-text">
+                                        <p>
+                                            {job.applied_date ? job.applied_date.split('T')[0] : 'n/a'}                                        
+                                        </p>
+                                        <span>
+                                        {job.applied_date ? "(" + Math.round((new Date() - new Date(job.applied_date)) / (1000 * 3600 * 24)) + " days ago)" : ''}
+                                        </span>
+                                    </td>}
                                 {filter.categoriesToShow.notes.show && job.notes.length > 0 &&
                                     <td>
                                         <Button variant="link"

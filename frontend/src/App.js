@@ -32,10 +32,6 @@ const initialState = {
             name: "Job description",
             show: true
         },
-        post_date: {
-            name: "Posted date",
-            show: false
-        },
         applied_date: {
             name: "Applied date",
             show: true
@@ -121,8 +117,8 @@ const App = () => {
     const queryFoundInJob = (query, job) => {
         let found = false;
         for (const [key, value] of Object.entries(job)) {
-            if (!["result", "salary", "user_id", "job_id", "applied_date", "post_date"].includes(key)) {
-                if (value.toLowerCase().includes(query.toLowerCase())) {
+            if (!["result", "salary", "user_id", "job_id", "applied_date"].includes(key)) {
+                if (value && value.toLowerCase().includes(query.toLowerCase())) {
                     found = true;
                 }
             }
@@ -141,17 +137,17 @@ const App = () => {
         return (
             <div className="main-logged-in">
                 <Toaster />
-                <Navbar bg="dark" variant="dark">
+                <Navbar bg="dark" variant="dark" id="navbar">
                     <Container>
                         <Navbar.Brand >Job App Tracker</Navbar.Brand>
                         <Nav className="me-auto">
-                            <Nav.Link onClick={handleToggleAddJob}>Add Application</Nav.Link>
+                            <Nav.Link onClick={handleToggleAddJob}>Add Job</Nav.Link>
                             <Nav.Link onClick={() => logout()}>Logout ({user})</Nav.Link>
                         </Nav>
                     </Container>
                 </Navbar>
                 <div>
-                    <Filter filter={filter} setFilter={setFilter} />
+                    <Filter filter={filter} setFilter={setFilter}/>
                     <JobsTable 
                         filter={filter} 
                         filteredJobs={filteredJobs} 

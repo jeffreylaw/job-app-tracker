@@ -30,41 +30,16 @@ const Filter = ({ filter, setFilter }) => {
                         }}
                     >
                         <option value="active">Active</option>
-                        <option value="all">Show All</option>
                         <option value="not applied">Not Applied</option>
                         <option value="applied">Applied</option>
                         <option value="interview">Interview</option>
                         <option value="waiting">Waiting</option>
                         <option value="rejected">Rejected</option>
+                        <option value="all">Show All</option>
                     </Form.Select>
                     <Form.Text className="text-muted">
                         Show applications by status.
                     </Form.Text>
-                </div>
-
-                <div className="filter-section">
-                    <div className="filter-hide-section toggle-category-div">
-                        {Object.keys(filter.categoriesToShow).map((key) => {
-                            if (["result", "job_title", "company"].some(i => i === key)) {
-                                return null
-                            }
-                            return (
-                                <div key={key} className="filter-hide-category">
-                                    <Form.Check
-                                        type="checkbox"
-                                        id={filter.categoriesToShow[key].name}
-                                        label={filter.categoriesToShow[key].name}
-                                        defaultChecked={filter.categoriesToShow[key].show}
-                                        onClick={(e) => {
-                                            let newFilter = JSON.parse(JSON.stringify(filter));
-                                            newFilter.categoriesToShow[key].show = e.target.checked;
-                                            setFilter(newFilter)
-                                        }}
-                                    />
-                                </div>
-                            )
-                        })}
-                    </div>
                 </div>
             </div>
         </Form>
